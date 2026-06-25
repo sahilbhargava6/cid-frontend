@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
-export default function Login() {
+function LoginContent() {
   const { login, loading } = useAuth();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -24,6 +26,9 @@ export default function Login() {
       );
     }
   };
+
+  const bookParam = searchParams.get('book');
+  const registerLink = bookParam ? `/register?book=${bookParam}` : '/register';
 
   return (
     <div className="glass-dashboard-bg glass-dashboard-container flex items-center justify-center px-4 transition-colors duration-300">
@@ -89,8 +94,17 @@ export default function Login() {
           </button>
         </form>
 
+        <div className="mt-6 text-center text-xs text-slate-500 dark:text-slate-400">
+          <p>
+            Don't have an account?{' '}
+            <Link href={registerLink} className="text-amber-500 hover:underline font-bold">
+              Sign Up
+            </Link>
+          </p>
+        </div>
+
         {/* Helpers */}
-        <div className="mt-8 pt-6 border-t border-slate-200/50 dark:border-slate-700/30 text-center text-xs text-slate-500 dark:text-slate-400">
+        <div className="mt-6 pt-6 border-t border-slate-200/50 dark:border-slate-700/30 text-center text-xs text-slate-500 dark:text-slate-400">
           <p className="font-medium">
             Demo Credentials:
           </p>
@@ -101,5 +115,17 @@ export default function Login() {
 
       </div>
     </div>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense fallback={
+      <div className="flex h-screen w-screen items-center justify-center bg-slate-50 dark:bg-slate-900">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-solid border-amber-500 border-t-transparent"></div>
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   );
 }

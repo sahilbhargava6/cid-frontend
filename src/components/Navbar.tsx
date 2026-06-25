@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useAuth } from "@/context/AuthContext";
 
 const navLinks = [
   { label: "Services", href: "#services" },
@@ -12,8 +13,16 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const auth = useAuth();
+  const user = auth ? auth.user : null;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const dashboardPath = user
+    ? (user.email.includes("admin") || user.email.includes("owner")
+      ? "/admin/dashboard"
+      : "/dashboard")
+    : "/login";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -94,6 +103,16 @@ export default function Navbar() {
             style={{ color: "var(--cid-gray-700)" }}
           >
             (888) 123-4567
+          </a>
+          <a
+            href={dashboardPath}
+            className="inline-flex items-center gap-1.5 px-4.5 py-2 rounded-full text-sm font-semibold border transition-all duration-200 hover:bg-slate-50 dark:hover:bg-slate-900"
+            style={{
+              borderColor: "var(--cid-gray-300)",
+              color: "var(--cid-dark)",
+            }}
+          >
+            {user ? "Go to Dashboard" : "Client Login"}
           </a>
           <a
             href="#contact"
@@ -179,7 +198,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="mt-4 pt-4 border-t border-[var(--cid-gray-200)]">
+          <div className="mt-4 pt-4 border-t border-[var(--cid-gray-200)] flex flex-col gap-2">
             <a
               href="tel:+18881234567"
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium"
@@ -200,9 +219,20 @@ export default function Navbar() {
               (888) 123-4567
             </a>
             <a
+              href={dashboardPath}
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-center gap-2 px-5 py-3 rounded-full text-base font-semibold border w-full transition-all duration-200"
+              style={{
+                borderColor: "var(--cid-gray-300)",
+                color: "var(--cid-dark)",
+              }}
+            >
+              {user ? "Go to Dashboard" : "Client Login"}
+            </a>
+            <a
               href="#contact"
               onClick={() => setMobileOpen(false)}
-              className="btn-glow mt-2 flex items-center justify-center gap-2 px-5 py-3 rounded-full text-base font-semibold text-white w-full"
+              className="btn-glow flex items-center justify-center gap-2 px-5 py-3 rounded-full text-base font-semibold text-white w-full"
               style={{ backgroundColor: "var(--cid-coral)" }}
             >
               Free Consultation

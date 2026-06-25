@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useAuth } from "@/context/AuthContext";
 
 const services = [
   {
@@ -12,7 +13,7 @@ const services = [
       "Guaranteed accuracy",
     ],
     color: "#E85D3A",
-    href: "#contact",
+    param: "tax_prep",
   },
   {
     title: "Virtual Bookkeeping",
@@ -23,7 +24,7 @@ const services = [
       "Your books, perfectly balanced",
     ],
     color: "#1B5E92",
-    href: "#contact",
+    param: "virtual_bookkeeping",
   },
   {
     title: "Home Solar Systems",
@@ -34,7 +35,7 @@ const services = [
       "No gimmicks",
     ],
     color: "#2E9E5A",
-    href: "#contact",
+    param: "solar",
   },
   {
     title: "Business Accounts & Logistics",
@@ -45,7 +46,7 @@ const services = [
       "Marketing & cross-selling",
     ],
     color: "#E85D3A",
-    href: "#contact",
+    param: "accounts_and_logistics",
   },
   {
     title: "Procurement Services",
@@ -56,11 +57,22 @@ const services = [
       "We find it, you benefit",
     ],
     color: "#1B5E92",
-    href: "#contact",
+    param: "procurement",
   },
 ];
 
 export default function Services() {
+  const auth = useAuth();
+  const user = auth ? auth.user : null;
+
+  const getBookingUrl = (param: string) => {
+    return user ? `/dashboard?book=${param}` : `/login?book=${param}`;
+  };
+
+  const getGeneralBookingUrl = () => {
+    return user ? `/dashboard?book=general` : `/login`;
+  };
+
   return (
     <section
       id="services"
@@ -130,9 +142,9 @@ export default function Services() {
             <a
               className="group flex items-center gap-1.5 text-sm font-semibold flex-shrink-0 mt-1 transition-all duration-300 hover:opacity-80"
               style={{ color: "rgba(255,255,255,0.85)" }}
-              href="#contact"
+              href={getGeneralBookingUrl()}
             >
-              Get Started
+              Book Now
               <span
                 className="flex items-center justify-center rounded-full w-6 h-6 text-xs font-bold transition-all duration-300 group-hover:shadow-lg group-hover:scale-110"
                 style={{
@@ -151,7 +163,7 @@ export default function Services() {
             {services.map((service) => (
               <a
                 key={service.title}
-                href={service.href}
+                href={getBookingUrl(service.param)}
                 className="group relative block overflow-hidden rounded-2xl transition-all duration-300 hover:scale-[1.04] h-[280px] sm:h-[320px] lg:h-[360px]"
                 style={{
                   boxShadow: "0 4px 24px rgba(0,0,0,0.25)",
@@ -192,7 +204,7 @@ export default function Services() {
                         style={{ color: "rgba(255,255,255,0.8)" }}
                       >
                         <svg
-                          className="w-3 h-3 mt-0.5 flex-shrink-0"
+                          className="w-3.5 h-3.5 mt-0.5 flex-shrink-0"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke={service.color}
@@ -215,7 +227,7 @@ export default function Services() {
                         color: service.color,
                       }}
                     >
-                      Learn More
+                      Book Now
                     </span>
                     <span
                       className="flex-shrink-0 flex items-center justify-center rounded-full font-bold transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg w-6 h-6 text-xs"

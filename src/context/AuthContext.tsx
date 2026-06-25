@@ -59,10 +59,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('auth_token', access_token);
       setUser(userData);
       
+      const bookParam = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('book') : null;
+      const targetQuery = bookParam ? `?book=${bookParam}` : '';
+      
       if (userData.email.includes('admin') || userData.email.includes('owner')) {
-        router.push('/admin/dashboard');
+        router.push(`/admin/dashboard${targetQuery}`);
       } else {
-        router.push('/dashboard');
+        router.push(`/dashboard${targetQuery}`);
       }
     } catch (error) {
       setUser(null);
@@ -81,10 +84,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('auth_token', access_token);
       setUser(userData);
       
+      const bookParam = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('book') : null;
+      const targetQuery = bookParam ? `?book=${bookParam}` : '';
+      
       if (userData.email.includes('admin') || userData.email.includes('owner')) {
-        router.push('/admin/dashboard');
+        router.push(`/admin/dashboard${targetQuery}`);
       } else {
-        router.push('/dashboard');
+        router.push(`/dashboard${targetQuery}`);
       }
     } catch (error) {
       setUser(null);

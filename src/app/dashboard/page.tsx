@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
 import bookingService, { Booking } from '@/services/bookingService';
@@ -8,9 +8,11 @@ import documentService, { Document } from '@/services/documentService';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { DashboardLayout } from '@/components/dashboard/Layout';
 import { ChatPanel } from '@/components/dashboard/ChatPanel';
+import { useSearchParams } from 'next/navigation';
 
 function DashboardContent() {
   const { user } = useAuth();
+  const searchParams = useSearchParams();
   
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -53,6 +55,20 @@ function DashboardContent() {
   useEffect(() => {
     loadDashboardData();
   }, []);
+
+  useEffect(() => {
+    const bookParam = searchParams.get('book');
+    if (bookParam) {
+      if (['tax_prep', 'virtual_bookkeeping', 'solar', 'accounts_and_logistics', 'procurement'].includes(bookParam)) {
+        setServiceType(bookParam as any);
+        setIsWizardOpen(true);
+        setWizardStep(2);
+      } else if (bookParam === 'general') {
+        setIsWizardOpen(true);
+        setWizardStep(1);
+      }
+    }
+  }, [searchParams]);
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -661,7 +677,13 @@ function DashboardContent() {
 export default function ClientDashboard() {
   return (
     <ProtectedRoute>
-      <DashboardContent />
+      <Suspense fallback={
+        <div className="flex h-screen w-screen items-center justify-center bg-slate-50 dark:bg-slate-900">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-solid border-amber-500 border-t-transparent"></div>
+        </div>
+      }>
+        <DashboardContent />
+      </Suspense>
     </ProtectedRoute>
   );
 }
