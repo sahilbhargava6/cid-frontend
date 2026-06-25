@@ -22,6 +22,15 @@ function DashboardContent() {
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
+  // Booking Wizard states
+  const [isWizardOpen, setIsWizardOpen] = useState(false);
+  const [wizardStep, setWizardStep] = useState(1);
+  const [serviceType, setServiceType] = useState<'tax_prep' | 'virtual_bookkeeping' | 'solar' | 'accounts_and_logistics' | 'procurement'>('tax_prep');
+  const [scheduledAt, setScheduledAt] = useState('');
+  const [inputParams, setInputParams] = useState<Record<string, any>>({});
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingError, setBookingError] = useState<string | null>(null);
+
   const loadDashboardData = async () => {
     try {
       const [bookingsData, docsData] = await Promise.all([
@@ -68,6 +77,52 @@ function DashboardContent() {
     }
   };
 
+  const handleServiceSelect = (type: any) => {
+    setServiceType(type);
+    setInputParams({}); // reset parameters
+    setWizardStep(2);
+  };
+
+  const handleParamChange = (key: string, value: any) => {
+    setInputParams(prev => ({
+      ...prev,
+      [key]: value
+    }));
+  };
+
+  const handleCreateBooking = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBookingLoading(true);
+    setBookingError(null);
+    try {
+      await bookingService.createBooking({
+        service_type: serviceType as any,
+        scheduled_at: scheduledAt || undefined,
+        input_parameters: inputParams,
+      });
+      setIsWizardOpen(false);
+      setWizardStep(1);
+      setScheduledAt('');
+      setInputParams({});
+      await loadDashboardData();
+    } catch (error: any) {
+      console.error('Failed to create booking:', error);
+      setBookingError(error.response?.data?.message || 'Failed to submit booking request. Please check connections.');
+    } finally {
+      setBookingLoading(false);
+    }
+  };
+
+  const getServicePriceEstimate = () => {
+    switch (serviceType) {
+      case 'tax_prep': return '$299.00';
+      case 'virtual_bookkeeping': return '$350.00 / month';
+      case 'accounts_and_logistics': return '$1,200.00 / month';
+      case 'procurement': return '$1,000.00 Base Sourcing Fee';
+      default: return 'Contact for quote';
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex h-screen w-screen items-center justify-center bg-slate-50 dark:bg-slate-900">
@@ -81,13 +136,19 @@ function DashboardContent() {
       <div className="space-y-8">
         
         {/* Welcome Section */}
-        <div className="flex flex-col gap-1.5 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-2xl font-black text-slate-800 dark:text-white tracking-tight">Welcome, {user?.name}!</h2>
             <p className="text-sm text-slate-500 dark:text-slate-400">
               Manage your bookings and secure documents below.
             </p>
           </div>
+          <button 
+            onClick={() => { setIsWizardOpen(true); setWizardStep(1); }}
+            className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm rounded-xl shadow-lg shadow-amber-500/25 transition-all self-start sm:self-center cursor-pointer"
+          >
+            Book a Service
+          </button>
         </div>
 
         {/* Dashboard Grid (Dashboard v4 style layout) */}
@@ -129,7 +190,7 @@ function DashboardContent() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {bookings.map((booking) => {
                     const isCompleted = booking.status === 'completed';
-                    const progressPercent = isCompleted ? 100 : 40;
+                    const progressPercent = isCompleted ? 100 : booking.status === 'pending' ? 40 : 70;
                     const progressBg = isCompleted ? 'bg-green-500' : 'bg-amber-500';
                     
                     return (
@@ -147,10 +208,10 @@ function DashboardContent() {
                         {/* Mid Section */}
                         <div className="my-3">
                           <p className="text-base font-black text-slate-800 dark:text-white capitalize truncate">
-                            {booking.service_type.replace('_', ' ')}
+                            {booking.service_type.replace(/_/g, ' ')}
                           </p>
                           <p className="text-xs text-slate-400 capitalize mt-1">
-                            Status: {booking.status.replace('_', ' ')}
+                            Status: {booking.status.replace(/_/g, ' ')}
                           </p>
                         </div>
 
@@ -169,9 +230,9 @@ function DashboardContent() {
                         <div className="flex justify-between items-center pt-3 mt-1 border-t border-white/5">
                           <div>
                             {booking.payment_status !== 'paid' ? (
-                              <button className="px-3.5 py-1 bg-amber-500 hover:bg-amber-600 rounded-lg text-[10px] font-bold text-white shadow-md shadow-amber-500/10 transition-all">
-                                Pay ${booking.price || '0.00'}
-                              </button>
+                              <span className="inline-flex px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase tracking-wider text-red-500 bg-red-500/10">
+                                Unpaid (${booking.price || '0.00'})
+                              </span>
                             ) : (
                               <span className="text-[10px] font-bold text-green-500 bg-green-500/10 px-2.5 py-1 rounded-lg">Paid ✓</span>
                             )}
@@ -179,7 +240,7 @@ function DashboardContent() {
                           <span className={`inline-flex px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase tracking-wider ${
                             isCompleted ? 'text-green-500 bg-green-500/10' : 'text-amber-500 bg-amber-500/10'
                           }`}>
-                            {booking.status}
+                            {booking.status.replace(/_/g, ' ')}
                           </span>
                         </div>
                       </div>
@@ -262,7 +323,7 @@ function DashboardContent() {
                     <option value="" className="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-white">General Upload (No Booking)</option>
                     {bookings.map((b) => (
                       <option key={b.id} value={b.id} className="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-white">
-                        #{b.id} - {b.service_type.replace('_', ' ')}
+                        #{b.id} - {b.service_type.replace(/_/g, ' ')}
                       </option>
                     ))}
                   </select>
@@ -292,6 +353,258 @@ function DashboardContent() {
 
         </div>
       </div>
+
+      {/* DYNAMIC MULTI-STEP BOOKING WIZARD MODAL */}
+      {isWizardOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div 
+            className="glass-dashboard-card w-full max-w-xl rounded-3xl p-6 sm:p-8 border border-white/10 dark:border-white/5 shadow-2xl relative animate-scale-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button 
+              onClick={() => setIsWizardOpen(false)}
+              className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-white/10 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {bookingError && (
+              <div className="p-3 bg-red-500/10 border border-red-500/25 text-red-600 dark:text-red-400 text-xs font-semibold rounded-xl mb-4">
+                {bookingError}
+              </div>
+            )}
+
+            {/* STEP 1: SELECT SERVICE */}
+            {wizardStep === 1 && (
+              <div>
+                <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2">Book a Premium Service</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">Select one of our core services to start configuration</p>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <button 
+                    onClick={() => handleServiceSelect('tax_prep')}
+                    className="p-4 bg-white/5 dark:bg-black/20 hover:bg-amber-500/10 border border-white/10 dark:border-white/5 rounded-2xl text-left hover:scale-[1.02] transition-all"
+                  >
+                    <h4 className="text-sm font-black text-slate-800 dark:text-white">Tax Preparation</h4>
+                    <p className="text-[10px] text-slate-400 mt-1">Stress-free resolution & optimized returns</p>
+                  </button>
+
+                  <button 
+                    onClick={() => handleServiceSelect('virtual_bookkeeping')}
+                    className="p-4 bg-white/5 dark:bg-black/20 hover:bg-amber-500/10 border border-white/10 dark:border-white/5 rounded-2xl text-left hover:scale-[1.02] transition-all"
+                  >
+                    <h4 className="text-sm font-black text-slate-800 dark:text-white">Virtual Bookkeeping</h4>
+                    <p className="text-[10px] text-slate-400 mt-1">Daily reconciliation & financial clarity</p>
+                  </button>
+
+                  <button 
+                    onClick={() => handleServiceSelect('accounts_and_logistics')}
+                    className="p-4 bg-white/5 dark:bg-black/20 hover:bg-amber-500/10 border border-white/10 dark:border-white/5 rounded-2xl text-left hover:scale-[1.02] transition-all"
+                  >
+                    <h4 className="text-sm font-black text-slate-800 dark:text-white">Accounts & Logistics</h4>
+                    <p className="text-[10px] text-slate-400 mt-1">Unified accounts & front desk optimizations</p>
+                  </button>
+
+                  <button 
+                    onClick={() => handleServiceSelect('procurement')}
+                    className="p-4 bg-white/5 dark:bg-black/20 hover:bg-amber-500/10 border border-white/10 dark:border-white/5 rounded-2xl text-left hover:scale-[1.02] transition-all"
+                  >
+                    <h4 className="text-sm font-black text-slate-800 dark:text-white">Procurement Services</h4>
+                    <p className="text-[10px] text-slate-400 mt-1">Sourcing anything from cars to real estate</p>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* STEP 2: DYNAMIC PARAMETERS FORM */}
+            {wizardStep === 2 && (
+              <div>
+                <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2">Configure Parameters</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">Enter specifications for your <span className="capitalize text-amber-500 font-bold">{serviceType.replace(/_/g, ' ')}</span> request</p>
+
+                <div className="space-y-4 mb-6">
+                  {/* Tax Prep Custom Fields */}
+                  {serviceType === 'tax_prep' && (
+                    <>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Filing Tax Year</label>
+                        <input 
+                          type="number"
+                          placeholder="e.g. 2025"
+                          onChange={(e) => handleParamChange('tax_year', e.target.value)}
+                          className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Filing Status</label>
+                        <select 
+                          onChange={(e) => handleParamChange('filing_status', e.target.value)}
+                          className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                        >
+                          <option value="single">Single</option>
+                          <option value="married_joint">Married Filing Jointly</option>
+                          <option value="head_household">Head of Household</option>
+                        </select>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Virtual Bookkeeping Custom Fields */}
+                  {serviceType === 'virtual_bookkeeping' && (
+                    <>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Company Legal Name</label>
+                        <input 
+                          type="text"
+                          placeholder="Nova Tech Ltd"
+                          onChange={(e) => handleParamChange('company_name', e.target.value)}
+                          className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Software Platform</label>
+                        <select 
+                          onChange={(e) => handleParamChange('system', e.target.value)}
+                          className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                        >
+                          <option value="QuickBooks">QuickBooks Online</option>
+                          <option value="Xero">Xero Accounting</option>
+                          <option value="Wave">Wave / Other</option>
+                        </select>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Accounts & Logistics Custom Fields */}
+                  {serviceType === 'accounts_and_logistics' && (
+                    <>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Company Legal Name</label>
+                        <input 
+                          type="text"
+                          placeholder="Swift Deliveries Inc"
+                          onChange={(e) => handleParamChange('company_name', e.target.value)}
+                          className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Scheduling System Integration</label>
+                        <select 
+                          onChange={(e) => handleParamChange('optimization', e.target.value)}
+                          className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                        >
+                          <option value="Setmore Front Desk">Setmore Integration</option>
+                          <option value="Calendly">Calendly Integration</option>
+                        </select>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Procurement Custom Fields */}
+                  {serviceType === 'procurement' && (
+                    <>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Item Category</label>
+                        <select 
+                          onChange={(e) => handleParamChange('item_category', e.target.value)}
+                          className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                        >
+                          <option value="automobile">Automobile / Vehicle</option>
+                          <option value="real_estate">Real Estate / Homes</option>
+                          <option value="electronics">Electronics / Hardware</option>
+                          <option value="other">Other Sourcing Request</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Target Item & Budget</label>
+                        <div className="grid grid-cols-2 gap-4">
+                          <input 
+                            type="text"
+                            placeholder="Tesla Model Y"
+                            onChange={(e) => handleParamChange('target_item', e.target.value)}
+                            className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                          />
+                          <input 
+                            type="number"
+                            placeholder="Max Budget ($)"
+                            onChange={(e) => handleParamChange('max_budget', e.target.value)}
+                            className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <div className="flex justify-between">
+                  <button 
+                    onClick={() => setWizardStep(1)}
+                    className="px-4 py-2 border border-slate-300 dark:border-slate-700 text-xs font-bold rounded-xl text-slate-700 dark:text-slate-300 hover:bg-white/10 transition-colors"
+                  >
+                    Back
+                  </button>
+                  <button 
+                    onClick={() => setWizardStep(3)}
+                    className="px-5 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow-md shadow-amber-500/10 transition-all"
+                  >
+                    Next Step
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* STEP 3: SCHEDULE DATE & SUBMIT */}
+            {wizardStep === 3 && (
+              <form onSubmit={handleCreateBooking}>
+                <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2">Schedule & Finish</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">Choose a date to finalize your service request configuration</p>
+
+                <div className="space-y-4 mb-6">
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Target Start Date</label>
+                    <input 
+                      type="date"
+                      required
+                      value={scheduledAt}
+                      onChange={(e) => setScheduledAt(e.target.value)}
+                      className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                    />
+                  </div>
+
+                  <div className="p-4 bg-amber-500/10 rounded-2xl border border-amber-500/20 text-center">
+                    <p className="text-[10px] font-bold text-amber-500 uppercase tracking-wider">Estimated Base Pricing</p>
+                    <p className="text-2xl font-black text-slate-800 dark:text-white mt-1">
+                      {getServicePriceEstimate()}
+                    </p>
+                    <p className="text-[9px] text-slate-400 mt-1">Estimates are finalized by admin oversight upon ticket confirmation.</p>
+                  </div>
+                </div>
+
+                <div className="flex justify-between">
+                  <button 
+                    type="button"
+                    onClick={() => setWizardStep(2)}
+                    className="px-4 py-2 border border-slate-300 dark:border-slate-700 text-xs font-bold rounded-xl text-slate-700 dark:text-slate-300 hover:bg-white/10 transition-colors"
+                  >
+                    Back
+                  </button>
+                  <button 
+                    type="submit"
+                    disabled={bookingLoading}
+                    className="px-5 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow-md shadow-amber-500/10 transition-all"
+                  >
+                    {bookingLoading ? 'Submitting...' : 'Confirm Request'}
+                  </button>
+                </div>
+              </form>
+            )}
+
+          </div>
+        </div>
+      )}
     </DashboardLayout>
   );
 }
@@ -303,5 +616,3 @@ export default function ClientDashboard() {
     </ProtectedRoute>
   );
 }
-
-
