@@ -7,6 +7,7 @@ import bookingService, { Booking } from '@/services/bookingService';
 import documentService, { Document } from '@/services/documentService';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { DashboardLayout } from '@/components/dashboard/Layout';
+import { ChatPanel } from '@/components/dashboard/ChatPanel';
 
 function DashboardContent() {
   const { user } = useAuth();
@@ -30,6 +31,9 @@ function DashboardContent() {
   const [inputParams, setInputParams] = useState<Record<string, any>>({});
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingError, setBookingError] = useState<string | null>(null);
+
+  // Client Details / Chat Modal state
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
 
   const loadDashboardData = async () => {
     try {
@@ -194,7 +198,11 @@ function DashboardContent() {
                     const progressBg = isCompleted ? 'bg-green-500' : 'bg-amber-500';
                     
                     return (
-                      <div key={booking.id} className="p-4 bg-white/10 dark:bg-slate-950/20 border border-white/10 dark:border-white/5 rounded-2xl flex flex-col justify-between h-48 hover:scale-[1.01] transition-transform duration-200">
+                      <div 
+                        key={booking.id} 
+                        onClick={() => setSelectedBooking(booking)}
+                        className="p-4 bg-white/10 dark:bg-slate-950/20 border border-white/10 dark:border-white/5 rounded-2xl flex flex-col justify-between h-48 hover:scale-[1.01] hover:bg-white/15 dark:hover:bg-slate-950/30 transition-all duration-200 cursor-pointer"
+                      >
                         {/* Header */}
                         <div className="flex items-center justify-between">
                           <span className="text-[10px] font-bold text-slate-400 tracking-wider uppercase">
@@ -602,6 +610,47 @@ function DashboardContent() {
               </form>
             )}
 
+          </div>
+        </div>
+      )}
+
+      {/* CLIENT BOOKING DETAIL & LIVE CHAT MODAL */}
+      {selectedBooking && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div 
+            className="glass-dashboard-card w-full max-w-xl rounded-3xl p-6 border border-white/10 dark:border-white/5 shadow-2xl relative animate-scale-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button 
+              onClick={() => setSelectedBooking(null)}
+              className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-white/10 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <h3 className="text-lg font-black text-slate-800 dark:text-white capitalize mb-2">
+              {selectedBooking.service_type.replace(/_/g, ' ')} Request Details
+            </h3>
+            
+            <div className="grid grid-cols-2 gap-4 text-xs mb-4 p-3 bg-white/5 rounded-xl border border-white/5">
+              <div>
+                <span className="text-slate-400 font-bold text-[9px] uppercase tracking-wider block">Status</span>
+                <span className="text-slate-800 dark:text-slate-200 capitalize font-medium">{selectedBooking.status.replace(/_/g, ' ')}</span>
+              </div>
+              <div>
+                <span className="text-slate-400 font-bold text-[9px] uppercase tracking-wider block">Price</span>
+                <span className="text-slate-800 dark:text-slate-200 font-medium">${selectedBooking.price || '0.00'} ({selectedBooking.payment_status})</span>
+              </div>
+            </div>
+
+            {/* Live Chat Panel Component */}
+            <h4 className="text-[10px] uppercase font-bold text-slate-400 tracking-wider mt-2">
+              Live Chat & Document Exchange
+            </h4>
+            <ChatPanel ticketId={selectedBooking.id} />
           </div>
         </div>
       )}
