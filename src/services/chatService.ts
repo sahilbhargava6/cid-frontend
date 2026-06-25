@@ -7,6 +7,7 @@ export interface ChatMessage {
   message_text: string | null;
   attachment_path: string | null;
   attachment_name: string | null;
+  attachment_url?: string | null;
   created_at: string;
   updated_at: string;
   user?: {
@@ -57,10 +58,17 @@ export const chatService = {
   /**
    * Download a chat file attachment
    */
-  getAttachmentUrl(path: string): string {
-    // Generate base live API url or local fallback
+  getAttachmentUrl(path: string, attachmentUrl?: string | null): string {
+    if (attachmentUrl) {
+      if (attachmentUrl.startsWith('http://') || attachmentUrl.startsWith('https://')) {
+        return attachmentUrl;
+      }
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+      const domainUrl = baseUrl.replace('/api', '');
+      return `${domainUrl}${attachmentUrl}`;
+    }
+    // Fallback if attachment_url is not set
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
-    // Remove the '/api' suffix if present to hit the direct file storage
     const storageUrl = baseUrl.replace('/api', '/storage');
     return `${storageUrl}/${path}`;
   }

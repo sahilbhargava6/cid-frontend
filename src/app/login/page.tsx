@@ -4,6 +4,7 @@ import React, { useState, Suspense } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 
 function LoginContent() {
   const { login, loading } = useAuth();
@@ -38,7 +39,7 @@ function LoginContent() {
         
         {/* Logo and Header */}
         <div className="flex flex-col items-center mb-8">
-          <img src="/images/logo.png" alt="Consider It Done Logo" className="h-16 w-auto object-contain mb-4 filter drop-shadow-sm" />
+          <Image src="/images/logo.png" alt="Consider It Done Logo" width={64} height={64} className="h-16 w-auto object-contain mb-4 filter drop-shadow-sm" priority />
           <h2 className="text-3xl font-extrabold tracking-tight text-slate-800 dark:text-white">
             Welcome Back
           </h2>
