@@ -53,6 +53,14 @@ export const bookingService = {
   },
 
   /**
+   * Update booking details (status, payment_status, price, input_parameters)
+   */
+  async updateBooking(id: number | string, payload: Partial<Booking>): Promise<Booking> {
+    const response = await api.put<Booking>(`/bookings/${id}`, payload);
+    return response.data;
+  },
+
+  /**
    * Update booking input parameters
    */
   async updateBookingParameters(id: number | string, parameters: Record<string, any>): Promise<Booking> {

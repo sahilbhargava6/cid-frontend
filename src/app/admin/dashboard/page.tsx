@@ -3,23 +3,67 @@
 import React, { useEffect, useState } from 'react';
 import bookingService, { Booking } from '@/services/bookingService';
 
+interface ClientUser {
+  id: number;
+  name: string;
+  email: string;
+  created_at: string;
+}
+
 export default function AdminDashboard() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Modal & Edit states
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [editStatus, setEditStatus] = useState<string>('');
+  const [editPaymentStatus, setEditPaymentStatus] = useState<string>('');
+  const [editPrice, setEditPrice] = useState<string>('');
+  const [saving, setSaving] = useState(false);
+
+  const loadDashboardData = async () => {
+    try {
+      const data = await bookingService.getBookings();
+      setBookings(data);
+    } catch (error) {
+      console.error('Failed to load dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const loadDashboardData = async () => {
-      try {
-        const data = await bookingService.getBookings();
-        setBookings(data);
-      } catch (error) {
-        console.error('Failed to load dashboard data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     loadDashboardData();
   }, []);
+
+  const handleSelectBooking = (booking: Booking) => {
+    setSelectedBooking(booking);
+    setEditStatus(booking.status);
+    setEditPaymentStatus(booking.payment_status);
+    setEditPrice(booking.price || '0.00');
+  };
+
+  const handleSaveChanges = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedBooking) return;
+    setSaving(true);
+    try {
+      const updated = await bookingService.updateBooking(selectedBooking.id, {
+        status: editStatus as any,
+        payment_status: editPaymentStatus as any,
+        price: editPrice,
+      });
+      
+      // Update local booking states
+      setSelectedBooking(null);
+      await loadDashboardData();
+    } catch (error) {
+      console.error('Failed to update booking:', error);
+      alert('Error saving changes. Ensure the backend is fully updated.');
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const stats = {
     total: bookings.length,
@@ -82,12 +126,19 @@ export default function AdminDashboard() {
               const progressPercent = isCompleted ? 100 : booking.status === 'pending' ? 40 : 70;
               const progressBg = isCompleted ? 'bg-green-500' : 'bg-amber-500';
               
+              // Eager loaded client user details
+              const clientName = (booking as any).user?.name || `Client #${booking.user_id}`;
+              
               return (
-                <div key={booking.id} className="p-4 bg-white/10 dark:bg-slate-950/20 border border-white/10 dark:border-white/5 rounded-2xl flex flex-col justify-between h-48 hover:scale-[1.01] transition-transform duration-200">
+                <div 
+                  key={booking.id} 
+                  onClick={() => handleSelectBooking(booking)}
+                  className="p-4 bg-white/10 dark:bg-slate-950/20 border border-white/10 dark:border-white/5 rounded-2xl flex flex-col justify-between h-48 hover:scale-[1.01] hover:bg-white/15 dark:hover:bg-slate-950/30 transition-all duration-200 cursor-pointer"
+                >
                   {/* Header */}
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-bold text-slate-400 tracking-wider uppercase">
-                      Client ID: #{booking.user_id}
+                      {clientName}
                     </span>
                     <span className="text-[10px] font-bold text-slate-400/80">
                       {booking.scheduled_at ? new Date(booking.scheduled_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'N/A'}
@@ -97,7 +148,7 @@ export default function AdminDashboard() {
                   {/* Mid Section */}
                   <div className="my-3">
                     <p className="text-sm font-black text-slate-800 dark:text-white capitalize truncate">
-                      {booking.service_type.replace('_', ' ')}
+                      {booking.service_type.replace(/_/g, ' ')}
                     </p>
                     <p className="text-[10px] text-slate-400 capitalize mt-1">
                       Request ID: #{booking.id}
@@ -129,7 +180,7 @@ export default function AdminDashboard() {
                     <span className={`inline-flex px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase tracking-wider ${
                       isCompleted ? 'text-green-500 bg-green-500/10' : 'text-amber-500 bg-amber-500/10'
                     }`}>
-                      {booking.status}
+                      {booking.status.replace(/_/g, ' ')}
                     </span>
                   </div>
                 </div>
@@ -138,6 +189,145 @@ export default function AdminDashboard() {
           </div>
         )}
       </div>
+
+      {/* CLIENT DETAILS & BOOKING EDIT MODAL */}
+      {selectedBooking && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div 
+            className="glass-dashboard-card w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl p-6 sm:p-8 border border-white/10 dark:border-white/5 shadow-2xl relative animate-scale-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button 
+              onClick={() => setSelectedBooking(null)}
+              className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-white/10 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-6 border-b border-white/10 pb-4">
+              Client & Service Request Details
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* Left Column: Client & Core Info */}
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Client Profile</h4>
+                  <div className="p-3 bg-white/5 dark:bg-black/20 rounded-xl border border-white/5">
+                    <p className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                      {(selectedBooking as any).user?.name || 'N/A'}
+                    </p>
+                    <p className="text-xs text-slate-400 mt-1">
+                      ✉️ {(selectedBooking as any).user?.email || 'N/A'}
+                    </p>
+                    <p className="text-[10px] text-slate-500 mt-2">
+                      Client ID: #{(selectedBooking as any).user?.id || selectedBooking.user_id}
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Service & Date</h4>
+                  <div className="p-3 bg-white/5 dark:bg-black/20 rounded-xl border border-white/5">
+                    <p className="text-sm font-black text-amber-500 capitalize">
+                      {selectedBooking.service_type.replace(/_/g, ' ')}
+                    </p>
+                    <p className="text-xs text-slate-400 mt-1">
+                      📅 Scheduled: {selectedBooking.scheduled_at ? new Date(selectedBooking.scheduled_at).toLocaleString() : 'Not Scheduled'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Custom Request Parameters */}
+              <div>
+                <h4 className="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Request Parameters</h4>
+                <div className="p-3 bg-white/5 dark:bg-black/20 rounded-xl border border-white/5 h-40 overflow-y-auto space-y-2 text-xs">
+                  {selectedBooking.input_parameters ? (
+                    Object.entries(selectedBooking.input_parameters).map(([key, val]) => (
+                      <div key={key} className="border-b border-white/5 pb-1.5 last:border-0 last:pb-0">
+                        <span className="font-bold text-slate-400 uppercase tracking-wide text-[9px] block">
+                          {key.replace(/_/g, ' ')}
+                        </span>
+                        <span className="text-slate-800 dark:text-slate-200 font-medium">
+                          {typeof val === 'object' ? JSON.stringify(val) : String(val)}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-slate-500 italic">No additional parameters provided.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Edit / Management Form */}
+            <form onSubmit={handleSaveChanges} className="space-y-4 border-t border-white/10 pt-4">
+              <h4 className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Update Status & Billing</h4>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Work Status</label>
+                  <select 
+                    value={editStatus}
+                    onChange={(e) => setEditStatus(e.target.value)}
+                    className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                  >
+                    <option value="pending" className="bg-slate-100 dark:bg-slate-900">Pending</option>
+                    <option value="in_progress" className="bg-slate-100 dark:bg-slate-900">In Progress</option>
+                    <option value="completed" className="bg-slate-100 dark:bg-slate-900">Completed</option>
+                    <option value="cancelled" className="bg-slate-100 dark:bg-slate-900">Cancelled</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Payment Status</label>
+                  <select 
+                    value={editPaymentStatus}
+                    onChange={(e) => setEditPaymentStatus(e.target.value)}
+                    className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                  >
+                    <option value="unpaid" className="bg-slate-100 dark:bg-slate-900">Unpaid</option>
+                    <option value="partial" className="bg-slate-100 dark:bg-slate-900">Partial</option>
+                    <option value="paid" className="bg-slate-100 dark:bg-slate-900">Paid</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Assign Price ($)</label>
+                  <input 
+                    type="number"
+                    step="0.01"
+                    value={editPrice}
+                    onChange={(e) => setEditPrice(e.target.value)}
+                    className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4">
+                <button 
+                  type="button"
+                  onClick={() => setSelectedBooking(null)}
+                  className="px-4 py-2 border border-slate-300 dark:border-slate-700 text-xs font-bold rounded-xl text-slate-700 dark:text-slate-300 hover:bg-white/10 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit"
+                  disabled={saving}
+                  className="px-5 py-2 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white text-xs font-bold rounded-xl shadow-md shadow-amber-500/10 transition-all"
+                >
+                  {saving ? 'Saving...' : 'Save Changes'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
