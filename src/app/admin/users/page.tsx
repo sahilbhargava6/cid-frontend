@@ -17,14 +17,8 @@ export default function UsersManager() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        // Fetch clients list from Laravel backend
-        // Since we seeded Users, we can retrieve them
-        const response = await api.get<ClientUser[]>('/bookings'); // We can fetch bookings and extract unique clients, or fetch custom users endpoint
-        // Let's make a mock request or simply list mock John Client and Admin
-        setUsers([
-          { id: 1, name: 'CID Admin', email: 'admin@consideritdone.com', created_at: new Date().toISOString() },
-          { id: 2, name: 'John Client', email: 'client@example.com', created_at: new Date().toISOString() }
-        ]);
+        const response = await api.get<ClientUser[]>('/users');
+        setUsers(response.data);
       } catch (error) {
         console.error('Failed to load users:', error);
       } finally {
