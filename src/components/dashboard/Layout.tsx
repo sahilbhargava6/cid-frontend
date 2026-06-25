@@ -24,8 +24,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="flex flex-col flex-1 h-screen overflow-hidden">
           <TopBar />
           
-          <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 glass-dashboard-main">
-            <div className="max-w-7xl mx-auto glass-dashboard-content p-6 md:p-8 rounded-3xl shadow-xl min-h-[calc(100vh-8rem)]">
+          <main className="flex-1 overflow-y-auto p-2 sm:p-4 md:p-6 lg:p-8 glass-dashboard-main">
+            <div className="max-w-7xl mx-auto glass-dashboard-content p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl shadow-xl min-h-[calc(100vh-6rem)] sm:min-h-[calc(100vh-8rem)]">
               {children}
             </div>
           </main>
