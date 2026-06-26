@@ -75,8 +75,7 @@ function AccordionItem({
 }) {
   return (
     <div
-      className="border-b transition-colors duration-200"
-      style={{ borderColor: "var(--cid-gray-200)" }}
+      className="border-b transition-colors duration-200 border-slate-100"
     >
       <button
         className="w-full flex items-center justify-between py-5 px-1 text-left group"
@@ -84,8 +83,8 @@ function AccordionItem({
         aria-expanded={isOpen}
       >
         <span
-          className="text-base font-semibold pr-4 transition-colors duration-200 group-hover:text-[var(--cid-coral)]"
-          style={{ color: "var(--cid-dark)" }}
+          className="text-base font-semibold pr-4 transition-colors duration-200 group-hover:text-[#E8503A]"
+          style={{ color: "#1b5e92" }}
         >
           {question}
         </span>
@@ -94,10 +93,8 @@ function AccordionItem({
             isOpen ? "rotate-180" : ""
           }`}
           style={{
-            backgroundColor: isOpen
-              ? "var(--cid-coral)"
-              : "var(--cid-gray-100)",
-            color: isOpen ? "white" : "var(--cid-gray-500)",
+            backgroundColor: isOpen ? "#E8728C" : "#EBF7FD",
+            color: isOpen ? "white" : "#2D6FA3",
           }}
         >
           <svg
@@ -120,8 +117,8 @@ function AccordionItem({
         }`}
       >
         <p
-          className="text-sm leading-relaxed px-1"
-          style={{ color: "var(--cid-gray-500)" }}
+          className="text-sm leading-relaxed px-1 font-semibold"
+          style={{ color: "#7A8F9E" }}
         >
           {answer}
         </p>
@@ -136,7 +133,6 @@ export default function FAQ() {
 
   const categories = ["All", ...faqData.map((cat) => cat.category)];
 
-  // Flatten and filter questions based on selection
   const filteredQuestions = faqData
     .flatMap((cat) =>
       cat.questions.map((q) => ({ ...q, category: cat.category }))
@@ -147,49 +143,37 @@ export default function FAQ() {
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
-    setOpenIndex(0); // auto-open the first question in the selected category
+    setOpenIndex(0);
   };
 
   return (
     <section
       id="faq"
-      aria-labelledby="faq-heading"
-      className="section-padding"
-      style={{
-        background: "linear-gradient(180deg, #F5F3F0 0%, #FAFAF8 100%)",
-      }}
+      className="py-16 bg-[#FAFAF8] border-t border-[#E2ECF2]"
     >
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        
         {/* Section header */}
         <div className="text-center mb-10">
-          <p
-            className="text-xs font-semibold uppercase tracking-[0.2em] mb-3"
-            style={{ color: "var(--cid-coral)" }}
-          >
-            FAQ
-          </p>
           <h2
-            id="faq-heading"
-            className="font-bold mb-4"
+            className="text-2xl md:text-3xl font-extrabold mb-4"
             style={{
               fontFamily: "var(--font-heading)",
-              fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
-              color: "var(--cid-dark)",
+              color: "#591B1B",
             }}
           >
-            Got Questions?{" "}
-            <span className="gradient-text">We&apos;ve Got Answers</span>
+            Got Questions? <span style={{ color: "#E8503A" }}>We&apos;ve Got Answers</span>
           </h2>
           <p
-            className="max-w-xl mx-auto text-base"
-            style={{ color: "var(--cid-gray-500)" }}
+            className="max-w-xl mx-auto text-sm font-semibold"
+            style={{ color: "#7A8F9E" }}
           >
             Everything you need to know about our services. Can&apos;t find your
             answer?{" "}
             <a
               href="#contact"
-              className="font-semibold underline underline-offset-2 transition-colors hover:text-[var(--cid-coral)]"
-              style={{ color: "var(--cid-blue)" }}
+              className="font-bold underline underline-offset-2 transition-colors hover:text-[#E8503A]"
+              style={{ color: "#2D6FA3" }}
             >
               Contact us
             </a>
@@ -198,22 +182,18 @@ export default function FAQ() {
         </div>
 
         {/* Category Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+        <div className="flex flex-wrap items-center justify-center gap-2.5 mb-10">
           {categories.map((cat) => {
             const isActive = selectedCategory === cat;
             return (
               <button
                 key={cat}
                 onClick={() => handleCategoryChange(cat)}
-                className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
-                  isActive
-                    ? "text-white shadow-md scale-105"
-                    : "hover:bg-[var(--cid-gray-200)]"
-                }`}
+                className="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 shadow-sm border"
                 style={{
-                  backgroundColor: isActive ? "var(--cid-coral)" : "var(--cid-white)",
-                  color: isActive ? "white" : "var(--cid-gray-700)",
-                  border: isActive ? "1px solid var(--cid-coral)" : "1px solid var(--cid-gray-200)",
+                  backgroundColor: isActive ? "#2D6FA3" : "white",
+                  color: isActive ? "white" : "#7A8F9E",
+                  borderColor: isActive ? "#2D6FA3" : "#E2ECF2",
                 }}
               >
                 {cat}
@@ -224,11 +204,7 @@ export default function FAQ() {
 
         {/* Accordion */}
         <div
-          className="rounded-2xl p-6 md:p-8 transition-all duration-300"
-          style={{
-            background: "var(--cid-white)",
-            boxShadow: "var(--card-shadow)",
-          }}
+          className="rounded-3xl p-6 md:p-8 transition-all duration-300 bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)]"
         >
           {filteredQuestions.length > 0 ? (
             filteredQuestions.map((item, i) => (
@@ -241,7 +217,7 @@ export default function FAQ() {
               />
             ))
           ) : (
-            <p className="text-center py-6 text-sm text-[var(--cid-gray-500)]">
+            <p className="text-center py-6 text-sm font-semibold style={{ color: '#7A8F9E' }}">
               No questions found.
             </p>
           )}

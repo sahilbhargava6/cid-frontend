@@ -19,12 +19,13 @@ const companyLinks = [
 export default function Footer() {
   return (
     <footer
-      className="relative overflow-hidden"
-      style={{ backgroundColor: "var(--cid-dark)" }}
+      className="relative overflow-hidden border-t border-[#E2ECF2]"
+      style={{ backgroundColor: "#FAFAF8" }}
     >
       {/* Main footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+          
           {/* Brand column */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-5">
@@ -36,16 +37,15 @@ export default function Footer() {
                 className="rounded-lg"
               />
               <span
-                className="text-lg font-bold tracking-tight text-white"
-                style={{ fontFamily: "var(--font-heading)" }}
+                className="text-lg font-bold tracking-tight"
+                style={{ fontFamily: "var(--font-heading)", color: "#1b5e92" }}
               >
-                Consider It{" "}
-                <span style={{ color: "var(--cid-coral)" }}>Done</span>
+                Consider it <span style={{ color: "#E8503A" }}>Done</span>
               </span>
             </div>
             <p
-              className="text-sm leading-relaxed mb-6"
-              style={{ color: "rgba(255,255,255,0.5)" }}
+              className="text-sm leading-relaxed mb-6 font-semibold"
+              style={{ color: "#7A8F9E" }}
             >
               Premium US-based business services. Tax preparation, virtual
               bookkeeping, home solar, small business management, and global
@@ -58,10 +58,10 @@ export default function Footer() {
               <a
                 href="#"
                 aria-label="LinkedIn"
-                className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 border border-[#E2ECF2]"
                 style={{
-                  backgroundColor: "rgba(255,255,255,0.08)",
-                  color: "rgba(255,255,255,0.6)",
+                  backgroundColor: "rgba(255,255,255,0.8)",
+                  color: "#1b5e92",
                 }}
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -73,10 +73,10 @@ export default function Footer() {
               <a
                 href="#"
                 aria-label="Facebook"
-                className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 border border-[#E2ECF2]"
                 style={{
-                  backgroundColor: "rgba(255,255,255,0.08)",
-                  color: "rgba(255,255,255,0.6)",
+                  backgroundColor: "rgba(255,255,255,0.8)",
+                  color: "#1b5e92",
                 }}
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -88,10 +88,10 @@ export default function Footer() {
               <a
                 href="#"
                 aria-label="Instagram"
-                className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 border border-[#E2ECF2]"
                 style={{
-                  backgroundColor: "rgba(255,255,255,0.08)",
-                  color: "rgba(255,255,255,0.6)",
+                  backgroundColor: "rgba(255,255,255,0.8)",
+                  color: "#1b5e92",
                 }}
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -103,10 +103,10 @@ export default function Footer() {
               <a
                 href="#"
                 aria-label="X (Twitter)"
-                className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 border border-[#E2ECF2]"
                 style={{
-                  backgroundColor: "rgba(255,255,255,0.08)",
-                  color: "rgba(255,255,255,0.6)",
+                  backgroundColor: "rgba(255,255,255,0.8)",
+                  color: "#1b5e92",
                 }}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -119,8 +119,8 @@ export default function Footer() {
           {/* Services column */}
           <div>
             <h4
-              className="text-sm font-bold uppercase tracking-wider text-white mb-5"
-              style={{ fontFamily: "var(--font-heading)" }}
+              className="text-sm font-bold uppercase tracking-wider mb-5"
+              style={{ fontFamily: "var(--font-heading)", color: "#591B1B" }}
             >
               Services
             </h4>
@@ -129,8 +129,8 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm transition-colors duration-200 hover:text-white"
-                    style={{ color: "rgba(255,255,255,0.5)" }}
+                    className="text-sm font-semibold transition-colors duration-200 hover:text-[#E8503A]"
+                    style={{ color: "#7A8F9E" }}
                   >
                     {link.label}
                   </a>
@@ -142,8 +142,8 @@ export default function Footer() {
           {/* Company column */}
           <div>
             <h4
-              className="text-sm font-bold uppercase tracking-wider text-white mb-5"
-              style={{ fontFamily: "var(--font-heading)" }}
+              className="text-sm font-bold uppercase tracking-wider mb-5"
+              style={{ fontFamily: "var(--font-heading)", color: "#591B1B" }}
             >
               Company
             </h4>
@@ -152,8 +152,8 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm transition-colors duration-200 hover:text-white"
-                    style={{ color: "rgba(255,255,255,0.5)" }}
+                    className="text-sm font-semibold transition-colors duration-200 hover:text-[#E8503A]"
+                    style={{ color: "#7A8F9E" }}
                   >
                     {link.label}
                   </a>
@@ -165,16 +165,16 @@ export default function Footer() {
           {/* Contact column */}
           <div>
             <h4
-              className="text-sm font-bold uppercase tracking-wider text-white mb-5"
-              style={{ fontFamily: "var(--font-heading)" }}
+              className="text-sm font-bold uppercase tracking-wider mb-5"
+              style={{ fontFamily: "var(--font-heading)", color: "#591B1B" }}
             >
               Contact
             </h4>
             <div className="flex flex-col gap-4">
               <a
                 href="tel:+18881234567"
-                className="flex items-center gap-3 text-sm transition-colors duration-200 hover:text-white"
-                style={{ color: "rgba(255,255,255,0.5)" }}
+                className="flex items-center gap-3 text-sm font-semibold transition-colors duration-200 hover:text-[#E8503A]"
+                style={{ color: "#7A8F9E" }}
               >
                 <svg
                   width="16"
@@ -182,7 +182,7 @@ export default function Footer() {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="1.5"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
@@ -192,8 +192,8 @@ export default function Footer() {
               </a>
               <a
                 href="mailto:hello@consideritdone.com"
-                className="flex items-center gap-3 text-sm transition-colors duration-200 hover:text-white"
-                style={{ color: "rgba(255,255,255,0.5)" }}
+                className="flex items-center gap-3 text-sm font-semibold transition-colors duration-200 hover:text-[#E8503A]"
+                style={{ color: "#7A8F9E" }}
               >
                 <svg
                   width="16"
@@ -201,7 +201,7 @@ export default function Footer() {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="1.5"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
@@ -211,8 +211,8 @@ export default function Footer() {
                 hello@consideritdone.com
               </a>
               <div
-                className="flex items-start gap-3 text-sm"
-                style={{ color: "rgba(255,255,255,0.5)" }}
+                className="flex items-start gap-3 text-sm font-semibold"
+                style={{ color: "#7A8F9E" }}
               >
                 <svg
                   width="16"
@@ -220,7 +220,7 @@ export default function Footer() {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="1.5"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   className="mt-0.5 flex-shrink-0"
@@ -231,7 +231,7 @@ export default function Footer() {
                 <span>
                   Serving all 50 US States
                   <br />
-                  <span style={{ color: "rgba(255,255,255,0.35)" }}>
+                  <span className="text-[11px]" style={{ color: "#E8503A" }}>
                     100% Virtual Services Available
                   </span>
                 </span>
@@ -243,25 +243,25 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div
-        className="border-t"
-        style={{ borderColor: "rgba(255,255,255,0.08)" }}
+        className="border-t border-[#E2ECF2]"
+        style={{ backgroundColor: "#F2F5F8" }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
+          <p className="text-xs font-semibold" style={{ color: "#7A8F9E" }}>
             © {new Date().getFullYear()} Consider It Done. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a
               href="#"
-              className="text-xs transition-colors duration-200 hover:text-white"
-              style={{ color: "rgba(255,255,255,0.35)" }}
+              className="text-xs font-semibold transition-colors duration-200 hover:text-[#E8503A]"
+              style={{ color: "#7A8F9E" }}
             >
               Privacy Policy
             </a>
             <a
               href="#"
-              className="text-xs transition-colors duration-200 hover:text-white"
-              style={{ color: "rgba(255,255,255,0.35)" }}
+              className="text-xs font-semibold transition-colors duration-200 hover:text-[#E8503A]"
+              style={{ color: "#7A8F9E" }}
             >
               Terms of Service
             </a>

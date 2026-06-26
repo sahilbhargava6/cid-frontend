@@ -1,182 +1,151 @@
-export default function HowItWorks() {
-  const steps = [
-    {
-      number: "01",
-      title: "Tell Us What You Need",
-      description:
-        "Share your requirements — whether it's tax filing, daily bookkeeping, solar installation, logistics support, or product sourcing. We listen.",
-      icon: (
-        <svg
-          width="28"
-          height="28"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="var(--cid-coral)"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        </svg>
-      ),
-    },
-    {
-      number: "02",
-      title: "We Handle Everything",
-      description:
-        "Our US-based team of specialists takes over. No back-and-forth, no micromanaging. We keep you updated every step of the way.",
-      icon: (
-        <svg
-          width="28"
-          height="28"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="var(--cid-blue)"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-        </svg>
-      ),
-    },
-    {
-      number: "03",
-      title: "Consider It Done",
-      description:
-        "Receive your completed deliverables — accurate taxes, balanced books, installed panels, optimized operations, or sourced products.",
-      icon: (
-        <svg
-          width="28"
-          height="28"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="var(--cid-green)"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-          <polyline points="22 4 12 14.01 9 11.01" />
-        </svg>
-      ),
-    },
-  ];
+"use client";
 
+import Image from "next/image";
+
+const steps = [
+  {
+    number: 1,
+    title: "Create Your Account",
+    description: "Sign up in just a few clicks to access all our services.",
+  },
+  {
+    number: 2,
+    title: "Choose Your Service",
+    description: "Browse our Services page or select a service directly from the homepage.",
+  },
+  {
+    number: 3,
+    title: "Schedule a Consultation",
+    description: "Pick a date and time that works best for you.",
+  },
+  {
+    number: 4,
+    title: "Review Our Plan",
+    description: "Attend the consultation. If you're happy with our proposed solution, head to your dashboard.",
+  },
+  {
+    number: 5,
+    title: "Confirm & Proceed",
+    description: "Approve the project and continue with the onboarding process.",
+  },
+  {
+    number: 6,
+    title: "Share the Details",
+    description: "Provide the necessary information, and we'll take it from there. Sit back while we work our magic.",
+  },
+];
+
+export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      aria-labelledby="how-heading"
-      className="section-padding"
-      style={{ backgroundColor: "var(--cid-white)" }}
+      className="py-16 bg-white"
     >
-      <div className="max-w-6xl mx-auto">
-        {/* Section header */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+
+        {/* Section Header */}
         <div className="text-center mb-16">
-          <p
-            className="text-xs font-semibold uppercase tracking-[0.2em] mb-3"
-            style={{ color: "var(--cid-coral)" }}
-          >
-            How It Works
-          </p>
           <h2
-            id="how-heading"
-            className="font-bold mb-4"
-            style={{
-              fontFamily: "var(--font-heading)",
-              fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
-              color: "var(--cid-dark)",
-            }}
+            className="text-2xl md:text-3xl font-extrabold tracking-tight"
+            style={{ color: "#0E2D53", fontFamily: "var(--font-heading)" }}
           >
-            Three Simple Steps to{" "}
-            <span className="gradient-text">Stress-Free</span>
+            How to book a service? It&apos;s Simple!
           </h2>
-          <p
-            className="max-w-xl mx-auto text-base lg:text-lg"
-            style={{ color: "var(--cid-gray-500)" }}
-          >
-            We&apos;ve streamlined our process so you can focus on what matters
-            most — running your business and living your life.
-          </p>
         </div>
 
-        {/* Steps */}
-        <div className="relative grid md:grid-cols-3 gap-8 md:gap-6">
-          {/* Connecting line (desktop) */}
-          <div
-            className="hidden md:block absolute top-[60px] left-[16.67%] right-[16.67%] h-[2px]"
-            style={{
-              background:
-                "linear-gradient(90deg, var(--cid-coral), var(--cid-blue), var(--cid-green))",
-              opacity: 0.25,
-            }}
-          />
+        {/* Split Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-          {steps.map((step, i) => (
-            <div
-              key={step.number}
-              className="relative flex flex-col items-center text-center group"
-            >
-              {/* Number circle */}
-              <div
-                className="relative z-10 w-[80px] h-[80px] rounded-full flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg"
-                style={{
-                  background: "var(--cid-white)",
-                  border: `2px solid ${
-                    i === 0
-                      ? "var(--cid-coral)"
-                      : i === 1
-                      ? "var(--cid-blue)"
-                      : "var(--cid-green)"
-                  }`,
-                  boxShadow: `0 4px 20px ${
-                    i === 0
-                      ? "rgba(232, 93, 58, 0.15)"
-                      : i === 1
-                      ? "rgba(27, 94, 146, 0.15)"
-                      : "rgba(46, 158, 90, 0.15)"
-                  }`,
-                }}
-              >
-                {step.icon}
+          {/* Left Column - 6-step checklist (Takes 7 cols) */}
+          <div className="lg:col-span-7 space-y-8">
+            {steps.map((step) => (
+              <div key={step.number} className="flex gap-6 items-start">
+
+                {/* Styled Concentric Circular Number */}
+                <div className="relative shrink-0 flex items-center justify-center w-14 h-14 rounded-full border border-[#D5EBF7] bg-[#EBF7FD] shadow-[0_0_0_6px_#F4FAFD]">
+                  <span className="text-lg font-bold text-[#2D6FA3] font-mono">
+                    {step.number}
+                  </span>
+                </div>
+
+                <div>
+                  <h3
+                    className="text-base md:text-lg font-extrabold mb-1.5 tracking-tight"
+                    style={{ color: "#2D6FA3" }}
+                  >
+                    {step.title}
+                  </h3>
+                  <p
+                    className="text-xs sm:text-sm font-bold leading-relaxed"
+                    style={{ color: "#3FA672" }}
+                  >
+                    {step.description}
+                  </p>
+                </div>
+
               </div>
+            ))}
+          </div>
 
-              {/* Step number */}
-              <span
-                className="text-xs font-bold uppercase tracking-widest mb-2"
-                style={{
-                  color:
-                    i === 0
-                      ? "var(--cid-coral)"
-                      : i === 1
-                      ? "var(--cid-blue)"
-                      : "var(--cid-green)",
-                }}
-              >
-                Step {step.number}
-              </span>
+          {/* Right Column - Mockup image in a peach frame (Takes 5 cols) */}
+          <div className="lg:col-span-5 flex justify-center">
+            <div
+              className="relative p-5 rounded-[40px] bg-[#FDE2DC] shadow-[0_20px_50px_rgba(224,109,83,0.12)] max-w-full w-[460px] aspect-[4/3] flex items-center justify-center border border-white/50"
+            >
+              <div className="relative w-full h-full rounded-[28px] bg-white overflow-hidden shadow-inner flex flex-col p-4">
 
-              {/* Title */}
-              <h3
-                className="text-xl font-bold mb-3"
-                style={{
-                  fontFamily: "var(--font-heading)",
-                  color: "var(--cid-dark)",
-                }}
-              >
-                {step.title}
-              </h3>
+                {/* Mockup layout mimicking the screenshot preview */}
+                <div className="flex flex-col gap-2.5 h-full overflow-hidden">
 
-              {/* Description */}
-              <p
-                className="text-sm leading-relaxed max-w-[300px]"
-                style={{ color: "var(--cid-gray-500)" }}
-              >
-                {step.description}
-              </p>
+                  {/* One partner title */}
+                  <div className="text-[7px] font-extrabold text-[#591B1B] text-center mt-2">
+                    One partner for your business essentials.
+                  </div>
+                  <div className="text-[4px] text-[#E07A6B] text-center max-w-[180px] mx-auto leading-none">
+                    Whether it&apos;s managing finances, sourcing products, optimizing operations, or reducing energy costs...
+                  </div>
+
+                  {/* 6 mini blocks representation */}
+                  <div className="grid grid-cols-6 gap-1 my-1">
+                    {[...Array(6)].map((_, i) => (
+                      <div key={i} className="flex flex-col items-center gap-1">
+                        <div className="w-full aspect-square rounded-[4px] bg-slate-100 border border-slate-200/50" />
+                        <div className="w-full h-2 rounded-[2px] bg-[#DCEFE9]" />
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Why Smart Businesses header */}
+                  <div className="text-[7px] font-extrabold text-[#591B1B] text-center mt-3">
+                    Why Smart Businesses Work With Us
+                  </div>
+
+                  {/* Two boxes representation */}
+                  <div className="grid grid-cols-2 gap-2 mt-1 flex-1 pb-2">
+                    <div className="rounded-[6px] bg-[#EBF1F5] p-2 flex flex-col justify-center items-center text-center">
+                      <div className="w-12 h-1 bg-[#E05D44] rounded-[1px] mb-1" />
+                      <div className="w-16 h-1 bg-[#E07A6B] rounded-[1px]" />
+                    </div>
+                    <div className="flex flex-col gap-1.5 justify-between">
+                      <div className="rounded-[6px] bg-[#EBF1F5] p-2 flex flex-col justify-center">
+                        <div className="w-16 h-1 bg-[#E05D44] rounded-[1px] mb-1" />
+                        <div className="w-20 h-1 bg-[#E07A6B] rounded-[1px]" />
+                      </div>
+                      <div className="rounded-[6px] bg-[#EBF1F5] p-2 flex flex-col justify-center">
+                        <div className="w-16 h-1 bg-[#E05D44] rounded-[1px] mb-1" />
+                        <div className="w-20 h-1 bg-[#E07A6B] rounded-[1px]" />
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
             </div>
-          ))}
+          </div>
+
         </div>
+
       </div>
     </section>
   );

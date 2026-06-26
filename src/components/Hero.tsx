@@ -1,411 +1,227 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 
-const trustBadges = [
-  {
-    icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-    ),
-    text: "Guaranteed Accuracy",
+interface ServiceHoverDetail {
+  title: string;
+  bullets: string[];
+}
+
+const serviceDetails: Record<string, ServiceHoverDetail> = {
+  procurement: {
+    title: "Procurement & Sourcing Services",
+    bullets: ["Global item sourcing", "Automobiles & real estate", "Supplier negotiations", "Import logistics management"],
   },
-  {
-    icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-    ),
-    text: "US-Based Experts",
+  business: {
+    title: "Small Business Management Solutions",
+    bullets: ["Unified accounts", "Front desk optimization", "Logistics coordination", "Cross-selling support"],
   },
-  {
-    icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-    ),
-    text: "No Hidden Fees",
+  tax: {
+    title: "Tax Preparation & Resolution",
+    bullets: ["Tax filing", "Tax optimization", "Tax issue resolution", "Compliance support"],
   },
-  {
-    icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-    ),
-    text: "No Gimmicks",
+  solar: {
+    title: "Solar Energy Solutions",
+    bullets: ["Clean electricity", "Lower utility bills", "Custom roof designs", "No gimmicks guarantee"],
   },
-  {
-    icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    ),
-    text: "Trusted by 500+ Businesses",
+  bookkeeping: {
+    title: "Virtual Bookkeeping",
+    bullets: ["Daily transaction tracking", "Bank accounts reconciliation", "Monthly financial statements", "Year-end tax readiness"],
   },
-];
+  growth: {
+    title: "Business Growth & Optimization",
+    bullets: ["Operational efficiency", "Process streamlining", "Workflow automation", "Performance metrics tracking"],
+  },
+};
+
+const cardPositions: Record<string, string> = {
+  solar: "top-[18%] left-[43%]",
+  business: "top-[45%] left-[23%]",
+  tax: "top-[50%] left-[43%]",
+  bookkeeping: "top-[25%] left-[45%]",
+  growth: "top-[45%] left-[51%]",
+  procurement: "top-[45%] left-[50%]",
+};
 
 export default function Hero() {
+  const [activeHover, setActiveHover] = useState<string | null>(null);
+
+  const activeDetail = activeHover ? serviceDetails[activeHover] : null;
+
   return (
     <section
       aria-labelledby="hero-heading"
-      className="relative overflow-hidden pt-[72px]"
-      style={{
-        background:
-          "linear-gradient(180deg, #FFF3EE 0%, #FFF8F5 30%, #FAFAF8 100%)",
-      }}
+      className="w-full overflow-hidden bg-slate-200 pt-[76px] lg:pt-0"
+      onClick={() => setActiveHover(null)}
     >
-      {/* Decorative blobs */}
-      <div
-        className="absolute top-20 -right-20 w-[400px] h-[400px] rounded-full opacity-20 blur-3xl pointer-events-none"
-        style={{ background: "var(--cid-coral)" }}
-      />
-      <div
-        className="absolute bottom-0 -left-20 w-[300px] h-[300px] rounded-full opacity-15 blur-3xl pointer-events-none"
-        style={{ background: "var(--cid-blue)" }}
-      />
+      <div className="relative w-full aspect-[16/9] select-none">
+        {/* Main Background Image - Fits exactly to 16:9 container */}
+        <img
+          src="/images/hero.png"
+          alt="Consider It Done Premium Services Layout"
+          loading="eager"
+          className="absolute inset-0 w-full h-full object-cover object-bottom pointer-events-none"
+        />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Mobile layout */}
-        <div className="md:hidden py-8 flex flex-col gap-6">
-          <div className="text-center">
-            {/* Trust badge */}
-            <div
-              className="animate-fade-in-down inline-flex items-center gap-2 rounded-full border px-3 py-1.5 mb-5"
-              style={{
-                borderColor: "rgba(232, 93, 58, 0.25)",
-                backgroundColor: "rgba(232, 93, 58, 0.06)",
-              }}
-            >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="var(--cid-coral)"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                <path d="M9 12l2 2 4-4" />
-              </svg>
-              <span
-                className="text-xs font-semibold"
-                style={{ color: "var(--cid-coral)" }}
-              >
-                Serving All 50 US States
-              </span>
-            </div>
+        {/* Interactive Overlays & Hover Zones (With glass bubbles removed) */}
 
-            <h1
-              id="hero-heading"
-              className="animate-fade-in-up font-bold leading-[1.1] mb-4"
-              style={{
-                fontFamily: "var(--font-heading)",
-                fontSize: "clamp(2rem, 7vw, 3.5rem)",
-                color: "var(--cid-dark)",
-              }}
-            >
-              Your Business.{" "}
-              <span className="gradient-text">Handled.</span>
-            </h1>
-
-            <p
-              className="animate-fade-in-up delay-200 text-base leading-relaxed max-w-md mx-auto"
-              style={{ color: "var(--cid-gray-500)" }}
-            >
-              Tax prep, bookkeeping, solar, logistics & procurement — all
-              under one roof, done right.
-            </p>
-          </div>
-
-          {/* Hero image - mobile */}
-          <div className="animate-scale-in delay-300 relative w-full max-w-[360px] mx-auto">
-            <div
-              className="relative rounded-3xl overflow-hidden aspect-[4/3] w-full"
-              style={{ background: "#F0E5DD" }}
-            >
-              <Image
-                alt="Consider It Done — Professional Business Services"
-                src="/hero-bg.png"
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 768px) 90vw, 45vw"
-                priority
-              />
-            </div>
-
-            {/* Floating card - stat */}
-            <div className="animate-float absolute -bottom-3 -left-2 bg-white rounded-xl shadow-lg p-3 flex items-center gap-3 min-w-[160px]">
-              <div
-                className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                style={{ backgroundColor: "rgba(232, 93, 58, 0.1)" }}
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="var(--cid-coral)"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-xs font-bold" style={{ color: "var(--cid-dark)" }}>
-                  500+ Clients
-                </p>
-                <p className="text-xs" style={{ color: "var(--cid-gray-500)" }}>
-                  Across the US
-                </p>
-              </div>
-            </div>
-
-            {/* Floating card - rating */}
-            <div className="animate-float-slow absolute -top-2 -right-2 bg-white rounded-full shadow-lg px-3 py-1.5 flex items-center gap-1.5">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="var(--cid-coral)"
-                stroke="var(--cid-coral)"
-                strokeWidth="2"
-              >
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-              </svg>
-              <span className="text-sm font-bold" style={{ color: "var(--cid-dark)" }}>
-                4.9 Rated
-              </span>
-            </div>
-          </div>
-
-          {/* Marquee badges - mobile */}
-          <div className="marquee-container -mx-4 mt-2">
-            <div className="marquee-track">
-              {[...trustBadges, ...trustBadges].map((badge, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-full shrink-0 font-medium text-[13px] text-white"
-                  style={{ backgroundColor: "var(--cid-blue)" }}
-                >
-                  {badge.icon}
-                  <span>{badge.text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* CTA buttons - mobile */}
-          <div className="flex flex-col sm:flex-row gap-3 items-center justify-center mt-2">
-            <a
-              href="#contact"
-              className="btn-glow inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-base font-semibold text-white w-full sm:w-auto justify-center"
-              style={{
-                backgroundColor: "var(--cid-coral)",
-                boxShadow: "0 4px 20px rgba(232, 93, 58, 0.35)",
-              }}
-            >
-              Schedule Free Consultation
-            </a>
-            <a
-              href="#services"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-base font-semibold border-2 w-full sm:w-auto justify-center transition-all duration-200 hover:bg-[var(--cid-dark)] hover:text-white hover:border-[var(--cid-dark)]"
-              style={{
-                borderColor: "var(--cid-dark)",
-                color: "var(--cid-dark)",
-              }}
-            >
-              Explore Services
-            </a>
+        {/* 1. Solar (Roof) - 2.png */}
+        <div
+          onMouseEnter={() => setActiveHover("solar")}
+          onMouseLeave={() => setActiveHover(null)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setActiveHover(activeHover === "solar" ? null : "solar");
+          }}
+          className="absolute top-[18%] left-[25%] w-[16%] h-[24%] cursor-pointer group z-10"
+        >
+          <div className="relative w-full h-full">
+            <Image
+              src="/images/services/2.png"
+              alt="Solar Installer"
+              fill
+              priority
+              className="object-contain transition-transform duration-300 group-hover:scale-105"
+              sizes="250px"
+            />
           </div>
         </div>
 
-        {/* Desktop layout */}
-        <div className="hidden md:grid md:grid-cols-[55fr_45fr] gap-12 items-center py-24 lg:py-28">
-          {/* Left content */}
-          <div>
-            <div
-              className="animate-fade-in-down inline-flex items-center gap-2 rounded-full border px-4 py-1.5 mb-6"
-              style={{
-                borderColor: "rgba(232, 93, 58, 0.25)",
-                backgroundColor: "rgba(232, 93, 58, 0.06)",
-              }}
-            >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="var(--cid-coral)"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                <path d="M9 12l2 2 4-4" />
-              </svg>
-              <span
-                className="text-xs font-semibold"
-                style={{ color: "var(--cid-coral)" }}
-              >
-                Serving All 50 US States
-              </span>
-            </div>
+        {/* 2. Business Management (Bottom Left) - 1.png */}
+        <div
+          onMouseEnter={() => setActiveHover("business")}
+          onMouseLeave={() => setActiveHover(null)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setActiveHover(activeHover === "business" ? null : "business");
+          }}
+          className="absolute top-[70%] left-[10%] w-[12%] h-[32%] cursor-pointer group z-10"
+        >
+          <div className="relative w-full h-full">
+            <Image
+              src="/images/services/1.png"
+              alt="Business Manager"
+              fill
+              priority
+              className="object-contain transition-transform duration-300 group-hover:scale-105"
+              sizes="200px"
+            />
+          </div>
+        </div>
 
-            <h1
-              className="animate-fade-in-up font-bold leading-[1.08] mb-6"
-              style={{
-                fontFamily: "var(--font-heading)",
-                fontSize: "clamp(2.5rem, 5vw, 4rem)",
-                color: "var(--cid-dark)",
-              }}
-            >
-              Your Business.
-              <br />
-              <span className="gradient-text">Handled.</span>
-            </h1>
+        {/* 3. Tax Preparation (Bottom Center-Left) - 3.png */}
+        <div
+          onMouseEnter={() => setActiveHover("tax")}
+          onMouseLeave={() => setActiveHover(null)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setActiveHover(activeHover === "tax" ? null : "tax");
+          }}
+          className="absolute top-[75%] left-[28%] w-[14%] h-[22%] cursor-pointer group z-10"
+        >
+          <div className="relative w-full h-full">
+            <Image
+              src="/images/services/3.png"
+              alt="Tax Specialist"
+              fill
+              priority
+              className="object-contain transition-transform duration-300 group-hover:scale-105"
+              sizes="220px"
+            />
+          </div>
+        </div>
 
-            <p
-              className="animate-fade-in-up delay-200 text-lg leading-relaxed max-w-lg mb-6"
-              style={{ color: "var(--cid-gray-500)" }}
-            >
-              Tax preparation, virtual bookkeeping, home solar, small business
-              logistics & global procurement — all under one roof. Expert
-              service. Zero stress.
-            </p>
+        {/* 4. Bookkeeping (Right Balcony) - 5.png */}
+        <div
+          onMouseEnter={() => setActiveHover("bookkeeping")}
+          onMouseLeave={() => setActiveHover(null)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setActiveHover(activeHover === "bookkeeping" ? null : "bookkeeping");
+          }}
+          className="absolute top-[33.5%] left-[73%] w-[14%] h-[39%] cursor-pointer group z-10"
+        >
+          <div className="relative w-full h-full">
+            <img
+              src="/images/services/5.png?v=2"
+              alt="Virtual Bookkeeper"
+              loading="eager"
+              className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+        </div>
 
-            {/* Trust pills - desktop */}
-            <div className="animate-fade-in-up delay-300 flex flex-wrap gap-2 mb-8">
-              {trustBadges.slice(0, 4).map((badge, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-full font-medium text-[13px] text-white"
-                  style={{ backgroundColor: "var(--cid-blue)" }}
-                >
-                  {badge.icon}
-                  <span>{badge.text}</span>
-                </div>
+        {/* 5. Business Growth (Poster Guy) - 4.png */}
+        <div
+          onMouseEnter={() => setActiveHover("growth")}
+          onMouseLeave={() => setActiveHover(null)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setActiveHover(activeHover === "growth" ? null : "growth");
+          }}
+          className="absolute top-[70%] left-[38%] w-[12%] h-[30%] cursor-pointer group z-10"
+        >
+          <div className="relative w-full h-full">
+            <Image
+              src="/images/services/4.png"
+              alt="Growth Specialist"
+              fill
+              priority
+              className="object-contain transition-transform duration-300 group-hover:scale-105"
+              sizes="200px"
+            />
+          </div>
+        </div>
+
+        {/* 6. Procurement (Bottom Right) - 6.png */}
+        <div
+          onMouseEnter={() => setActiveHover("procurement")}
+          onMouseLeave={() => setActiveHover(null)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setActiveHover(activeHover === "procurement" ? null : "procurement");
+          }}
+          className="absolute top-[70%] left-[75%] w-[30%] h-[40%] cursor-pointer group z-10"
+        >
+          <div className="relative w-full h-full">
+            <Image
+              src="/images/services/6.png"
+              alt="Procurement Partners"
+              fill
+              priority
+              className="object-contain transition-transform duration-300 group-hover:scale-105"
+              sizes="300px"
+            />
+          </div>
+        </div>
+
+        {/* Premium Floating Glassmorphic Details Card - Shows as pop-up on hover */}
+        {activeDetail && activeHover && (
+          <div className={`absolute ${cardPositions[activeHover] || "top-[25%] left-[48%]"} max-md:left-1/2 max-md:-translate-x-1/2 max-md:top-[6%] max-md:w-[90%] max-md:max-w-[280px] w-[330px] rounded-[24px] bg-white/20 dark:bg-black/30 border border-white/20 dark:border-white/10 backdrop-blur-md p-4 md:p-6 flex flex-col text-white shadow-2xl transition-all duration-300 z-20 pointer-events-none`}>
+            <h3 className="text-sm md:text-xl font-bold tracking-tight mb-2 md:mb-3 leading-tight">
+              {activeDetail.title}
+            </h3>
+
+            {/* Divider line as seen in screenshot */}
+            <hr className="border-white/30 mb-3 md:mb-5" />
+
+            <ul className="space-y-2 md:space-y-3.5 text-[10px] md:text-xs sm:text-sm font-semibold text-white/95">
+              {activeDetail.bullets.map((bullet, i) => (
+                <li key={i} className="flex items-start gap-1.5 md:gap-2">
+                  <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-white mt-1.5 flex-shrink-0" />
+                  <span>{bullet}</span>
+                </li>
               ))}
-            </div>
-
-            {/* CTA buttons - desktop */}
-            <div className="animate-fade-in-up delay-400 flex flex-wrap gap-3">
-              <a
-                href="#contact"
-                className="btn-glow inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-base font-semibold text-white"
-                style={{
-                  backgroundColor: "var(--cid-coral)",
-                  boxShadow: "0 4px 20px rgba(232, 93, 58, 0.35)",
-                }}
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                </svg>
-                Schedule Free Consultation
-              </a>
-              <a
-                href="#services"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-base font-semibold border-2 transition-all duration-200 hover:bg-[var(--cid-dark)] hover:text-white hover:border-[var(--cid-dark)]"
-                style={{
-                  borderColor: "var(--cid-dark)",
-                  color: "var(--cid-dark)",
-                }}
-              >
-                Explore Services
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </a>
-            </div>
+            </ul>
           </div>
+        )}
 
-          {/* Right - hero image */}
-          <div className="flex justify-end">
-            <div className="animate-scale-in delay-200 relative w-full max-w-[500px]">
-              <div
-                className="relative rounded-3xl overflow-hidden aspect-[4/5] w-full"
-                style={{ background: "#F0E5DD" }}
-              >
-                <Image
-                  alt="Consider It Done — Professional Business Services"
-                  src="/hero-bg.png"
-                  fill
-                  className="object-cover object-center"
-                  sizes="(max-width: 768px) 90vw, 45vw"
-                  priority
-                />
-              </div>
-
-              {/* Floating stat card */}
-              <div className="animate-float absolute bottom-8 -left-8 bg-white rounded-xl shadow-lg p-4 flex items-center gap-3 min-w-[190px]">
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: "rgba(232, 93, 58, 0.1)" }}
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="var(--cid-coral)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-bold" style={{ color: "var(--cid-dark)" }}>
-                    500+ Clients Served
-                  </p>
-                  <p className="text-xs" style={{ color: "var(--cid-gray-500)" }}>
-                    Across all 50 states
-                  </p>
-                  <div className="mt-2 h-1 w-full rounded-full overflow-hidden bg-[var(--cid-gray-100)]">
-                    <div
-                      className="h-full rounded-full"
-                      style={{
-                        backgroundColor: "var(--cid-coral)",
-                        width: "75%",
-                        animation: "progressBar 2s ease-out 0.5s forwards",
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating rating badge */}
-              <div className="animate-float-slow absolute top-6 -right-4 bg-white rounded-full shadow-lg px-4 py-2 flex items-center gap-2">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="var(--cid-coral)"
-                  stroke="var(--cid-coral)"
-                  strokeWidth="2"
-                >
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-                <span className="text-base font-bold" style={{ color: "var(--cid-dark)" }}>
-                  4.9 Rated
-                </span>
-              </div>
-            </div>
-          </div>
+        {/* Bottom indicator stripe - smaller on mobile/tablet to prevent covering characters */}
+        <div className="absolute bottom-2 md:bottom-6 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-sm px-3 md:px-6 py-1 md:py-2 rounded-full border border-white/10 z-10">
+          <p className="text-[8px] md:text-xs font-semibold text-white/95 uppercase tracking-widest text-center whitespace-nowrap">
+            💡 Hover or tap the 6 team characters to explore core services
+          </p>
         </div>
       </div>
     </section>
