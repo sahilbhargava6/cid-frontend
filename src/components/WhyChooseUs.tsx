@@ -43,7 +43,7 @@ export default function WhyChooseUs() {
               We Handle The Details.
             </h3>
             <p
-              className="text-sm md:text-base leading-relaxed font-bold max-w-sm text-[#0E2D53] dark:text-slate-200"
+              className="text-sm md:text-base leading-relaxed font-bold max-w-sm text-[#0E2D53]"
             >
               Accurate bookkeeping, tax optimization, and financial clarity without the headaches.
             </p>
@@ -70,7 +70,7 @@ export default function WhyChooseUs() {
                   Less Stress. More Growth.
                 </h4>
                 <p
-                  className="text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53] dark:text-slate-200"
+                  className="text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]"
                 >
                   Spend less time managing back-office tasks and more time building your business.
                 </p>
@@ -95,7 +95,7 @@ export default function WhyChooseUs() {
                   Smarter Decisions, Better Results.
                 </h4>
                 <p
-                  className="text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53] dark:text-slate-200"
+                  className="text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]"
                 >
                   Actionable insights, optimized workflows, and strategic recommendations that drive growth.
                 </p>
