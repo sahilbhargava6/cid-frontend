@@ -31,7 +31,7 @@ export default function Home() {
         <PinkBanner />
         <div className="w-full mt-20 mb-10">
           <img
-            src="/images/services/bottombanner.png"
+            src="/images/services/bottombanner.webp"
             alt="Consider It Done Bottom Banner"
             className="w-full h-auto object-cover block"
           />

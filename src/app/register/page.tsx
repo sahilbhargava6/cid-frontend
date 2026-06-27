@@ -46,7 +46,7 @@ function RegisterContent() {
         
         {/* Logo and Header */}
         <div className="flex flex-col items-center mb-6">
-          <Image src="/images/logo.png" alt="Consider It Done Logo" width={64} height={64} className="h-16 w-auto object-contain mb-3 filter drop-shadow-sm" priority />
+          <Image src="/images/logo.webp" alt="Consider It Done Logo" width={64} height={64} className="h-16 w-auto object-contain mb-3 filter drop-shadow-sm" priority />
           <h2 className="text-3xl font-extrabold tracking-tight text-slate-800 dark:text-white">
             Create Account
           </h2>

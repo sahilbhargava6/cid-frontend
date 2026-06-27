@@ -136,7 +136,7 @@ function Coin3D() {
 
   const logoTexture = React.useMemo(() => {
     const loader = new THREE.TextureLoader();
-    const tex = loader.load("/images/logo.png");
+    const tex = loader.load("/images/logo.webp");
     tex.colorSpace = THREE.SRGBColorSpace;
     return tex;
   }, []);

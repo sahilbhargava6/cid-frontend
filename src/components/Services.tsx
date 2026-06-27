@@ -8,32 +8,32 @@ import { useAuth } from "@/context/AuthContext";
 const services = [
   {
     title: "Procurement & Sourcing Services",
-    image: "/images/services/Procurement.png",
+    image: "/images/services/Procurement.webp",
     param: "procurement",
   },
   {
     title: "Small Business Management Solutions",
-    image: "/images/services/business.png",
+    image: "/images/services/business.webp",
     param: "accounts_and_logistics",
   },
   {
     title: "Tax Preparation & Resolution",
-    image: "/images/services/tax.png",
+    image: "/images/services/tax.webp",
     param: "tax_prep",
   },
   {
     title: "Solar Energy Solutions",
-    image: "/images/services/solar.png",
+    image: "/images/services/solar.webp",
     param: "solar",
   },
   {
     title: "Virtual Bookkeeping",
-    image: "/images/services/bookkeeping.png",
+    image: "/images/services/bookkeeping.webp",
     param: "virtual_bookkeeping",
   },
   {
     title: "Business Growth & Process Optimization",
-    image: "/images/services/gwoth.png",
+    image: "/images/services/gwoth.webp",
     param: "accounts_and_logistics",
   },
 ];

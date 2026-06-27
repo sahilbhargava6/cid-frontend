@@ -99,7 +99,7 @@ export default function Navbar() {
             {/* Ambient pulsing glow behind logo */}
             <div className="absolute inset-0 filter blur-md opacity-50 rounded-full animate-pulse scale-90 transition-all duration-500 bg-gradient-to-tr from-[#E85D3A] to-[#2d6fa3]" />
             <Image
-              src="/Consider_it_done_LOGO_4.png"
+              src="/Consider_it_done_LOGO_4.webp"
               alt="Consider It Done logo"
               width={52}
               height={52}

@@ -58,7 +58,7 @@ export default function Hero() {
       <div className="relative w-full aspect-[16/9] select-none">
         {/* Main Background Image - Fits exactly to 16:9 container */}
         <img
-          src="/images/hero.png"
+          src="/images/hero.webp"
           alt="Consider It Done Premium Services Layout"
           loading="eager"
           className="absolute inset-0 w-full h-full object-cover object-bottom pointer-events-none"
@@ -87,7 +87,7 @@ export default function Hero() {
               }}
             />
             <Image
-              src="/images/services/2.png"
+              src="/images/services/2.webp"
               alt="Solar Installer"
               fill
               priority
@@ -118,7 +118,7 @@ export default function Hero() {
               }}
             />
             <Image
-              src="/images/services/1.png"
+              src="/images/services/1.webp"
               alt="Business Manager"
               fill
               priority
@@ -149,7 +149,7 @@ export default function Hero() {
               }}
             />
             <Image
-              src="/images/services/3.png"
+              src="/images/services/3.webp"
               alt="Tax Specialist"
               fill
               priority
@@ -180,7 +180,7 @@ export default function Hero() {
               }}
             />
             <img
-              src="/images/services/5.png?v=2"
+              src="/images/services/5.webp"
               alt="Virtual Bookkeeper"
               loading="eager"
               className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105 relative z-10"
@@ -209,7 +209,7 @@ export default function Hero() {
               }}
             />
             <Image
-              src="/images/services/4.png"
+              src="/images/services/4.webp"
               alt="Growth Specialist"
               fill
               priority
@@ -240,7 +240,7 @@ export default function Hero() {
               }}
             />
             <Image
-              src="/images/services/6.png"
+              src="/images/services/6.webp"
               alt="Procurement Partners"
               fill
               priority
