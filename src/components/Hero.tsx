@@ -76,7 +76,16 @@ export default function Hero() {
           }}
           className="absolute top-[18%] left-[25%] w-[16%] h-[24%] cursor-pointer group z-10"
         >
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full flex items-center justify-center">
+            {/* Glowing Aura Halo */}
+            <div 
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${
+                activeHover === "solar" ? "opacity-100 scale-[1.3] animate-pulse" : ""
+              }`}
+              style={{
+                background: "radial-gradient(circle, rgba(46,158,90,0.45) 0%, rgba(46,158,90,0) 70%)"
+              }}
+            />
             <Image
               src="/images/services/2.png"
               alt="Solar Installer"
@@ -98,7 +107,16 @@ export default function Hero() {
           }}
           className="absolute top-[70%] left-[10%] w-[12%] h-[32%] cursor-pointer group z-10"
         >
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full flex items-center justify-center">
+            {/* Glowing Aura Halo */}
+            <div 
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${
+                activeHover === "business" ? "opacity-100 scale-[1.3] animate-pulse" : ""
+              }`}
+              style={{
+                background: "radial-gradient(circle, rgba(27,94,146,0.45) 0%, rgba(27,94,146,0) 70%)"
+              }}
+            />
             <Image
               src="/images/services/1.png"
               alt="Business Manager"
@@ -120,7 +138,16 @@ export default function Hero() {
           }}
           className="absolute top-[75%] left-[28%] w-[14%] h-[22%] cursor-pointer group z-10"
         >
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full flex items-center justify-center">
+            {/* Glowing Aura Halo */}
+            <div 
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${
+                activeHover === "tax" ? "opacity-100 scale-[1.3] animate-pulse" : ""
+              }`}
+              style={{
+                background: "radial-gradient(circle, rgba(232,93,58,0.45) 0%, rgba(232,93,58,0) 70%)"
+              }}
+            />
             <Image
               src="/images/services/3.png"
               alt="Tax Specialist"
@@ -142,12 +169,21 @@ export default function Hero() {
           }}
           className="absolute top-[33.5%] left-[73%] w-[14%] h-[39%] cursor-pointer group z-10"
         >
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full flex items-center justify-center">
+            {/* Glowing Aura Halo */}
+            <div 
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${
+                activeHover === "bookkeeping" ? "opacity-100 scale-[1.3] animate-pulse" : ""
+              }`}
+              style={{
+                background: "radial-gradient(circle, rgba(46,158,90,0.45) 0%, rgba(46,158,90,0) 70%)"
+              }}
+            />
             <img
               src="/images/services/5.png?v=2"
               alt="Virtual Bookkeeper"
               loading="eager"
-              className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105 relative z-10"
             />
           </div>
         </div>
@@ -162,7 +198,16 @@ export default function Hero() {
           }}
           className="absolute top-[70%] left-[38%] w-[12%] h-[30%] cursor-pointer group z-10"
         >
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full flex items-center justify-center">
+            {/* Glowing Aura Halo */}
+            <div 
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${
+                activeHover === "growth" ? "opacity-100 scale-[1.3] animate-pulse" : ""
+              }`}
+              style={{
+                background: "radial-gradient(circle, rgba(27,94,146,0.45) 0%, rgba(27,94,146,0) 70%)"
+              }}
+            />
             <Image
               src="/images/services/4.png"
               alt="Growth Specialist"
@@ -184,7 +229,16 @@ export default function Hero() {
           }}
           className="absolute top-[70%] left-[75%] w-[30%] h-[40%] cursor-pointer group z-10"
         >
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full flex items-center justify-center">
+            {/* Glowing Aura Halo */}
+            <div 
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${
+                activeHover === "procurement" ? "opacity-100 scale-[1.3] animate-pulse" : ""
+              }`}
+              style={{
+                background: "radial-gradient(circle, rgba(232,93,58,0.45) 0%, rgba(232,93,58,0) 70%)"
+              }}
+            />
             <Image
               src="/images/services/6.png"
               alt="Procurement Partners"

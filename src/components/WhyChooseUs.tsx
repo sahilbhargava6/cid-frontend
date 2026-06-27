@@ -4,39 +4,46 @@ export default function WhyChooseUs() {
   return (
     <section
       id="why-us"
-      className="py-16 bg-white"
+      className="py-20 bg-transparent"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         {/* Section Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <h2
-            className="text-2xl md:text-3xl font-extrabold mb-3 tracking-tight"
-            style={{ color: "#591B1B", fontFamily: "var(--font-heading)" }}
+            className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight"
+            style={{ color: "#0E2D53", fontFamily: "var(--font-heading)" }}
           >
             Why Smart Businesses Work With Us
           </h2>
+          <div className="w-16 h-1 bg-[#E85D3A] mx-auto rounded-full" />
         </div>
 
         {/* Two Columns Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
 
           {/* Left Block - Centered tall card */}
           <div
-            className="rounded-[24px] p-8 md:p-12 flex flex-col justify-center items-center text-center shadow-[0_8px_30px_rgb(0,0,0,0.03)] border border-[#E2ECF2] min-h-[250px]"
+            className="group rounded-[32px] p-8 md:p-12 flex flex-col justify-center items-center text-center transition-all duration-500 hover:scale-[1.02] border border-white/40 dark:border-white/10 shadow-[0_12px_40px_rgba(15,17,23,0.04)] hover:shadow-[0_20px_50px_rgba(232,93,58,0.15)] min-h-[300px] backdrop-blur-md relative overflow-hidden"
             style={{
-              backgroundColor: "#EBF1F5",
+              background: "linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(235,241,245,0.4) 100%)",
             }}
           >
+            {/* Background glowing circle */}
+            <div className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-[#E85D3A]/5 blur-2xl group-hover:bg-[#E85D3A]/10 transition-colors duration-500" />
+            
+            <div className="w-16 h-16 rounded-2xl bg-[#E85D3A]/10 flex items-center justify-center text-3xl mb-6 shadow-sm">
+              💼
+            </div>
+            
             <h3
-              className="text-lg md:text-xl font-bold mb-4 tracking-tight"
-              style={{ color: "#E8503A" }}
+              className="text-xl md:text-2xl font-bold mb-4 tracking-tight"
+              style={{ color: "#E85D3A" }}
             >
               We Handle The Details.
             </h3>
             <p
-              className="text-xs md:text-sm leading-relaxed font-bold max-w-sm"
-              style={{ color: "#E8728C" }}
+              className="text-sm md:text-base leading-relaxed font-bold max-w-sm text-[#0E2D53] dark:text-slate-200"
             >
               Accurate bookkeeping, tax optimization, and financial clarity without the headaches.
             </p>
@@ -47,44 +54,52 @@ export default function WhyChooseUs() {
 
             {/* Card 1 */}
             <div
-              className="rounded-[24px] p-6 md:p-8 flex flex-col justify-center shadow-[0_8px_30px_rgb(0,0,0,0.03)] border border-[#E2ECF2] flex-1"
+              className="group rounded-[28px] p-6 md:p-8 flex items-start gap-5 transition-all duration-500 hover:scale-[1.02] border border-white/40 dark:border-white/10 shadow-[0_12px_40px_rgba(15,17,23,0.04)] hover:shadow-[0_15px_30px_rgba(46,158,90,0.1)] backdrop-blur-md flex-1 relative overflow-hidden"
               style={{
-                backgroundColor: "#EBF1F5",
+                background: "linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(235,241,245,0.4) 100%)",
               }}
             >
-              <h4
-                className="text-sm md:text-base font-bold mb-2 tracking-tight"
-                style={{ color: "#E8503A" }}
-              >
-                Less Stress. More Growth.
-              </h4>
-              <p
-                className="text-xs leading-relaxed font-bold"
-                style={{ color: "#E8728C" }}
-              >
-                Spend less time managing back-office tasks and more time building your business.
-              </p>
+              <div className="w-12 h-12 rounded-xl bg-[#2E9E5A]/10 flex items-center justify-center text-xl shrink-0">
+                📈
+              </div>
+              <div>
+                <h4
+                  className="text-base md:text-lg font-bold mb-2 tracking-tight"
+                  style={{ color: "#2d6fa3" }}
+                >
+                  Less Stress. More Growth.
+                </h4>
+                <p
+                  className="text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53] dark:text-slate-200"
+                >
+                  Spend less time managing back-office tasks and more time building your business.
+                </p>
+              </div>
             </div>
 
             {/* Card 2 */}
             <div
-              className="rounded-[24px] p-6 md:p-8 flex flex-col justify-center shadow-[0_8px_30px_rgb(0,0,0,0.03)] border border-[#E2ECF2] flex-1"
+              className="group rounded-[28px] p-6 md:p-8 flex items-start gap-5 transition-all duration-500 hover:scale-[1.02] border border-white/40 dark:border-white/10 shadow-[0_12px_40px_rgba(15,17,23,0.04)] hover:shadow-[0_15px_30px_rgba(27,94,146,0.1)] backdrop-blur-md flex-1 relative overflow-hidden"
               style={{
-                backgroundColor: "#EBF1F5",
+                background: "linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(235,241,245,0.4) 100%)",
               }}
             >
-              <h4
-                className="text-sm md:text-base font-bold mb-2 tracking-tight"
-                style={{ color: "#E8503A" }}
-              >
-                Smarter Decisions, Better Results.
-              </h4>
-              <p
-                className="text-xs leading-relaxed font-bold"
-                style={{ color: "#E8728C" }}
-              >
-                Actionable insights, optimized workflows, and strategic recommendations that drive growth.
-              </p>
+              <div className="w-12 h-12 rounded-xl bg-[#1B5E92]/10 flex items-center justify-center text-xl shrink-0">
+                🎯
+              </div>
+              <div>
+                <h4
+                  className="text-base md:text-lg font-bold mb-2 tracking-tight"
+                  style={{ color: "#2d6fa3" }}
+                >
+                  Smarter Decisions, Better Results.
+                </h4>
+                <p
+                  className="text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53] dark:text-slate-200"
+                >
+                  Actionable insights, optimized workflows, and strategic recommendations that drive growth.
+                </p>
+              </div>
             </div>
 
           </div>
@@ -95,3 +110,4 @@ export default function WhyChooseUs() {
     </section>
   );
 }
+

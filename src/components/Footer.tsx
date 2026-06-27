@@ -252,14 +252,14 @@ export default function Footer() {
           </p>
           <div className="flex gap-6">
             <a
-              href="#"
+              href="/privacy"
               className="text-xs font-semibold transition-colors duration-200 hover:text-[#E8503A]"
               style={{ color: "#7A8F9E" }}
             >
               Privacy Policy
             </a>
             <a
-              href="#"
+              href="/terms"
               className="text-xs font-semibold transition-colors duration-200 hover:text-[#E8503A]"
               style={{ color: "#7A8F9E" }}
             >
