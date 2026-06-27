@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import React, { useRef, useEffect, useState } from "react";
-import * as THREE from "three";
 import { useAuth } from "@/context/AuthContext";
 
 const services = [
@@ -40,122 +39,82 @@ const services = [
 
 function ThreeCard({ imageUrl, title }: { imageUrl: string; title: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
-    const container = containerRef.current;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const midX = rect.width / 2;
+    const midY = rect.height / 2;
+    
+    // Smooth responsive tilt multiplier
+    const rotX = -((y - midY) / midY) * 12;
+    const rotY = ((x - midX) / midX) * 12;
+    
+    setRotateX(rotX);
+    setRotateY(rotY);
+  };
 
-    const width = container.clientWidth || 200;
-    const height = container.clientHeight || 200;
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setRotateX(0);
+    setRotateY(0);
+  };
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.z = 4.2;
+  return (
+    <div
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      className="w-full h-full relative cursor-pointer select-none flex items-center justify-center p-4 transition-all duration-300"
+      style={{
+        perspective: "1000px",
+      }}
+    >
+      <div
+        className="relative w-[240px] h-[240px] rounded-2xl transition-transform duration-200 ease-out"
+        style={{
+          transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${isHovered ? 1.05 : 1})`,
+          transformStyle: "preserve-3d",
+        }}
+      >
+        {/* Subtle glowing shadow backing */}
+        <div
+          className={`absolute -inset-2 rounded-3xl bg-[#2d6fa3]/10 blur-xl transition-opacity duration-500 pointer-events-none ${
+            isHovered ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            transform: "translateZ(-20px)",
+          }}
+        />
+        
+        {/* Main Service Card Image */}
+        <Image
+          src={imageUrl}
+          alt={title}
+          fill
+          sizes="250px"
+          priority
+          className="object-contain drop-shadow-[0_12px_24px_rgba(15,17,23,0.12)] pointer-events-none"
+        />
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
-
-    const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load(imageUrl);
-    texture.colorSpace = THREE.SRGBColorSpace;
-
-    const geometry = new THREE.PlaneGeometry(2.6, 2.6);
-    const material = new THREE.MeshBasicMaterial({
-      map: texture,
-      transparent: true,
-      side: THREE.DoubleSide,
-    });
-    const card = new THREE.Mesh(geometry, material);
-    scene.add(card);
-
-    const particleCount = 30;
-    const particleGeo = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount * 3; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 4;
-      positions[i + 1] = (Math.random() - 0.5) * 4;
-      positions[i + 2] = (Math.random() - 0.5) * 2;
-    }
-    particleGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    const particleMat = new THREE.PointsMaterial({
-      color: 0x2d6fa3,
-      size: 0.04,
-      transparent: true,
-      opacity: 0.5,
-    });
-    const particles = new THREE.Points(particleGeo, particleMat);
-    scene.add(particles);
-
-    let animationFrameId: number;
-    let targetRotationX = 0;
-    let targetRotationY = 0;
-
-    const handleMouseMove = (event: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / (rect.width || 1) - 0.5;
-      const y = (event.clientY - rect.top) / (rect.height || 1) - 0.5;
-      targetRotationY = x * 0.7;
-      targetRotationX = y * 0.7;
-    };
-
-    const handleMouseLeave = () => {
-      targetRotationX = 0;
-      targetRotationY = 0;
-    };
-
-    container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("mouseleave", handleMouseLeave);
-
-    const animate = () => {
-      card.rotation.x += (targetRotationX - card.rotation.x) * 0.08;
-      card.rotation.y += (targetRotationY - card.rotation.y) * 0.08;
-
-      card.position.y = Math.sin(Date.now() * 0.0015) * 0.04;
-
-      const posAttr = particles.geometry.attributes.position;
-      const arr = posAttr.array as Float32Array;
-      for (let i = 1; i < arr.length; i += 3) {
-        arr[i] += 0.0025;
-        if (arr[i] > 2) arr[i] = -2;
-      }
-      posAttr.needsUpdate = true;
-
-      renderer.render(scene, camera);
-      animationFrameId = requestAnimationFrame(animate);
-    };
-    animate();
-
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        const w = entry.contentRect.width || 200;
-        const h = entry.contentRect.height || 200;
-        renderer.setSize(w, h);
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-      }
-    });
-    resizeObserver.observe(container);
-
-    return () => {
-      container.removeEventListener("mousemove", handleMouseMove);
-      container.removeEventListener("mouseleave", handleMouseLeave);
-      cancelAnimationFrame(animationFrameId);
-      resizeObserver.disconnect();
-      if (container.contains(renderer.domElement)) {
-        container.removeChild(renderer.domElement);
-      }
-      geometry.dispose();
-      material.dispose();
-      texture.dispose();
-      particleGeo.dispose();
-      particleMat.dispose();
-      renderer.dispose();
-    };
-  }, [imageUrl]);
-
-  return <div ref={containerRef} className="w-full h-full relative" />;
+        {/* Dynamic glare highlight layer */}
+        <div
+          className={`absolute inset-0 rounded-2xl pointer-events-none transition-opacity duration-300 bg-gradient-to-tr from-white/0 via-white/10 to-white/20 mix-blend-overlay ${
+            isHovered ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            transform: "translateZ(10px)",
+          }}
+        />
+      </div>
+    </div>
+  );
 }
 
 export default function Services() {

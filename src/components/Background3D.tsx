@@ -201,13 +201,26 @@ function SceneContainer() {
 }
 
 export default function Background3D() {
+  const [isMobile, setIsMobile] = React.useState(true); // Default true for server/mobile safety
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <div className="fixed inset-0 z-[-1] pointer-events-none bg-gradient-to-b from-[#FAFBFD] to-[#FFFFFF] transition-colors duration-300">
-      <Canvas camera={{ position: [0, 0, 5], fov: 55 }}>
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[2, 3, 4]} intensity={0.8} />
-        <SceneContainer />
-      </Canvas>
+      {!isMobile && (
+        <Canvas camera={{ position: [0, 0, 5], fov: 55 }}>
+          <ambientLight intensity={0.4} />
+          <directionalLight position={[2, 3, 4]} intensity={0.8} />
+          <SceneContainer />
+        </Canvas>
+      )}
     </div>
   );
 }
