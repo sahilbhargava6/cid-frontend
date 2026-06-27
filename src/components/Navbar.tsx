@@ -52,11 +52,7 @@ export default function Navbar() {
     >
       <nav
         aria-label="Main navigation"
-        className={`w-full h-[60px] lg:h-[76px] px-6 lg:px-10 rounded-full border transition-all duration-500 flex items-center justify-between backdrop-blur-md ${
-          isScrolled
-            ? "border-slate-200/80 bg-white/75 dark:border-slate-800/80 dark:bg-slate-950/70 shadow-[0_10px_30px_rgba(0,0,0,0.08)]"
-            : "border-white/30 bg-white/20 dark:bg-black/15 shadow-[0_4px_30px_rgba(0,0,0,0.02)]"
-        }`}
+        className="w-full h-[60px] lg:h-[76px] px-6 lg:px-10 rounded-full border border-white/40 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-500"
       >
         <style dangerouslySetInnerHTML={{ __html: `
           @keyframes shimmer-logo-text {
@@ -101,9 +97,7 @@ export default function Navbar() {
         >
           <div className="relative logo-aura-halo flex items-center justify-center">
             {/* Ambient pulsing glow behind logo */}
-            <div className={`absolute inset-0 filter blur-md opacity-50 rounded-full animate-pulse scale-90 transition-all duration-500 ${
-              isScrolled ? "bg-gradient-to-tr from-[#E85D3A] to-[#2d6fa3]" : "bg-gradient-to-tr from-[#FDE2DC] to-[#DCEFE9]"
-            }`} />
+            <div className="absolute inset-0 filter blur-md opacity-50 rounded-full animate-pulse scale-90 transition-all duration-500 bg-gradient-to-tr from-[#E85D3A] to-[#2d6fa3]" />
             <Image
               src="/Consider_it_done_LOGO_4.png"
               alt="Consider It Done logo"
@@ -115,9 +109,7 @@ export default function Navbar() {
           </div>
           <div className="block">
             <span
-              className={`text-[16px] sm:text-lg lg:text-[22px] font-extrabold tracking-tight transition-all duration-500 ${
-                isScrolled ? "shimmer-logo-text-dark dark:shimmer-logo-text" : "shimmer-logo-text"
-              }`}
+              className="shimmer-logo-text-dark dark:shimmer-logo-text text-[16px] sm:text-lg lg:text-[22px] font-extrabold tracking-tight"
               style={{
                 fontFamily: "var(--font-heading)",
               }}
@@ -133,11 +125,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className={`text-[15px] font-bold transition-all duration-300 hover:scale-105 tracking-wide ${
-                isScrolled
-                  ? "text-slate-700 dark:text-slate-200 hover:text-[#E85D3A] dark:hover:text-[#FF7A55]"
-                  : "text-white hover:text-[#FDE2DC]"
-              }`}
+              className="text-[15px] font-extrabold transition-all duration-300 hover:scale-105 tracking-wide text-[#0E2D53] dark:text-slate-200 hover:text-[#E85D3A] dark:hover:text-[#FF7A55]"
             >
               {link.label}
             </a>
@@ -148,11 +136,7 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center">
           <a
             href={dashboardPath}
-            className={`inline-flex items-center justify-center px-6 py-2.5 rounded-full text-sm font-extrabold transition-all duration-300 shadow-sm ${
-              isScrolled
-                ? "bg-[#E85D3A] text-white hover:bg-[#C44A2A] hover:shadow-[0_4px_12px_rgba(232,93,58,0.25)]"
-                : "bg-white/20 hover:bg-white/35 text-white border border-white/20 hover:scale-105"
-            }`}
+            className="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-sm font-extrabold transition-all duration-300 shadow-sm bg-[#E85D3A] text-white hover:bg-[#C44A2A] hover:shadow-[0_4px_12px_rgba(232,93,58,0.25)]"
           >
             {user ? "Go to Dashboard" : "Sign in/Sign up"}
           </a>
@@ -167,19 +151,13 @@ export default function Navbar() {
         >
           <div className="w-5 h-4 flex flex-col justify-between">
             <span
-              className={`block h-0.5 transition-all duration-300 ${
-                isScrolled ? "bg-slate-800 dark:bg-white" : "bg-white"
-              } ${mobileOpen ? "rotate-45 translate-y-[7px]" : ""}`}
+              className={`block h-0.5 transition-all duration-300 bg-[#0E2D53] dark:bg-white ${mobileOpen ? "rotate-45 translate-y-[7px]" : ""}`}
             />
             <span
-              className={`block h-0.5 transition-all duration-300 ${
-                isScrolled ? "bg-slate-800 dark:bg-white" : "bg-white"
-              } ${mobileOpen ? "opacity-0 scale-0" : ""}`}
+              className={`block h-0.5 transition-all duration-300 bg-[#0E2D53] dark:bg-white ${mobileOpen ? "opacity-0 scale-0" : ""}`}
             />
             <span
-              className={`block h-0.5 transition-all duration-300 ${
-                isScrolled ? "bg-slate-800 dark:bg-white" : "bg-white"
-              } ${mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""}`}
+              className={`block h-0.5 transition-all duration-300 bg-[#0E2D53] dark:bg-white ${mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""}`}
             />
           </div>
         </button>

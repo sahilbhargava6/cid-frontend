@@ -253,7 +253,10 @@ export default function Hero() {
         {/* Premium Floating Glassmorphic Details Card - Shows as pop-up on hover */}
         {activeDetail && activeHover && (
           <div className={`absolute ${cardPositions[activeHover] || "top-[25%] left-[48%]"} max-md:left-1/2 max-md:-translate-x-1/2 max-md:top-[6%] max-md:w-[90%] max-md:max-w-[280px] w-[330px] rounded-[24px] bg-white/20 dark:bg-black/30 border border-white/20 dark:border-white/10 backdrop-blur-md p-4 md:p-6 flex flex-col text-white shadow-2xl transition-all duration-300 z-20 pointer-events-none`}>
-            <h3 className="text-sm md:text-xl font-bold tracking-tight mb-2 md:mb-3 leading-tight">
+            <h3 
+              className="text-sm md:text-xl font-bold tracking-tight mb-2 md:mb-3 leading-tight"
+              style={{ color: "#ffffff" }}
+            >
               {activeDetail.title}
             </h3>
 

@@ -2,6 +2,7 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
 
 const Background3D = dynamic(() => import("@/components/Background3D"), {
@@ -9,8 +10,25 @@ const Background3D = dynamic(() => import("@/components/Background3D"), {
 });
 
 export default function PrivacyPolicy() {
+  useEffect(() => {
+    const root = document.documentElement;
+    const isDark = root.classList.contains("dark");
+    
+    // Force light mode
+    root.classList.remove("dark");
+    root.classList.add("light");
+    
+    return () => {
+      // Restore original theme
+      root.classList.remove("light");
+      if (isDark) {
+        root.classList.add("dark");
+      }
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen flex flex-col bg-slate-50">
       <Background3D />
       <Navbar />
       
@@ -38,10 +56,13 @@ export default function PrivacyPolicy() {
         {/* High-Contrast Card Content */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 -mt-10 pb-20 relative z-10">
           <div className="rounded-[28px] border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-slate-900 p-6 sm:p-10 md:p-12 shadow-[0_15px_40px_rgba(15,17,23,0.06)]">
-            <div className="space-y-8 text-sm sm:text-base text-slate-700 dark:text-slate-200 leading-relaxed font-medium">
+            <div className="space-y-8 text-sm sm:text-base text-[#0E2D53] dark:text-slate-100 leading-relaxed font-semibold">
               
               <section>
-                <h2 className="text-lg sm:text-xl font-bold mb-3 text-[#E85D3A] tracking-tight">
+                <h2 
+                  className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
+                  style={{ color: "#E85D3A" }}
+                >
                   1. Introduction
                 </h2>
                 <p>
@@ -50,7 +71,10 @@ export default function PrivacyPolicy() {
               </section>
 
               <section>
-                <h2 className="text-lg sm:text-xl font-bold mb-3 text-[#E85D3A] tracking-tight">
+                <h2 
+                  className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
+                  style={{ color: "#E85D3A" }}
+                >
                   2. Information We Collect
                 </h2>
                 <p className="mb-3">We collect information that identifies, relates to, describes, or is reasonably capable of being associated with you. This includes:</p>
@@ -63,7 +87,10 @@ export default function PrivacyPolicy() {
               </section>
 
               <section>
-                <h2 className="text-lg sm:text-xl font-bold mb-3 text-[#E85D3A] tracking-tight">
+                <h2 
+                  className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
+                  style={{ color: "#E85D3A" }}
+                >
                   3. How We Use Your Information
                 </h2>
                 <p className="mb-3">We utilize your personal information for lawful business operations, including:</p>
@@ -76,7 +103,10 @@ export default function PrivacyPolicy() {
               </section>
 
               <section>
-                <h2 className="text-lg sm:text-xl font-bold mb-3 text-[#E85D3A] tracking-tight">
+                <h2 
+                  className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
+                  style={{ color: "#E85D3A" }}
+                >
                   4. GLBA & Financial Privacy Compliance
                 </h2>
                 <p>
@@ -85,7 +115,10 @@ export default function PrivacyPolicy() {
               </section>
 
               <section>
-                <h2 className="text-lg sm:text-xl font-bold mb-3 text-[#E85D3A] tracking-tight">
+                <h2 
+                  className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
+                  style={{ color: "#E85D3A" }}
+                >
                   5. California Privacy Rights (CCPA/CPRA)
                 </h2>
                 <p>
@@ -94,7 +127,10 @@ export default function PrivacyPolicy() {
               </section>
 
               <section>
-                <h2 className="text-lg sm:text-xl font-bold mb-3 text-[#E85D3A] tracking-tight">
+                <h2 
+                  className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
+                  style={{ color: "#E85D3A" }}
+                >
                   6. Information Security
                 </h2>
                 <p>
@@ -103,7 +139,10 @@ export default function PrivacyPolicy() {
               </section>
 
               <section className="border-t border-slate-100 dark:border-slate-800 pt-6">
-                <h2 className="text-lg sm:text-xl font-bold mb-3 text-[#E85D3A] tracking-tight">
+                <h2 
+                  className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
+                  style={{ color: "#E85D3A" }}
+                >
                   7. Contact Us
                 </h2>
                 <p className="mb-4">
