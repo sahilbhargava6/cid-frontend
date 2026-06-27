@@ -2,7 +2,6 @@
 
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Services from "@/components/Services";
 import HowItWorks from "@/components/HowItWorks";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Testimonials from "@/components/Testimonials";
@@ -14,6 +13,10 @@ import BottomIllustration from "@/components/BottomIllustration";
 import dynamic from "next/dynamic";
 
 const Background3D = dynamic(() => import("@/components/Background3D"), {
+  ssr: false,
+});
+
+const Services = dynamic(() => import("@/components/Services"), {
   ssr: false,
 });
 
