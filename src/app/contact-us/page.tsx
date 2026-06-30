@@ -36,15 +36,15 @@ export default function ContactUsPage() {
     <>
       <Background3D />
       <Navbar />
-      
-      <main 
+
+      <main
         className="w-full bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center pt-0"
         style={{
           paddingBottom: `${(1250 - 1250 * scale)}px` // Prevent scaling clipping issues for 1250px canvas height
         }}
       >
         {/* 1920x1250 Pixel-Perfect Canvas Container */}
-        <div 
+        <div
           className="relative flex-shrink-0 select-none origin-top-left"
           style={{
             width: "1920px",
@@ -54,7 +54,7 @@ export default function ContactUsPage() {
           }}
         >
           {/* Faded Background Element (cid ele 1) */}
-          <div 
+          <div
             className="absolute left-0 top-0 w-[1920px] h-[800px] bg-cover bg-bottom bg-no-repeat z-0"
             style={{
               backgroundImage: "url('/images/hero.webp')"
@@ -65,7 +65,7 @@ export default function ContactUsPage() {
           </div>
 
           {/* Page Title */}
-          <h1 
+          <h1
             className="absolute left-[216px] top-[160px] w-[500px] h-[170px] font-black text-[64px] leading-[77px] flex items-center select-none"
             style={{
               fontFamily: "Inter, sans-serif",
@@ -79,10 +79,10 @@ export default function ContactUsPage() {
           </h1>
 
           {/* Side Subtitle Pill */}
-          <div 
+          <div
             className="absolute left-[216px] top-[320px] w-[450px] h-[86px] rounded-[30px] z-10 flex items-center justify-center px-6 shadow-sm bg-[rgba(10,30,53,0.05)] border border-slate-200/50"
           >
-            <span 
+            <span
               className="font-bold text-[24px] leading-[29px] text-[#0A1E35] text-center"
               style={{ fontFamily: "Inter, sans-serif" }}
             >
@@ -91,7 +91,7 @@ export default function ContactUsPage() {
           </div>
 
           {/* Main Contact Form Details Card */}
-          <div 
+          <div
             className="absolute left-[216px] top-[430px] w-[1488px] h-[720px] rounded-[30px] z-10 p-12 shadow-sm border border-slate-100/50 bg-white/40 backdrop-blur-md grid grid-cols-12 gap-12"
           >
             {/* Left Side: Contact Info */}
@@ -112,7 +112,7 @@ export default function ContactUsPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                     </svg>
                   </div>
-                  <span>(888) 123-4567</span>
+                  <span>+1 (732) 433-0463</span>
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -157,20 +157,20 @@ export default function ContactUsPage() {
                   <div className="grid grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-bold text-[#0A1E35] mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Name</label>
-                      <input 
-                        type="text" 
-                        required 
-                        placeholder="John Doe" 
+                      <input
+                        type="text"
+                        required
+                        placeholder="John Doe"
                         className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#E85D3A] text-slate-800 font-semibold"
                         style={{ fontFamily: "Inter, sans-serif" }}
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-[#0A1E35] mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Email</label>
-                      <input 
-                        type="email" 
-                        required 
-                        placeholder="john@example.com" 
+                      <input
+                        type="email"
+                        required
+                        placeholder="john@example.com"
                         className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#E85D3A] text-slate-800 font-semibold"
                         style={{ fontFamily: "Inter, sans-serif" }}
                       />
@@ -180,24 +180,24 @@ export default function ContactUsPage() {
                   <div className="grid grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-bold text-[#0A1E35] mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Phone</label>
-                      <input 
-                        type="tel" 
-                        placeholder="(555) 000-0000" 
+                      <input
+                        type="tel"
+                        placeholder="(555) 000-0000"
                         className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#E85D3A] text-slate-800 font-semibold"
                         style={{ fontFamily: "Inter, sans-serif" }}
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-[#0A1E35] mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Select Service</label>
-                      <select 
-                        required 
+                      <select
+                        required
                         className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#E85D3A] text-slate-800 font-semibold appearance-none"
                         style={{ fontFamily: "Inter, sans-serif" }}
                       >
                         <option value="procurement">Procurement & Sourcing</option>
                         <option value="business">Small Business Management</option>
                         <option value="tax">Tax Prep & Resolution</option>
-                        <option value="solar">Solar Energy Solutions</option>
+                        <option value="solar">Solar, Roofing, Gutter and Generac Solutions (NJ/NY/PA)</option>
                         <option value="bookkeeping">Virtual Bookkeeping</option>
                       </select>
                     </div>
@@ -205,17 +205,17 @@ export default function ContactUsPage() {
 
                   <div>
                     <label className="block text-sm font-bold text-[#0A1E35] mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Message</label>
-                    <textarea 
-                      required 
-                      rows={4} 
-                      placeholder="How can we help your business?" 
+                    <textarea
+                      required
+                      rows={4}
+                      placeholder="How can we help you?"
                       className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#E85D3A] text-slate-800 font-semibold"
                       style={{ fontFamily: "Inter, sans-serif" }}
                     />
                   </div>
 
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     className="w-full py-4 bg-[#E85D3A] hover:bg-[#C44A2A] text-white font-extrabold text-[20px] rounded-full shadow-md transition-transform hover:scale-[1.01] active:scale-[0.99]"
                     style={{ fontFamily: "Inter, sans-serif" }}
                   >
@@ -228,7 +228,7 @@ export default function ContactUsPage() {
 
         </div>
       </main>
-      
+
       <Footer />
     </>
   );

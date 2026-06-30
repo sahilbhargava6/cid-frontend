@@ -67,12 +67,12 @@ export const defaultServices: ServiceData[] = [
   },
   {
     key: "solar",
-    title: "Solar Energy Solutions",
+    title: "Solar, Roofing, Gutter and Generac Solutions (NJ/NY/PA)",
     image: "/images/services/solar.webp",
     bgColor: "rgba(232, 114, 140, 0.2)",
     textColor: "#3D0A1E",
     headerColor: "#E8728C",
-    description: `Have questions about Solar Energy Solutions? We can answer all questions you have about Solar and clear any misconceptions you have:
+    description: `Have questions about Solar, Roofing, Gutter and Generac Solutions (NJ/NY/PA)? We can answer all questions you have about Solar and clear any misconceptions you have:
 · Are they really free?
 · Do they increase property taxes?
 · Do they work during blackouts?

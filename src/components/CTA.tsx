@@ -99,7 +99,7 @@ export default function CTA() {
 
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-16 items-center">
-          
+
           {/* Left Column - Copy & Trust Info */}
           <div>
             {/* Badge */}
@@ -147,8 +147,8 @@ export default function CTA() {
               className="text-base lg:text-lg mb-8 leading-relaxed"
               style={{ color: "rgba(255,255,255,0.75)" }}
             >
-              Whether you need individual tax preparation, bookkeeping, solar integration, 
-              or support with procurement and logistics, we are here. Fill out the form or reach 
+              Whether you need individual tax preparation, bookkeeping, solar integration,
+              or support with procurement and logistics, we are here. Fill out the form or reach
               out directly to start.
             </p>
 
@@ -180,7 +180,7 @@ export default function CTA() {
                 </div>
                 <div>
                   <p className="text-xs text-[var(--cid-gray-400)]">Call Us Anytime</p>
-                  <p className="text-lg font-bold">(888) 123-4567</p>
+                  <p className="text-lg font-bold">+1 (732) 433-0463</p>
                 </div>
               </a>
 
@@ -270,7 +270,7 @@ export default function CTA() {
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">Message Sent Successfully!</h3>
                 <p className="text-sm text-[var(--cid-gray-400)] max-w-sm mx-auto">
-                  Thank you for reaching out. A client specialist will review your request 
+                  Thank you for reaching out. A client specialist will review your request
                   and contact you within the next 24 hours.
                 </p>
                 <button

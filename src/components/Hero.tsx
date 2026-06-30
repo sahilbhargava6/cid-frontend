@@ -22,7 +22,7 @@ const serviceDetails: Record<string, ServiceHoverDetail> = {
     bullets: ["Tax filing", "Tax optimization", "Tax issue resolution", "Compliance support"],
   },
   solar: {
-    title: "Solar Energy Solutions",
+    title: "Solar, Roofing, Gutter and Generac Solutions (NJ/NY/PA)",
     bullets: ["Clean electricity", "Lower utility bills", "Custom roof designs", "No gimmicks guarantee"],
   },
   bookkeeping: {
@@ -73,10 +73,9 @@ export default function Hero() {
         >
           <div className="relative w-full h-full flex items-center justify-center">
             {/* Glowing Aura Halo */}
-            <div 
-              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${
-                activeHover === "solar" ? "opacity-100 scale-[1.3] animate-pulse" : ""
-              }`}
+            <div
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "solar" ? "opacity-100 scale-[1.3] animate-pulse" : ""
+                }`}
               style={{
                 background: "radial-gradient(circle, rgba(46,158,90,0.45) 0%, rgba(46,158,90,0) 70%)"
               }}
@@ -104,10 +103,9 @@ export default function Hero() {
         >
           <div className="relative w-full h-full flex items-center justify-center">
             {/* Glowing Aura Halo */}
-            <div 
-              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${
-                activeHover === "business" ? "opacity-100 scale-[1.3] animate-pulse" : ""
-              }`}
+            <div
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "business" ? "opacity-100 scale-[1.3] animate-pulse" : ""
+                }`}
               style={{
                 background: "radial-gradient(circle, rgba(27,94,146,0.45) 0%, rgba(27,94,146,0) 70%)"
               }}
@@ -135,10 +133,9 @@ export default function Hero() {
         >
           <div className="relative w-full h-full flex items-center justify-center">
             {/* Glowing Aura Halo */}
-            <div 
-              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${
-                activeHover === "tax" ? "opacity-100 scale-[1.3] animate-pulse" : ""
-              }`}
+            <div
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "tax" ? "opacity-100 scale-[1.3] animate-pulse" : ""
+                }`}
               style={{
                 background: "radial-gradient(circle, rgba(232,93,58,0.45) 0%, rgba(232,93,58,0) 70%)"
               }}
@@ -166,10 +163,9 @@ export default function Hero() {
         >
           <div className="relative w-full h-full flex items-center justify-center">
             {/* Glowing Aura Halo */}
-            <div 
-              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${
-                activeHover === "bookkeeping" ? "opacity-100 scale-[1.3] animate-pulse" : ""
-              }`}
+            <div
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "bookkeeping" ? "opacity-100 scale-[1.3] animate-pulse" : ""
+                }`}
               style={{
                 background: "radial-gradient(circle, rgba(46,158,90,0.45) 0%, rgba(46,158,90,0) 70%)"
               }}
@@ -197,10 +193,9 @@ export default function Hero() {
         >
           <div className="relative w-full h-full flex items-center justify-center">
             {/* Glowing Aura Halo */}
-            <div 
-              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${
-                activeHover === "procurement" ? "opacity-100 scale-[1.3] animate-pulse" : ""
-              }`}
+            <div
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "procurement" ? "opacity-100 scale-[1.3] animate-pulse" : ""
+                }`}
               style={{
                 background: "radial-gradient(circle, rgba(232,93,58,0.45) 0%, rgba(232,93,58,0) 70%)"
               }}
@@ -219,7 +214,7 @@ export default function Hero() {
         {/* Premium Floating Glassmorphic Details Card - Shows as pop-up on hover */}
         {activeDetail && activeHover && (
           <div className={`absolute ${cardPositions[activeHover] || "top-[25%] left-[48%]"} max-md:left-1/2 max-md:-translate-x-1/2 max-md:top-[6%] max-md:w-[90%] max-md:max-w-[280px] w-[330px] rounded-[24px] bg-white/20 dark:bg-black/30 border border-white/20 dark:border-white/10 backdrop-blur-md p-4 md:p-6 flex flex-col text-white shadow-2xl transition-all duration-300 z-20 pointer-events-none`}>
-            <h3 
+            <h3
               className="text-sm md:text-xl font-bold tracking-tight mb-2 md:mb-3 leading-tight"
               style={{ color: "#ffffff" }}
             >

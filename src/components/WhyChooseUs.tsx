@@ -69,16 +69,11 @@ export default function WhyChooseUs() {
                 >
                   You Save - We Shine
                 </h4>
-                <p
-                  className="text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]"
-                >
-                  <ol className="list-decimal pl-5">
-                    <li> Biggest bang for your buck </li>
-                    <li> Unbeatable value</li>
-                    <li> More for less</li>
-                  </ol>
-
-                </p>
+                <ol className="list-decimal pl-5 text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]">
+                  <li> Biggest bang for your buck </li>
+                  <li> Unbeatable value</li>
+                  <li> More for less</li>
+                </ol>
               </div>
             </div>
 
@@ -99,16 +94,11 @@ export default function WhyChooseUs() {
                 >
                   You Decide - We Execute
                 </h4>
-                <p
-                  className="text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]"
-                >
-                  <ol className="list-decimal pl-5">
-                    <li> Make the right call for right results </li>
-                    <li> Think smart , win big</li>
-                    <li> Help us to help you</li>
-                  </ol>
-
-                </p>
+                <ol className="list-decimal pl-5 text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]">
+                  <li> Make the right call for right results </li>
+                  <li> Think smart , win big</li>
+                  <li> Help us to help you</li>
+                </ol>
               </div>
             </div>
 

@@ -13,11 +13,11 @@ export default function TermsOfService() {
   useEffect(() => {
     const root = document.documentElement;
     const isDark = root.classList.contains("dark");
-    
+
     // Force light mode
     root.classList.remove("dark");
     root.classList.add("light");
-    
+
     return () => {
       // Restore original theme
       root.classList.remove("light");
@@ -31,20 +31,20 @@ export default function TermsOfService() {
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Background3D />
       <Navbar />
-      
+
       <main className="flex-grow">
         {/* Dark Hero Header Banner for High Visibility of White Navbar */}
         <div className="w-full bg-gradient-to-r from-[#0E2D53] to-[#1B5E92] pt-32 sm:pt-40 pb-20 text-center relative overflow-hidden">
           {/* Subtle background glow */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(232,93,58,0.18),transparent_50%)] pointer-events-none" />
           <div className="relative z-10 max-w-4xl mx-auto px-4">
-            <h1 
-              className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-3" 
+            <h1
+              className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-3"
               style={{ color: "#ffffff", fontFamily: "var(--font-heading)" }}
             >
               Terms of Service
             </h1>
-            <p 
+            <p
               className="text-[11px] sm:text-xs font-bold uppercase tracking-widest"
               style={{ color: "rgba(255, 255, 255, 0.75)" }}
             >
@@ -57,9 +57,9 @@ export default function TermsOfService() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 -mt-10 pb-20 relative z-10">
           <div className="rounded-[28px] border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-slate-900 p-6 sm:p-10 md:p-12 shadow-[0_15px_40px_rgba(15,17,23,0.06)]">
             <div className="space-y-8 text-sm sm:text-base text-[#0E2D53] dark:text-slate-100 leading-relaxed font-semibold">
-              
+
               <section>
-                <h2 
+                <h2
                   className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
                   style={{ color: "#E85D3A" }}
                 >
@@ -71,7 +71,7 @@ export default function TermsOfService() {
               </section>
 
               <section>
-                <h2 
+                <h2
                   className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
                   style={{ color: "#E85D3A" }}
                 >
@@ -83,7 +83,7 @@ export default function TermsOfService() {
               </section>
 
               <section>
-                <h2 
+                <h2
                   className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
                   style={{ color: "#E85D3A" }}
                 >
@@ -95,7 +95,7 @@ export default function TermsOfService() {
               </section>
 
               <section>
-                <h2 
+                <h2
                   className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
                   style={{ color: "#E85D3A" }}
                 >
@@ -107,7 +107,7 @@ export default function TermsOfService() {
               </section>
 
               <section>
-                <h2 
+                <h2
                   className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
                   style={{ color: "#E85D3A" }}
                 >
@@ -119,7 +119,7 @@ export default function TermsOfService() {
               </section>
 
               <section>
-                <h2 
+                <h2
                   className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
                   style={{ color: "#E85D3A" }}
                 >
@@ -131,7 +131,7 @@ export default function TermsOfService() {
               </section>
 
               <section className="border-t border-slate-100 dark:border-slate-800 pt-6">
-                <h2 
+                <h2
                   className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
                   style={{ color: "#E85D3A" }}
                 >
@@ -143,14 +143,14 @@ export default function TermsOfService() {
                 <div className="p-5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-800/50 rounded-2xl text-xs sm:text-sm space-y-1.5">
                   <p className="font-extrabold text-slate-800 dark:text-slate-100">Consider It Done Support Team</p>
                   <p><span className="font-semibold text-slate-400">Email:</span> support@consideritdone.com</p>
-                  <p><span className="font-semibold text-slate-400">Toll-Free Phone:</span> (888) 123-4567</p>
+                  <p><span className="font-semibold text-slate-400">Toll-Free Phone:</span> +1 (732) 433-0463</p>
                 </div>
               </section>
             </div>
           </div>
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );
