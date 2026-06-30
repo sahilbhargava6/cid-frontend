@@ -243,7 +243,7 @@ export default function Hero() {
         {/* Bottom indicator stripe - smaller on mobile/tablet to prevent covering characters */}
         <div className="absolute bottom-2 md:bottom-6 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-sm px-3 md:px-6 py-1 md:py-2 rounded-full border border-white/10 z-10">
           <p className="text-[8px] md:text-xs font-semibold text-white/95 uppercase tracking-widest text-center whitespace-nowrap">
-            💡 Hover or tap the 6 team characters to explore core services
+            💡 Hover or tap the 5 team characters to explore core services
           </p>
         </div>
       </div>
