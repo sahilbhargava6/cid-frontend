@@ -5,10 +5,10 @@ import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 
 const navLinks = [
-  { label: "Home", href: "#" },
-  { label: "Services", href: "#services" },
-  { label: "About", href: "#why-us" },
-  { label: "Contact us", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/#services" },
+  { label: "About", href: "/#why-us" },
+  { label: "Contact us", href: "/#contact" },
 ];
 
 export default function Navbar() {
