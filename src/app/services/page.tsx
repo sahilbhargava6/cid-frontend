@@ -42,7 +42,7 @@ export default function ServicesPage() {
       <Background3D />
       <Navbar />
       <main 
-        className="w-full bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center pt-[76px] lg:pt-[90px]"
+        className="w-full bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center pt-0"
         style={{
           paddingBottom: `${(1080 - 1080 * scale)}px` // Prevent clipping whitespace issues on scale
         }}

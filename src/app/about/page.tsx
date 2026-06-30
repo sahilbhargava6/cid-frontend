@@ -33,7 +33,7 @@ export default function AboutPage() {
       <Navbar />
       
       <main 
-        className="w-full bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center pt-[76px] lg:pt-[90px]"
+        className="w-full bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center pt-0"
         style={{
           paddingBottom: `${(1500 - 1500 * scale)}px` // Prevent scaling clipping issues for 1500px canvas height
         }}

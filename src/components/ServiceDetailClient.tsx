@@ -106,7 +106,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
     <>
       <Navbar />
       <main 
-        className="w-full min-h-screen bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center pt-[120px]"
+        className="w-full min-h-screen bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center pt-0"
         style={{
           paddingBottom: `${(2080 - 2080 * scale)}px` // Prevent scaling clipping issues for 2080px canvas height
         }}
