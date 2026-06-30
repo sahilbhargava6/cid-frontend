@@ -35,15 +35,15 @@ export default function AboutPage() {
       <main 
         className="w-full bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center pt-0"
         style={{
-          paddingBottom: `${(1500 - 1500 * scale)}px` // Prevent scaling clipping issues for 1500px canvas height
+          paddingBottom: `${(1250 - 1250 * scale)}px` // Prevent scaling clipping issues for 1250px canvas height
         }}
       >
-        {/* 1920x1500 Pixel-Perfect Canvas Container */}
+        {/* 1920x1250 Pixel-Perfect Canvas Container */}
         <div 
           className="relative flex-shrink-0 select-none origin-top-left"
           style={{
             width: "1920px",
-            height: "1500px",
+            height: "1250px",
             transform: `scale(${scale})`,
             left: `${leftOffset}px` // Center the scaled canvas
           }}
@@ -61,7 +61,7 @@ export default function AboutPage() {
 
           {/* Page Title */}
           <h1 
-            className="absolute left-[216px] top-[230px] w-[500px] h-[170px] font-black text-[64px] leading-[77px] flex items-center select-none"
+            className="absolute left-[216px] top-[160px] w-[500px] h-[170px] font-black text-[64px] leading-[77px] flex items-center select-none"
             style={{
               fontFamily: "Inter, sans-serif",
               background: "linear-gradient(90deg, #5C1A0F 0%, #0A1E35 36.06%, #0D2B1A 64.9%, #3D0A1E 100%)",
@@ -75,7 +75,7 @@ export default function AboutPage() {
 
           {/* Side Subtitle Pill */}
           <div 
-            className="absolute left-[216px] top-[490px] w-[450px] h-[86px] rounded-[30px] z-10 flex items-center justify-center px-6 shadow-sm bg-[rgba(10,30,53,0.05)] border border-slate-200/50"
+            className="absolute left-[216px] top-[320px] w-[450px] h-[86px] rounded-[30px] z-10 flex items-center justify-center px-6 shadow-sm bg-[rgba(10,30,53,0.05)] border border-slate-200/50"
           >
             <span 
               className="font-bold text-[24px] leading-[29px] text-[#0A1E35] text-center"
@@ -87,7 +87,7 @@ export default function AboutPage() {
 
           {/* Main About Details Card */}
           <div 
-            className="absolute left-[216px] top-[620px] w-[1488px] h-[720px] rounded-[30px] z-10 p-12 shadow-sm border border-slate-100/50 bg-white/40 backdrop-blur-md"
+            className="absolute left-[216px] top-[430px] w-[1488px] h-[720px] rounded-[30px] z-10 p-12 shadow-sm border border-slate-100/50 bg-white/40 backdrop-blur-md"
           >
             <p 
               className="text-[28px] leading-[44px] font-light text-slate-700 mb-8"

@@ -70,7 +70,7 @@ export default function ServicesPage() {
 
         {/* Gradient Services Page Header */}
         <h1 
-          className="absolute left-[166px] top-[230px] w-[315px] h-[170px] font-black text-[64px] leading-[77px] flex items-center select-none"
+          className="absolute left-[166px] top-[160px] w-[315px] h-[170px] font-black text-[64px] leading-[77px] flex items-center select-none"
           style={{
             fontFamily: "Inter, sans-serif",
             background: "linear-gradient(90deg, #5C1A0F 0%, #0A1E35 36.06%, #0D2B1A 64.9%, #3D0A1E 100%)",
@@ -85,7 +85,7 @@ export default function ServicesPage() {
         {/* --- SERVICE CARDS (absolute coords) --- */}
 
         {/* Card 1: Procurement (Elements -CID (9) 1) */}
-        <Link href="/services/procurement" className="absolute left-[166px] top-[490px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
+        <Link href="/services/procurement" className="absolute left-[166px] top-[360px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100/50 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
           <img 
             src="/images/services/Procurement.webp" 
             alt="Procurement & Sourcing" 
@@ -94,7 +94,7 @@ export default function ServicesPage() {
         </Link>
 
         {/* Card 2: Small Business (Elements -CID (14) 1) */}
-        <Link href="/services/accounts_and_logistics" className="absolute left-[486px] top-[495px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
+        <Link href="/services/accounts_and_logistics" className="absolute left-[486px] top-[365px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100/50 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
           <img 
             src="/images/services/business.webp" 
             alt="Small Business Management" 
@@ -103,7 +103,7 @@ export default function ServicesPage() {
         </Link>
 
         {/* Card 3: Tax (Elements -CID (13) 1) */}
-        <Link href="/services/tax_prep" className="absolute left-[807px] top-[495px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
+        <Link href="/services/tax_prep" className="absolute left-[807px] top-[365px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100/50 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
           <img 
             src="/images/services/tax.webp" 
             alt="Tax Preparation" 
@@ -112,7 +112,7 @@ export default function ServicesPage() {
         </Link>
 
         {/* Card 4: Solar (Elements -CID (12) 1) */}
-        <Link href="/services/solar" className="absolute left-[1127px] top-[495px] w-[310px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
+        <Link href="/services/solar" className="absolute left-[1127px] top-[365px] w-[310px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100/50 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
           <img 
             src="/images/services/solar.webp" 
             alt="Solar Solutions" 
@@ -121,7 +121,7 @@ export default function ServicesPage() {
         </Link>
 
         {/* Card 5: Virtual Bookkeeping (Elements -CID (11) 1) */}
-        <Link href="/services/virtual_bookkeeping" className="absolute left-[1444px] top-[495px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
+        <Link href="/services/virtual_bookkeeping" className="absolute left-[1444px] top-[365px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100/50 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
           <img 
             src="/images/services/bookkeeping.webp" 
             alt="Virtual Bookkeeping" 
@@ -134,31 +134,31 @@ export default function ServicesPage() {
 
         {/* Pill 1 Background (Rectangle 6) */}
         <div 
-          className="absolute left-[166px] top-[841px] w-[300px] h-[157px] rounded-[30px] z-10"
+          className="absolute left-[166px] top-[711px] w-[300px] h-[157px] rounded-[30px] z-10"
           style={{ backgroundColor: "rgba(63, 166, 114, 0.2)" }}
         />
 
         {/* Pill 2 Background (Rectangle 7) */}
         <div 
-          className="absolute left-[490px] top-[841px] w-[301px] h-[157px] rounded-[30px] z-10"
+          className="absolute left-[490px] top-[711px] w-[301px] h-[157px] rounded-[30px] z-10"
           style={{ backgroundColor: "rgba(232, 80, 58, 0.2)" }}
         />
 
         {/* Pill 3 Background (Rectangle 8) */}
         <div 
-          className="absolute left-[811px] top-[841px] w-[300px] h-[157px] rounded-[30px] z-10"
+          className="absolute left-[811px] top-[711px] w-[300px] h-[157px] rounded-[30px] z-10"
           style={{ backgroundColor: "rgba(45, 111, 163, 0.2)" }}
         />
 
         {/* Pill 4 Background (Rectangle 9) */}
         <div 
-          className="absolute left-[1132px] top-[841px] w-[300px] h-[157px] rounded-[30px] z-10"
+          className="absolute left-[1132px] top-[711px] w-[300px] h-[157px] rounded-[30px] z-10"
           style={{ backgroundColor: "rgba(232, 114, 140, 0.2)" }}
         />
 
         {/* Pill 5 Background (Rectangle 10) */}
         <div 
-          className="absolute left-[1453px] top-[841px] w-[300px] h-[157px] rounded-[30px] z-10"
+          className="absolute left-[1453px] top-[711px] w-[300px] h-[157px] rounded-[30px] z-10"
           style={{ backgroundColor: "rgba(63, 166, 114, 0.2)" }}
         />
 
@@ -167,7 +167,7 @@ export default function ServicesPage() {
 
         {/* Text 1: Procurement */}
         <div 
-          className="absolute left-[222px] top-[862px] w-[189px] h-[111px] font-semibold text-[24px] leading-[29px] flex items-center justify-center text-center z-15"
+          className="absolute left-[222px] top-[732px] w-[189px] h-[111px] font-semibold text-[24px] leading-[29px] flex items-center justify-center text-center z-15"
           style={{ fontFamily: "Inter, sans-serif", color: "#0D2B1A" }}
         >
           Procurement & Sourcing Services
@@ -175,7 +175,7 @@ export default function ServicesPage() {
 
         {/* Text 2: Small Business */}
         <div 
-          className="absolute left-[531px] top-[862px] w-[218px] h-[111px] font-semibold text-[24px] leading-[29px] flex items-center justify-center text-center z-15"
+          className="absolute left-[531px] top-[732px] w-[218px] h-[111px] font-semibold text-[24px] leading-[29px] flex items-center justify-center text-center z-15"
           style={{ fontFamily: "Inter, sans-serif", color: "#5C1A0F" }}
         >
           Small Business Management Solutions
@@ -183,7 +183,7 @@ export default function ServicesPage() {
 
         {/* Text 3: Tax */}
         <div 
-          className="absolute left-[851px] top-[881px] w-[220px] h-[74px] font-semibold text-[24px] leading-[29px] flex items-center justify-center text-center z-15"
+          className="absolute left-[851px] top-[751px] w-[220px] h-[74px] font-semibold text-[24px] leading-[29px] flex items-center justify-center text-center z-15"
           style={{ fontFamily: "Inter, sans-serif", color: "#0A1E35" }}
         >
           Tax Preparation & Resolution
@@ -191,7 +191,7 @@ export default function ServicesPage() {
 
         {/* Text 4: Solar */}
         <div 
-          className="absolute left-[1191px] top-[881px] w-[184px] h-[74px] font-semibold text-[24px] leading-[29px] flex items-center justify-center text-center z-15"
+          className="absolute left-[1191px] top-[751px] w-[184px] h-[74px] font-semibold text-[24px] leading-[29px] flex items-center justify-center text-center z-15"
           style={{ fontFamily: "Inter, sans-serif", color: "#3D0A1E" }}
         >
           Solar Energy Solutions
@@ -199,7 +199,7 @@ export default function ServicesPage() {
 
         {/* Text 5: Virtual Bookkeeping */}
         <div 
-          className="absolute left-[1516px] top-[877px] w-[183px] h-[74px] font-semibold text-[24px] leading-[29px] flex items-center justify-center text-center z-15"
+          className="absolute left-[1516px] top-[747px] w-[183px] h-[74px] font-semibold text-[24px] leading-[29px] flex items-center justify-center text-center z-15"
           style={{ fontFamily: "Inter, sans-serif", color: "#0D2B1A" }}
         >
           Virtual Bookkeeping

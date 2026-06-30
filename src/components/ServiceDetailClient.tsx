@@ -108,15 +108,15 @@ export default function ServiceDetailClient({ service }: { service: string }) {
       <main 
         className="w-full min-h-screen bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center pt-0"
         style={{
-          paddingBottom: `${(2080 - 2080 * scale)}px` // Prevent scaling clipping issues for 2080px canvas height
+          paddingBottom: `${(1937 - 1937 * scale)}px` // Prevent scaling clipping issues for 1937px canvas height
         }}
       >
-        {/* 1920x2080 Pixel-Perfect Canvas Container */}
+        {/* 1920x1937 Pixel-Perfect Canvas Container */}
         <div 
           className="relative flex-shrink-0 select-none origin-top-left"
           style={{
             width: "1920px",
-            height: "2080px",
+            height: "1937px",
             transform: `scale(${scale})`,
             left: `${leftOffset}px` // Center the scaled canvas
           }}
@@ -134,7 +134,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
 
         {/* Gradient Services Page Header */}
         <h1 
-          className="absolute left-[216px] top-[230px] w-[315px] h-[170px] font-black text-[64px] leading-[77px] flex items-center select-none"
+          className="absolute left-[216px] top-[160px] w-[315px] h-[170px] font-black text-[64px] leading-[77px] flex items-center select-none"
           style={{
             fontFamily: "Inter, sans-serif",
             background: "linear-gradient(90deg, #5C1A0F 0%, #0A1E35 36.06%, #0D2B1A 64.9%, #3D0A1E 100%)",
@@ -147,7 +147,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
         </h1>
 
         {/* Main Card Image */}
-        <Link href="/services" className="absolute left-[216px] top-[643px] w-[577px] h-[577px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100/50 hover:scale-[1.02] transition-all duration-300 z-10 cursor-pointer bg-white">
+        <Link href="/services" className="absolute left-[216px] top-[500px] w-[577px] h-[577px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100/50 hover:scale-[1.02] transition-all duration-300 z-10 cursor-pointer bg-white">
           <img 
             src={details.image} 
             alt={details.title} 
@@ -157,7 +157,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
 
         {/* Title Backing (Rectangle 6) */}
         <div 
-          className="absolute left-[994px] top-[738px] w-[662px] h-[123px] rounded-[30px] z-10"
+          className="absolute left-[994px] top-[595px] w-[662px] h-[123px] rounded-[30px] z-10"
           style={{
             backgroundColor: details.bgColor,
           }}
@@ -165,7 +165,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
 
         {/* Title Text (Procurement & Sourcing Services) */}
         <div 
-          className="absolute left-[1019px] top-[775px] w-[613px] h-[44px] font-semibold text-[36px] leading-[44px] flex items-center justify-center text-center z-15"
+          className="absolute left-[1019px] top-[632px] w-[613px] h-[44px] font-semibold text-[36px] leading-[44px] flex items-center justify-center text-center z-15"
           style={{
             fontFamily: "Inter, sans-serif",
             color: details.textColor
@@ -176,7 +176,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
 
         {/* Book a Session Title */}
         <h3 
-          className="absolute left-[834px] top-[879px] w-[331px] h-[105px] font-semibold text-[40px] leading-[48px] flex items-center z-10"
+          className="absolute left-[834px] top-[736px] w-[331px] h-[105px] font-semibold text-[40px] leading-[48px] flex items-center z-10"
           style={{
             fontFamily: "Inter, sans-serif",
             color: details.headerColor
@@ -187,7 +187,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
 
         {/* Date Card Backing (Rectangle 7) */}
         <div 
-          className="absolute left-[834px] top-[984px] w-[870px] h-[236px] rounded-[30px] z-10"
+          className="absolute left-[834px] top-[841px] w-[870px] h-[236px] rounded-[30px] z-10"
           style={{
             backgroundColor: details.bgColor,
           }}
@@ -195,7 +195,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
 
         {/* Find a Date Text */}
         <div 
-          className="absolute left-[886px] top-[1002px] w-[695px] h-[84px] font-light text-[32px] leading-[39px] flex items-center z-15"
+          className="absolute left-[886px] top-[859px] w-[695px] h-[84px] font-light text-[32px] leading-[39px] flex items-center z-15"
           style={{
             fontFamily: "Inter, sans-serif",
             color: details.textColor
@@ -215,7 +215,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
             <Link 
               key={dateVal}
               href={bookingUrl}
-              className="absolute w-[179px] h-[84px] top-[1088px] font-light text-[32px] leading-[39px] flex items-center justify-center text-center cursor-pointer hover:bg-white/30 rounded-xl transition-colors duration-200 z-15 border border-transparent hover:border-white/10"
+              className="absolute w-[179px] h-[84px] top-[945px] font-light text-[32px] leading-[39px] flex items-center justify-center text-center cursor-pointer hover:bg-white/30 rounded-xl transition-colors duration-200 z-15 border border-transparent hover:border-white/10"
               style={{
                 left: `${leftCoords[index]}px`,
                 fontFamily: "Inter, sans-serif",
@@ -229,7 +229,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
 
         {/* Description Title */}
         <h3 
-          className="absolute left-[216px] top-[1222px] w-[331px] h-[105px] font-semibold text-[40px] leading-[48px] flex items-center z-10"
+          className="absolute left-[216px] top-[1079px] w-[331px] h-[105px] font-semibold text-[40px] leading-[48px] flex items-center z-10"
           style={{
             fontFamily: "Inter, sans-serif",
             color: details.headerColor
@@ -240,7 +240,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
 
         {/* Description Box Backing (Rectangle 8) */}
         <div 
-          className="absolute left-[216px] top-[1327px] w-[1488px] h-[716px] rounded-[30px] z-10"
+          className="absolute left-[216px] top-[1184px] w-[1488px] h-[716px] rounded-[30px] z-10"
           style={{
             backgroundColor: details.bgColor,
           }}
@@ -248,7 +248,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
 
         {/* Description Detailed Content Text */}
         <div 
-          className="absolute left-[273px] top-[1362px] w-[1386px] h-[637px] font-light text-[32px] leading-[39px] flex items-center z-15 whitespace-pre-line"
+          className="absolute left-[273px] top-[1219px] w-[1386px] h-[637px] font-light text-[32px] leading-[39px] flex items-center z-15 whitespace-pre-line"
           style={{
             fontFamily: "Inter, sans-serif",
             color: details.textColor
