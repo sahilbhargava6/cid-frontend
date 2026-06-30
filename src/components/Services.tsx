@@ -30,11 +30,6 @@ const services = [
     image: "/images/services/bookkeeping.webp",
     param: "virtual_bookkeeping",
   },
-  {
-    title: "Business Growth & Process Optimization",
-    image: "/images/services/gwoth.webp",
-    param: "accounts_and_logistics",
-  },
 ];
 
 function ThreeCard({ imageUrl, title }: { imageUrl: string; title: string }) {
@@ -154,7 +149,7 @@ export default function Services() {
         </div>
 
         {/* Responsive grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 lg:gap-5 pb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 lg:gap-5 pb-6">
           {services.map((service, index) => (
             <a
               key={index}

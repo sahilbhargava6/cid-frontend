@@ -29,10 +29,6 @@ const serviceDetails: Record<string, ServiceHoverDetail> = {
     title: "Virtual Bookkeeping",
     bullets: ["Daily transaction tracking", "Bank accounts reconciliation", "Monthly financial statements", "Year-end tax readiness"],
   },
-  growth: {
-    title: "Business Growth & Optimization",
-    bullets: ["Operational efficiency", "Process streamlining", "Workflow automation", "Performance metrics tracking"],
-  },
 };
 
 const cardPositions: Record<string, string> = {
@@ -40,7 +36,6 @@ const cardPositions: Record<string, string> = {
   business: "top-[45%] left-[23%]",
   tax: "top-[50%] left-[43%]",
   bookkeeping: "top-[25%] left-[45%]",
-  growth: "top-[45%] left-[51%]",
   procurement: "top-[45%] left-[50%]",
 };
 
@@ -188,36 +183,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* 5. Business Growth (Poster Guy) - 4.png */}
-        <div
-          onMouseEnter={() => setActiveHover("growth")}
-          onMouseLeave={() => setActiveHover(null)}
-          onClick={(e) => {
-            e.stopPropagation();
-            setActiveHover(activeHover === "growth" ? null : "growth");
-          }}
-          className="absolute top-[70%] left-[38%] w-[12%] h-[30%] cursor-pointer group z-10"
-        >
-          <div className="relative w-full h-full flex items-center justify-center">
-            {/* Glowing Aura Halo */}
-            <div 
-              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${
-                activeHover === "growth" ? "opacity-100 scale-[1.3] animate-pulse" : ""
-              }`}
-              style={{
-                background: "radial-gradient(circle, rgba(27,94,146,0.45) 0%, rgba(27,94,146,0) 70%)"
-              }}
-            />
-            <Image
-              src="/images/services/4.webp"
-              alt="Growth Specialist"
-              fill
-              priority
-              className="object-contain transition-transform duration-300 group-hover:scale-105"
-              sizes="200px"
-            />
-          </div>
-        </div>
+
 
         {/* 6. Procurement (Bottom Right) - 6.png */}
         <div
