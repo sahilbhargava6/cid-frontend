@@ -103,14 +103,6 @@ function LoginContent() {
             </Link>
           </p>
         </div>
-
-        {/* Helpers */}
-        <div className="mt-6 pt-6 border-t border-slate-200/50 dark:border-slate-700/30 text-center text-xs text-slate-500 dark:text-slate-400">
-          <p className="font-medium">
-            Demo Credentials:
-          </p>
-        </div>
-
       </div>
     </div>
   );
