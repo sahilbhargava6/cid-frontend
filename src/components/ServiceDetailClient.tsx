@@ -258,13 +258,35 @@ export default function ServiceDetailClient({ service }: { service: string }) {
 
         {/* Description Detailed Content Text */}
         <div 
-          className="absolute left-[273px] top-[1219px] w-[1386px] h-[637px] font-light text-[32px] leading-[39px] flex items-center z-15 whitespace-pre-line"
+          className="absolute left-[273px] top-[1219px] w-[1386px] h-[637px] font-light text-[28px] leading-[38px] z-15 overflow-y-auto pr-4"
           style={{
             fontFamily: "Inter, sans-serif",
             color: details.textColor
           }}
         >
-          {details.description}
+          {details.description.split('\n').filter(line => line.trim()).map((line, idx) => {
+            const trimmed = line.trim();
+            const isBullet = trimmed.startsWith('·');
+            const text = isBullet ? trimmed.slice(1).trim() : trimmed;
+            
+            if (isBullet) {
+              const colonIdx = text.indexOf(':');
+              return (
+                <div key={idx} className="flex gap-3 mb-5">
+                  <span className="flex-shrink-0 mt-[6px] w-[10px] h-[10px] rounded-full" style={{ backgroundColor: details.headerColor }} />
+                  <p className="flex-1">
+                    {colonIdx > -1 ? (
+                      <>
+                        <span className="font-semibold">{text.slice(0, colonIdx + 1)}</span>
+                        {text.slice(colonIdx + 1)}
+                      </>
+                    ) : text}
+                  </p>
+                </div>
+              );
+            }
+            return <p key={idx} className="mb-4">{text}</p>;
+          })}
         </div>
 
       </div>
