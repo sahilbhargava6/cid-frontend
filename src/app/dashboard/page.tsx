@@ -159,6 +159,43 @@ function DashboardContent() {
     }
   };
 
+  const downloadICS = (booking: Booking) => {
+    const title = `Consider It Done: ${booking.service_type.replace(/_/g, ' ').toUpperCase()}`;
+    const desc = `Scheduled Session with Consider It Done. Booking ID: #${booking.id}`;
+    
+    const start = booking.scheduled_at ? new Date(booking.scheduled_at) : new Date();
+    const end = new Date(start.getTime() + 60 * 60 * 1000);
+    
+    const formatICSDate = (date: Date) => {
+      return date.toISOString().replace(/-|:|\.\d\d\d/g, "");
+    };
+
+    const icsContent = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Consider It Done//Session Booking Calendar//EN",
+      "BEGIN:VEVENT",
+      `UID:booking-${booking.id}@consideritdone.com`,
+      `DTSTAMP:${formatICSDate(new Date())}`,
+      `DTSTART:${formatICSDate(start)}`,
+      `DTEND:${formatICSDate(end)}`,
+      `SUMMARY:${title}`,
+      `DESCRIPTION:${desc}`,
+      "STATUS:CONFIRMED",
+      "END:VEVENT",
+      "END:VCALENDAR"
+    ].join("\r\n");
+
+    const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `CID-Booking-${booking.id}.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleServiceSelect = (type: any) => {
     setServiceType(type);
     setInputParams({}); // reset parameters
@@ -713,7 +750,7 @@ function DashboardContent() {
               {selectedBooking.service_type.replace(/_/g, ' ')} Request Details
             </h3>
             
-            <div className="grid grid-cols-2 gap-4 text-xs mb-4 p-3 bg-white/5 rounded-xl border border-white/5">
+            <div className="grid grid-cols-3 gap-4 text-xs mb-4 p-3 bg-white/5 rounded-xl border border-white/5 items-center">
               <div>
                 <span className="text-slate-400 font-bold text-[9px] uppercase tracking-wider block">Status</span>
                 <span className="text-slate-800 dark:text-slate-200 capitalize font-medium">{selectedBooking.status.replace(/_/g, ' ')}</span>
@@ -721,6 +758,52 @@ function DashboardContent() {
               <div>
                 <span className="text-slate-400 font-bold text-[9px] uppercase tracking-wider block">Price</span>
                 <span className="text-slate-800 dark:text-slate-200 font-medium">${selectedBooking.price || '0.00'} ({selectedBooking.payment_status})</span>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  onClick={() => downloadICS(selectedBooking)}
+                  className="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 text-[10px] font-bold rounded-xl border border-amber-500/25 transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  Add to Calendar
+                </button>
+              </div>
+            </div>
+
+            {/* Booking Progress Stepper Timeline */}
+            <div className="my-6">
+              <span className="text-slate-400 font-bold text-[10px] uppercase tracking-wider block mb-3">Booking Progress</span>
+              <div className="relative flex items-center justify-between w-full">
+                {/* Horizontal line */}
+                <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-slate-200/20 dark:bg-slate-700/30 z-0" />
+                
+                {[
+                  { step: "Requested", status: "pending" },
+                  { step: "Confirmed", status: "confirmed" },
+                  { step: "Preparing", status: "preparing" },
+                  { step: "Completed", status: "completed" }
+                ].map((s, idx) => {
+                  const statuses = ["pending", "confirmed", "preparing", "completed"];
+                  const currentIdx = statuses.indexOf(selectedBooking.status);
+                  const isPassed = currentIdx >= idx || (selectedBooking.status === "pending" && idx === 0);
+                  
+                  return (
+                    <div key={s.step} className="relative z-10 flex flex-col items-center gap-1.5">
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black transition-all ${
+                        isPassed 
+                          ? "bg-amber-505 bg-amber-500 text-white shadow-lg shadow-amber-500/25" 
+                          : "bg-slate-200 dark:bg-slate-800 text-slate-400"
+                      }`}>
+                        {isPassed ? "✓" : idx + 1}
+                      </div>
+                      <span className={`text-[10px] font-bold ${isPassed ? "text-slate-800 dark:text-slate-200" : "text-slate-400"}`}>
+                        {s.step}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
@@ -890,9 +973,10 @@ function DashboardContent() {
 
                 <div className="flex gap-4 pt-4 border-t border-slate-200/50 dark:border-white/5">
                   <button
-                    onClick={() => {
+                    onClick={async () => {
                       setShowPaymentModal(false);
                       setCreatedBooking(null);
+                      await loadDashboardData();
                       alert("Booking saved as Unpaid. You can settle the invoice at any time.");
                     }}
                     className="flex-1 py-3 border border-slate-300 dark:border-slate-700 text-xs font-bold rounded-full text-slate-700 dark:text-slate-300 hover:bg-white/10 transition-colors"

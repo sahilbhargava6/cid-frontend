@@ -1,0 +1,359 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { getServices, saveServices, resetService, resetAllServices, addService, deleteService, isCustomService, ServiceData } from '@/data/servicesData';
+
+export default function AdminServicesEditor() {
+  const [services, setServicesState] = useState<ServiceData[]>([]);
+  const [editingService, setEditingService] = useState<ServiceData | null>(null);
+  const [saveMessage, setSaveMessage] = useState('');
+
+  useEffect(() => {
+    setServicesState(getServices());
+  }, []);
+
+  const handleEdit = (svc: ServiceData) => {
+    setEditingService({ ...svc });
+  };
+
+  const handleFieldChange = (field: keyof ServiceData, value: string) => {
+    if (!editingService) return;
+    setEditingService({ ...editingService, [field]: value });
+  };
+
+  const handleSave = () => {
+    if (!editingService) return;
+
+    if (isCustomService(editingService.key)) {
+      // For custom services: delete the old version, add the updated one
+      deleteService(editingService.key);
+      addService(editingService);
+    } else {
+      // For default services: save as overrides
+      const updated = services.map((s) =>
+        s.key === editingService.key ? editingService : s
+      );
+      saveServices(updated);
+    }
+
+    setServicesState(getServices());
+    setEditingService(null);
+    setSaveMessage('Service updated successfully!');
+    setTimeout(() => setSaveMessage(''), 3000);
+  };
+
+  const handleResetOne = (key: string) => {
+    resetService(key);
+    setServicesState(getServices());
+    setSaveMessage(`Service "${key}" reset to defaults.`);
+    setTimeout(() => setSaveMessage(''), 3000);
+  };
+
+  const handleResetAll = () => {
+    if (!confirm('Reset ALL services to defaults? This will also remove any custom services. This cannot be undone.')) return;
+    resetAllServices();
+    setServicesState(getServices());
+    setSaveMessage('All services reset to defaults.');
+    setTimeout(() => setSaveMessage(''), 3000);
+  };
+
+  const handleAddNew = () => {
+    const newKey = `custom_${Date.now()}`;
+    const newService: ServiceData = {
+      key: newKey,
+      title: 'New Service',
+      image: '/images/services/Procurement.webp',
+      bgColor: 'rgba(100, 100, 200, 0.2)',
+      textColor: '#1A1A3D',
+      headerColor: '#6464C8',
+      description: 'Describe your new service here.',
+      left: 0, top: 365, pillLeft: 0, pillLabelLeft: 0, pillLabelTop: 751, pillLabelWidth: 190, pillLabelHeight: 74,
+    };
+    addService(newService);
+    setServicesState(getServices());
+    // Immediately open the edit modal for the new service
+    setEditingService({ ...newService });
+    setSaveMessage('New service created! Edit the details below.');
+    setTimeout(() => setSaveMessage(''), 3000);
+  };
+
+  const handleDelete = (key: string) => {
+    if (!confirm('Delete this custom service? This cannot be undone.')) return;
+    deleteService(key);
+    setServicesState(getServices());
+    setSaveMessage('Custom service deleted.');
+    setTimeout(() => setSaveMessage(''), 3000);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="glass-dashboard-card rounded-3xl p-6 shadow-xl">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-white/10 dark:border-white/5">
+          <div>
+            <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">
+              Service Editor
+            </h2>
+            <p className="text-xs text-slate-400 mt-1">
+              Edit service names, descriptions, images, and colors. Changes apply across the entire website.
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <button
+              onClick={handleAddNew}
+              className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow-md shadow-amber-500/10 transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+              </svg>
+              Add New Service
+            </button>
+            <button
+              onClick={handleResetAll}
+              className="px-4 py-2 border border-red-400/30 text-red-500 text-xs font-bold rounded-xl hover:bg-red-500/10 transition-colors"
+            >
+              Reset All to Defaults
+            </button>
+          </div>
+        </div>
+
+        {/* Success Message */}
+        {saveMessage && (
+          <div className="mt-4 p-3 bg-green-500/10 border border-green-500/20 rounded-xl text-xs font-bold text-green-600 dark:text-green-400 animate-fade-in">
+            ✓ {saveMessage}
+          </div>
+        )}
+
+        {/* Service Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
+          {services.map((svc) => (
+            <div
+              key={svc.key}
+              className="group relative p-5 bg-white/10 dark:bg-slate-950/20 border border-white/10 dark:border-white/5 rounded-2xl hover:bg-white/15 dark:hover:bg-slate-950/30 transition-all duration-200"
+            >
+              {/* Service Image Preview */}
+              <div className="relative w-full h-40 rounded-xl overflow-hidden mb-4 bg-slate-100 dark:bg-slate-900">
+                <Image
+                  src={svc.image}
+                  alt={svc.title}
+                  fill
+                  className="object-contain"
+                  sizes="300px"
+                />
+              </div>
+
+              {/* Service Info */}
+              <h3 className="text-sm font-black text-slate-800 dark:text-white mb-1 line-clamp-2">
+                {svc.title}
+              </h3>
+              <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-3">
+                Key: {svc.key}
+              </p>
+
+              {/* Color Preview Dots */}
+              <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-1.5">
+                  <div
+                    className="w-4 h-4 rounded-full border border-white/20"
+                    style={{ backgroundColor: svc.headerColor }}
+                    title="Header Color"
+                  />
+                  <span className="text-[9px] text-slate-400">Header</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div
+                    className="w-4 h-4 rounded-full border border-white/20"
+                    style={{ backgroundColor: svc.textColor }}
+                    title="Text Color"
+                  />
+                  <span className="text-[9px] text-slate-400">Text</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div
+                    className="w-4 h-4 rounded-full border border-white/20"
+                    style={{ backgroundColor: svc.bgColor }}
+                    title="Background Color"
+                  />
+                  <span className="text-[9px] text-slate-400">BG</span>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleEdit(svc)}
+                  className="flex-1 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 text-[10px] font-bold rounded-xl border border-amber-500/25 transition-all cursor-pointer"
+                >
+                  ✏️ Edit Service
+                </button>
+                {isCustomService(svc.key) ? (
+                  <button
+                    onClick={() => handleDelete(svc.key)}
+                    className="px-3 py-2 border border-red-400/20 text-[10px] font-bold rounded-xl text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors cursor-pointer"
+                  >
+                    🗑️ Delete
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleResetOne(svc.key)}
+                    className="px-3 py-2 border border-slate-300/20 dark:border-slate-700/30 text-[10px] font-bold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-white/10 transition-colors cursor-pointer"
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Edit Modal */}
+      {editingService && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div
+            className="glass-dashboard-card w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl p-6 sm:p-8 border border-white/10 dark:border-white/5 shadow-2xl relative animate-scale-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close */}
+            <button
+              onClick={() => setEditingService(null)}
+              className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-white/10 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <h3 className="text-lg font-extrabold text-slate-900 dark:text-white mb-6 border-b border-white/10 pb-4">
+              Edit: {editingService.title}
+            </h3>
+
+            <div className="space-y-5">
+              {/* Title */}
+              <div>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  Service Title
+                </label>
+                <input
+                  type="text"
+                  value={editingService.title}
+                  onChange={(e) => handleFieldChange('title', e.target.value)}
+                  className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+              </div>
+
+              {/* Image Path */}
+              <div>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  Image Path / URL
+                </label>
+                <input
+                  type="text"
+                  value={editingService.image}
+                  onChange={(e) => handleFieldChange('image', e.target.value)}
+                  className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+                {/* Live Image Preview */}
+                <div className="mt-2 relative w-full h-32 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-white/5">
+                  <Image
+                    src={editingService.image}
+                    alt="Preview"
+                    fill
+                    className="object-contain"
+                    sizes="300px"
+                  />
+                </div>
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  Description
+                </label>
+                <textarea
+                  value={editingService.description}
+                  onChange={(e) => handleFieldChange('description', e.target.value)}
+                  rows={8}
+                  className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 resize-y"
+                />
+              </div>
+
+              {/* Colors Row */}
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                    Header Color
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={editingService.headerColor}
+                      onChange={(e) => handleFieldChange('headerColor', e.target.value)}
+                      className="w-10 h-10 rounded-lg border-0 cursor-pointer"
+                    />
+                    <input
+                      type="text"
+                      value={editingService.headerColor}
+                      onChange={(e) => handleFieldChange('headerColor', e.target.value)}
+                      className="flex-1 bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-[10px] text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                    Text Color
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={editingService.textColor}
+                      onChange={(e) => handleFieldChange('textColor', e.target.value)}
+                      className="w-10 h-10 rounded-lg border-0 cursor-pointer"
+                    />
+                    <input
+                      type="text"
+                      value={editingService.textColor}
+                      onChange={(e) => handleFieldChange('textColor', e.target.value)}
+                      className="flex-1 bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-[10px] text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                    Background Color
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={editingService.bgColor}
+                      onChange={(e) => handleFieldChange('bgColor', e.target.value)}
+                      placeholder="rgba(63, 166, 114, 0.2)"
+                      className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-[10px] text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
+                <button
+                  onClick={() => setEditingService(null)}
+                  className="px-5 py-2.5 border border-slate-300 dark:border-slate-700 text-xs font-bold rounded-xl text-slate-700 dark:text-slate-300 hover:bg-white/10 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSave}
+                  className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow-md shadow-amber-500/10 transition-all"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

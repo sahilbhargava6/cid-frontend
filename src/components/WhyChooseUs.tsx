@@ -14,7 +14,7 @@ export default function WhyChooseUs() {
             className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight"
             style={{ color: "#0E2D53", fontFamily: "var(--font-heading)" }}
           >
-            Why Smart Businesses Work With Us
+            Why Smart People Work With Us
           </h2>
           <div className="w-16 h-1 bg-[#E85D3A] mx-auto rounded-full" />
         </div>
@@ -31,21 +31,21 @@ export default function WhyChooseUs() {
           >
             {/* Background glowing circle */}
             <div className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-[#E85D3A]/5 blur-2xl group-hover:bg-[#E85D3A]/10 transition-colors duration-500" />
-            
+
             <div className="w-16 h-16 rounded-2xl bg-[#E85D3A]/10 flex items-center justify-center text-3xl mb-6 shadow-sm">
               💼
             </div>
-            
+
             <h3
               className="text-xl md:text-2xl font-bold mb-4 tracking-tight"
               style={{ color: "#E85D3A" }}
             >
-              We Handle The Details.
+              You Plan - We Implement
             </h3>
             <p
               className="text-sm md:text-base leading-relaxed font-bold max-w-sm text-[#0E2D53]"
             >
-              Accurate bookkeeping, tax optimization, and financial clarity without the headaches.
+              Home Improvement,Household Procurements,Tax Preparation, Miscellaneous
             </p>
           </div>
 
@@ -67,12 +67,17 @@ export default function WhyChooseUs() {
                   className="text-base md:text-lg font-bold mb-2 tracking-tight"
                   style={{ color: "#2d6fa3" }}
                 >
-                  Less Stress. More Growth.
+                  You Save - We Shine
                 </h4>
                 <p
                   className="text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]"
                 >
-                  Spend less time managing back-office tasks and more time building your business.
+                  <ol className="list-decimal pl-5">
+                    <li> Biggest bang for your buck </li>
+                    <li> Unbeatable value</li>
+                    <li> More for less</li>
+                  </ol>
+
                 </p>
               </div>
             </div>
@@ -92,12 +97,17 @@ export default function WhyChooseUs() {
                   className="text-base md:text-lg font-bold mb-2 tracking-tight"
                   style={{ color: "#2d6fa3" }}
                 >
-                  Smarter Decisions, Better Results.
+                  You Decide - We Execute
                 </h4>
                 <p
                   className="text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]"
                 >
-                  Actionable insights, optimized workflows, and strategic recommendations that drive growth.
+                  <ol className="list-decimal pl-5">
+                    <li> Make the right call for right results </li>
+                    <li> Think smart , win big</li>
+                    <li> Help us to help you</li>
+                  </ol>
+
                 </p>
               </div>
             </div>

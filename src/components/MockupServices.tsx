@@ -3,44 +3,7 @@
 import Image from "next/image";
 import React, { useRef, useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-
-const services = [
-  {
-    title: "Procurement & Sourcing Services",
-    image: "/images/services/Procurement.webp",
-    param: "procurement",
-    bgColor: "#DCEFE9",
-    textColor: "#1A4337"
-  },
-  {
-    title: "Small Business Management Solutions",
-    image: "/images/services/business.webp",
-    param: "accounts_and_logistics",
-    bgColor: "#FDE2DC",
-    textColor: "#612117"
-  },
-  {
-    title: "Tax Preparation & Resolution",
-    image: "/images/services/tax.webp",
-    param: "tax_prep",
-    bgColor: "#D6E7F4",
-    textColor: "#1E415F"
-  },
-  {
-    title: "Solar Energy Solutions",
-    image: "/images/services/solar.webp",
-    param: "solar",
-    bgColor: "#FADCE6",
-    textColor: "#621E36"
-  },
-  {
-    title: "Virtual Bookkeeping",
-    image: "/images/services/bookkeeping.webp",
-    param: "virtual_bookkeeping",
-    bgColor: "#DCEFE9",
-    textColor: "#1A4337"
-  }
-];
+import { getServices, ServiceData } from "@/data/servicesData";
 
 function ThreeCard({ imageUrl, title }: { imageUrl: string; title: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -122,9 +85,11 @@ export default function MockupServices() {
   const auth = useAuth();
   const user = auth ? auth.user : null;
   const [mounted, setMounted] = useState(false);
+  const [services, setServices] = useState<ServiceData[]>([]);
 
   useEffect(() => {
     setMounted(true);
+    setServices(getServices());
   }, []);
 
   const getBookingUrl = (param: string) => {
@@ -162,7 +127,7 @@ export default function MockupServices() {
             {services.map((service, index) => (
               <a
                 key={index}
-                href={getBookingUrl(service.param)}
+                href={getBookingUrl(service.key)}
                 className="flex flex-col items-center group cursor-pointer w-full"
               >
                 {/* Illustration Card Image */}
@@ -187,8 +152,8 @@ export default function MockupServices() {
                   <div 
                     className="w-full text-center py-4 px-3 rounded-[20px] text-[13px] sm:text-[14px] font-extrabold flex items-center justify-center leading-snug shadow-sm select-none min-h-[76px] transition-transform duration-300 group-hover:scale-[1.03]"
                     style={{
-                      backgroundColor: service.bgColor,
-                      color: service.textColor,
+                      backgroundColor: service.bgColor || '#DCEFE9',
+                      color: service.textColor || '#1A4337',
                     }}
                   >
                     <span>

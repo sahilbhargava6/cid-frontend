@@ -20,6 +20,9 @@ export default function AdminDashboard() {
   const [editStatus, setEditStatus] = useState<string>('');
   const [editPaymentStatus, setEditPaymentStatus] = useState<string>('');
   const [editPrice, setEditPrice] = useState<string>('');
+  const [editServiceType, setEditServiceType] = useState<string>('');
+  const [editDate, setEditDate] = useState<string>('');
+  const [editTime, setEditTime] = useState<string>('09:00 AM');
   const [saving, setSaving] = useState(false);
 
   const loadDashboardData = async () => {
@@ -42,17 +45,62 @@ export default function AdminDashboard() {
     setEditStatus(booking.status);
     setEditPaymentStatus(booking.payment_status);
     setEditPrice(booking.price || '0.00');
+    setEditServiceType(booking.service_type);
+    
+    // Parse scheduled_at for date and time slot
+    if (booking.scheduled_at) {
+      try {
+        const parts = booking.scheduled_at.split(' ');
+        if (parts.length >= 2) {
+          setEditDate(parts[0]);
+          const [hStr, mStr] = parts[1].split(':');
+          let h = parseInt(hStr, 10);
+          let ampm = 'AM';
+          if (h >= 12) {
+            ampm = 'PM';
+            if (h > 12) h -= 12;
+          }
+          if (h === 0) {
+            h = 12;
+          }
+          setEditTime(`${String(h).padStart(2, '0')}:${mStr} ${ampm}`);
+        }
+      } catch (e) {
+        console.error("Error parsing scheduled_at:", e);
+      }
+    } else {
+      setEditDate('');
+      setEditTime('09:00 AM');
+    }
   };
 
   const handleSaveChanges = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedBooking) return;
     setSaving(true);
+
+    let hours = "09";
+    let minutes = "00";
+    try {
+      const [timeStr, modifier] = editTime.split(" ");
+      const [h, m] = timeStr.split(":");
+      let hNum = parseInt(h, 10);
+      if (modifier === "PM" && hNum !== 12) hNum += 12;
+      if (modifier === "AM" && hNum === 12) hNum = 0;
+      hours = String(hNum).padStart(2, "0");
+      minutes = m.padStart(2, "0");
+    } catch (e) {
+      console.error("Error formatting time for update:", e);
+    }
+    const formattedScheduledAt = editDate ? `${editDate} ${hours}:${minutes}:00` : selectedBooking.scheduled_at;
+
     try {
       const updated = await bookingService.updateBooking(selectedBooking.id, {
         status: editStatus as any,
         payment_status: editPaymentStatus as any,
         price: editPrice,
+        service_type: editServiceType as any,
+        scheduled_at: formattedScheduledAt,
       });
       
       // Update local booking states
@@ -270,9 +318,9 @@ export default function AdminDashboard() {
 
                 {/* Edit / Management Form */}
                 <form onSubmit={handleSaveChanges} className="space-y-4 border-t border-white/10 pt-4">
-                  <h4 className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Update Status & Billing</h4>
+                  <h4 className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Update Status, Rescheduling & Billing</h4>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Work Status</label>
                       <select 
@@ -309,6 +357,45 @@ export default function AdminDashboard() {
                         onChange={(e) => setEditPrice(e.target.value)}
                         className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
                       />
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Service Type</label>
+                      <select 
+                        value={editServiceType}
+                        onChange={(e) => setEditServiceType(e.target.value)}
+                        className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                      >
+                        <option value="tax_prep">Tax Prep</option>
+                        <option value="bookkeeping">Virtual Bookkeeping</option>
+                        <option value="small_business">Small Business Management</option>
+                        <option value="solar">Solar Energy</option>
+                        <option value="procurement">Procurement & Sourcing</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Reschedule Date</label>
+                      <input 
+                        type="date"
+                        value={editDate}
+                        onChange={(e) => setEditDate(e.target.value)}
+                        className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Reschedule Time Slot</label>
+                      <select 
+                        value={editTime}
+                        onChange={(e) => setEditTime(e.target.value)}
+                        className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                      >
+                        <option value="09:00 AM">09:00 AM (1 hr | $75)</option>
+                        <option value="11:30 AM">11:30 AM (1 hr | $75)</option>
+                        <option value="02:00 PM">02:00 PM (1.5 hr | $110)</option>
+                        <option value="04:30 PM">04:30 PM (1.5 hr | $110)</option>
+                      </select>
                     </div>
                   </div>
 

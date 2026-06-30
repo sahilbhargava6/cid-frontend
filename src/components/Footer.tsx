@@ -3,14 +3,12 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { getServices } from "@/data/servicesData";
 
-const serviceLinks = [
-  { label: "Tax Preparation", href: "/services/tax_prep" },
-  { label: "Virtual Bookkeeping", href: "/services/virtual_bookkeeping" },
-  { label: "Home Solar Systems", href: "/services/solar" },
-  { label: "Business Accounts & Logistics", href: "/services/accounts_and_logistics" },
-  { label: "Procurement Services", href: "/services/procurement" },
-];
+const serviceLinks = getServices().map((s) => ({
+  label: s.title,
+  href: `/services/${s.key}`,
+}));
 
 const companyLinks = [
   { label: "About Us", href: "/about" },
