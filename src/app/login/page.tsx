@@ -21,8 +21,8 @@ function LoginContent() {
     } catch (err: any) {
       console.error('Login error:', err);
       setError(
-        err.response?.data?.message || 
-        err.response?.data?.errors?.email?.[0] || 
+        err.response?.data?.message ||
+        err.response?.data?.errors?.email?.[0] ||
         'Invalid credentials. Please try again.'
       );
     }
@@ -34,9 +34,9 @@ function LoginContent() {
   return (
     <div className="glass-dashboard-bg glass-dashboard-container flex items-center justify-center px-4 transition-colors duration-300">
       {/* Background overlay is provided by glass-dashboard-container::before */}
-      
+
       <div className="glass-dashboard-card w-full max-w-md p-8 rounded-2xl border relative z-10 transition-all duration-300">
-        
+
         {/* Logo and Header */}
         <div className="flex flex-col items-center mb-8">
           <Image src="/images/logo.webp" alt="Consider It Done Logo" width={64} height={64} className="h-16 w-auto object-contain mb-4 filter drop-shadow-sm" priority />
@@ -60,7 +60,7 @@ function LoginContent() {
             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
               Email Address
             </label>
-            <input 
+            <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -76,7 +76,7 @@ function LoginContent() {
                 Password
               </label>
             </div>
-            <input 
+            <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -86,7 +86,7 @@ function LoginContent() {
             />
           </div>
 
-          <button 
+          <button
             type="submit"
             disabled={loading}
             className="w-full bg-amber-500 hover:bg-amber-600 active:scale-[0.98] disabled:opacity-50 text-white rounded-xl py-3 text-sm font-bold shadow-lg shadow-amber-500/20 transition-all duration-200 mt-6 cursor-pointer"
@@ -108,9 +108,6 @@ function LoginContent() {
         <div className="mt-6 pt-6 border-t border-slate-200/50 dark:border-slate-700/30 text-center text-xs text-slate-500 dark:text-slate-400">
           <p className="font-medium">
             Demo Credentials:
-          </p>
-          <p className="mt-1 text-slate-600 dark:text-slate-300 font-bold">
-            admin@consideritdone.com / Password123
           </p>
         </div>
 
