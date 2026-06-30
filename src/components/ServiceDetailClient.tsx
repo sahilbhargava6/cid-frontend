@@ -23,7 +23,7 @@ const serviceDetailsData: Record<string, ServiceDetail> = {
     bgColor: "rgba(63, 166, 114, 0.2)",
     textColor: "#0D2B1A",
     headerColor: "#3FA672",
-    description: `Find a Vendor Negotiation & Cost Optimization: looking to buy a car or any large household item and do not want to haggle - Our Experts leverage supply chain knowledge to negotiate the best rates and quality for items, ensuring you get the right products at the right time without overpaying.
+    description: `· Vendor Negotiation & Cost Optimization: Looking to buy a car or any large household item and do not want to haggle? Our Experts leverage supply chain knowledge to negotiate the best rates and quality for items, ensuring you get the right products at the right time without overpaying.
 · Personalized Errand Services: Dedicated assistants can manage your weekly grocery shopping, pick up prescriptions at local pharmacies, and handle routine post office tasks right in the Lake Hopatcong area.
 · Specialized Product Sourcing: Need a specific mobility aid, home medical equipment, or hard-to-find household item? Professionals can source, negotiate prices, and arrange delivery directly to your door.
 · Home Setup and Management: Sourcing services can help procure household services such as meal preparation, light housekeeping, and professional organizing tailored specifically to your lifestyle and physical needs.
@@ -35,21 +35,23 @@ const serviceDetailsData: Record<string, ServiceDetail> = {
     bgColor: "rgba(232, 80, 58, 0.2)",
     textColor: "#5C1A0F",
     headerColor: "#E8503A",
-    description: `· Administrative Support: Free up your business by outsourcing email management, scheduling, document preparation, and customer correspondence to our professional administrative team.
-· Workflow Optimization: We audit your business workflows, install modern SaaS tools, automate repetitive tasks, and design SOPs to make operations run smoothly and efficiently.
-· Logistics Coordination: Handling dispatching, inventory count tracking, freight negotiations, and third-party warehouse communications to keep your supply chain moving.
-· Invoicing & Billing: Setting up clean invoicing schedules, chasing overdue accounts, and integrating payment processors like Stripe or QuickBooks for seamless cashflow management.`,
+    description: `· Insufficient Capital and Cash Flow: Many businesses close their doors simply because they run out of contingency cash or face poor cash flow. Balancing incoming revenue with expenses requires meticulous tracking to avoid sinking.
+· Difficulty Finding and Keeping Customers: Standing out in a crowded market and maintaining a steady stream of clients is a persistent struggle.
+· Rising Costs and Complexities: Coping with inflation, shifting economic conditions, and the need to integrate costly software can overwhelm limited operational bandwidth.
+· Attracting and Retaining Key Talent: Competing for skilled employees is tough. Small businesses must focus on building a unique company culture to make up for lacking the resources of larger corporations.
+· Stagnating Growth and Scalability: Many businesses get stuck relying on the same small pool of existing customers. Successfully scaling up requires clear planning, better Biz2Credit strategies, and overcoming fragmented fulfillment.`,
   },
   tax_prep: {
-    title: "Tax Preparation & Resolution",
+    title: "Tax Preparation & Resolution for Individuals and LLCs",
     image: "/images/services/tax.webp",
     bgColor: "rgba(45, 111, 163, 0.2)",
     textColor: "#0A1E35",
     headerColor: "#2D6FA3",
-    description: `· Federal & State Filings: Professional year-end tax returns preparation for individuals, partnerships, LLCs, and corporations, ensuring absolute compliance with all tax codes.
-· Proactive Deductions Planning: Custom analysis of your business expenses, investments, and structures to legally minimize tax liabilities and maximize write-offs.
-· IRS Representation: Active support in responding to IRS notices, back-tax negotiations, installment agreements, and complete audit protection.
-· Corporate Structuring: Helping you choose and transition to the most tax-efficient business structures (e.g. S-Corp election) for your long-term growth.`,
+    description: `· Separate your personal and business finances immediately. Maintain dedicated bank accounts and credit cards for your LLC to preserve your limited liability protection.
+· Track every potential deduction with digital receipts. Capture expenses like home office costs, vehicle mileage, and equipment purchases using apps like QuickBooks Online or Expensify.
+· Calculate and pay your quarterly estimated taxes. Avoid underpayment penalties by submitting quarterly payments to the IRS and state via the IRS EFTPS portal.
+· Choose the optimal tax classification for your LLC. Evaluate whether filing as a Sole Proprietor, Partnership, S-Corp, or C-Corp minimizes your self-employment tax burden.
+· Gather all annual tax documentation early. Collect forms like W-2s, 1099s, K-1s, and business financial statements before scheduling time with a tax professional.`,
   },
   solar: {
     title: "Solar Energy Solutions",
@@ -57,10 +59,13 @@ const serviceDetailsData: Record<string, ServiceDetail> = {
     bgColor: "rgba(232, 114, 140, 0.2)",
     textColor: "#3D0A1E",
     headerColor: "#E8728C",
-    description: `· Custom Panel System Designs: Engineering state-of-the-art rooftop solar layouts custom-fit for your property's structure and sun exposure.
-· Energy Savings Audit: Deep historical utility bill analysis to calculate your exact return on investment and payback period before signing.
-· Net Metering Integration: Setting up net energy metering (NEM) so you can sell excess solar electricity back to the utility grid for credit.
-· Local Rebates & Incentives: Managing federal tax credits (ITC), state solar rebates, and property tax exemptions for maximum savings.`,
+    description: `Have questions about Solar Energy Solutions? We can answer all questions you have about Solar and clear any misconceptions you have:
+· Are they really free?
+· Do they increase property taxes?
+· Do they work during blackouts?
+· Is there still a federal tax credit?
+
+Our team provides expert guidance on residential and commercial solar installations, helping you understand the true costs, savings, and incentives available in your area.`,
   },
   virtual_bookkeeping: {
     title: "Virtual Bookkeeping",
@@ -68,10 +73,10 @@ const serviceDetailsData: Record<string, ServiceDetail> = {
     bgColor: "rgba(63, 166, 114, 0.2)",
     textColor: "#0D2B1A",
     headerColor: "#3FA672",
-    description: `· Transaction Tracking: Importing, categorizing, and matching all bank and credit card transactions to keep your general ledger updated and accurate.
-· Account Reconciliations: Monthly reconciliation of cash accounts, credit cards, merchant processors (PayPal/Square), and business loans.
-· Financial Statements: Delivering clean, easy-to-read Balance Sheets, Income Statements, and Cash Flow Reports on the 5th of every month.
-· Year-End CPA Packaging: Exporting organized ledgers and receipts packages directly to your tax accountant for a painless filing experience.`,
+    description: `· Leverage accountant-specific software versions. Use dedicated platforms like QuickBooks Online Accountant or Xero HQ to manage multiple client files from a single dashboard.
+· Charge fixed monthly value pricing. Avoid hourly billing by charging flat monthly fees based on transaction volume and the number of bank accounts you reconcile.
+· Implement a strict security protocol. Secure client bank data by using password managers like 1Password and requiring multi-factor authentication (MFA) on all financial accounts.
+· Establish strict document collection deadlines. Inform clients that missing receipts or statements not uploaded to portals like Hubdoc by your monthly cutoff will delay their financial reporting.`,
   }
 };
 
