@@ -9,32 +9,37 @@ const services = [
     title: "Procurement & Sourcing Services",
     image: "/images/services/Procurement.webp",
     param: "procurement",
+    bgColor: "#DCEFE9",
+    textColor: "#1A4337"
   },
   {
     title: "Small Business Management Solutions",
     image: "/images/services/business.webp",
     param: "accounts_and_logistics",
+    bgColor: "#FDE2DC",
+    textColor: "#612117"
   },
   {
     title: "Tax Preparation & Resolution",
     image: "/images/services/tax.webp",
     param: "tax_prep",
+    bgColor: "#D6E7F4",
+    textColor: "#1E415F"
   },
   {
     title: "Solar Energy Solutions",
     image: "/images/services/solar.webp",
     param: "solar",
+    bgColor: "#FADCE6",
+    textColor: "#621E36"
   },
   {
     title: "Virtual Bookkeeping",
     image: "/images/services/bookkeeping.webp",
     param: "virtual_bookkeeping",
-  },
-  {
-    title: "Business Growth & Process Optimization",
-    image: "/images/services/gwoth.webp",
-    param: "accounts_and_logistics",
-  },
+    bgColor: "#DCEFE9",
+    textColor: "#1A4337"
+  }
 ];
 
 function ThreeCard({ imageUrl, title }: { imageUrl: string; title: string }) {
@@ -51,7 +56,6 @@ function ThreeCard({ imageUrl, title }: { imageUrl: string; title: string }) {
     const midX = rect.width / 2;
     const midY = rect.height / 2;
     
-    // Smooth responsive tilt multiplier
     const rotX = -((y - midY) / midY) * 12;
     const rotY = ((x - midX) / midX) * 12;
     
@@ -71,45 +75,42 @@ function ThreeCard({ imageUrl, title }: { imageUrl: string; title: string }) {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      className="w-full h-full relative cursor-pointer select-none flex items-center justify-center p-4 transition-all duration-300"
+      className="w-full h-full relative cursor-pointer select-none flex items-center justify-center p-2 transition-all duration-300"
       style={{
         perspective: "1000px",
       }}
     >
       <div
-        className="relative w-[240px] h-[240px] rounded-2xl transition-transform duration-200 ease-out"
+        className="relative w-full aspect-square rounded-[20px] transition-transform duration-200 ease-out"
         style={{
-          transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${isHovered ? 1.05 : 1})`,
+          transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${isHovered ? 1.04 : 1})`,
           transformStyle: "preserve-3d",
         }}
       >
-        {/* Subtle glowing shadow backing */}
         <div
-          className={`absolute -inset-2 rounded-3xl bg-[#2d6fa3]/10 blur-xl transition-opacity duration-500 pointer-events-none ${
+          className={`absolute -inset-1 rounded-[24px] bg-[#2d6fa3]/10 blur-md transition-opacity duration-500 pointer-events-none ${
             isHovered ? "opacity-100" : "opacity-0"
           }`}
           style={{
-            transform: "translateZ(-20px)",
+            transform: "translateZ(-15px)",
           }}
         />
         
-        {/* Main Service Card Image */}
         <Image
           src={imageUrl}
           alt={title}
           fill
-          sizes="250px"
+          sizes="280px"
           priority
-          className="object-contain drop-shadow-[0_12px_24px_rgba(15,17,23,0.12)] pointer-events-none"
+          className="object-cover rounded-[20px] pointer-events-none"
         />
 
-        {/* Dynamic glare highlight layer */}
         <div
-          className={`absolute inset-0 rounded-2xl pointer-events-none transition-opacity duration-300 bg-gradient-to-tr from-white/0 via-white/10 to-white/20 mix-blend-overlay ${
+          className={`absolute inset-0 rounded-[20px] pointer-events-none transition-opacity duration-300 bg-gradient-to-tr from-white/0 via-white/5 to-white/15 mix-blend-overlay ${
             isHovered ? "opacity-100" : "opacity-0"
           }`}
           style={{
-            transform: "translateZ(10px)",
+            transform: "translateZ(5px)",
           }}
         />
       </div>
@@ -133,70 +134,73 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="py-16 bg-transparent overflow-hidden"
+      className="relative py-24 overflow-hidden bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: "url('/images/hero.webp')"
+      }}
     >
-      <div className="max-w-[1700px] mx-auto px-4 sm:px-6">
-        
-        {/* Header section */}
-        <div className="text-center mb-12">
-          <h2
-            className="text-2xl md:text-3xl font-extrabold mb-4 tracking-tight"
-            style={{ color: "#591B1B", fontFamily: "var(--font-heading)" }}
-          >
-            One partner for your business essentials.
-          </h2>
-          <p
-            className="max-w-4xl mx-auto text-xs sm:text-[13px] leading-relaxed font-bold"
-            style={{ color: "#E07A6B" }}
-          >
-            Whether it&apos;s managing finances, sourcing products, optimizing operations, or reducing energy costs, we provide practical solutions that keep your business moving forward.
-          </p>
-        </div>
+      {/* Semi-transparent white overlay to fade characters like in design */}
+      <div className="absolute inset-0 bg-white/85 backdrop-blur-[2px] z-0 pointer-events-none" />
 
-        {/* Responsive grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 lg:gap-5 pb-6">
-          {services.map((service, index) => (
-            <a
-              key={index}
-              href={getBookingUrl(service.param)}
-              className="flex flex-col items-center group cursor-pointer w-full"
+      <div className="relative max-w-7xl mx-auto px-6 sm:px-8 z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          {/* Left Title Area */}
+          <div className="lg:col-span-2">
+            <h2
+              className="text-4xl md:text-5xl font-black tracking-tight text-[#111827] text-left lg:text-left leading-none"
+              style={{
+                fontFamily: "var(--font-heading)",
+              }}
             >
-              {/* Illustration Card Image Container (Responsive Square) */}
-              <div 
-                className="w-full aspect-square rounded-[18px] sm:rounded-[24px] overflow-hidden relative border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-transform duration-300 group-hover:scale-[1.03] group-hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] bg-[#FAFAF8]"
+              Services
+            </h2>
+          </div>
+
+          {/* Right Cards Row (5 Cards) */}
+          <div className="lg:col-span-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
+            {services.map((service, index) => (
+              <a
+                key={index}
+                href={getBookingUrl(service.param)}
+                className="flex flex-col items-center group cursor-pointer w-full"
               >
-                {mounted ? (
-                  <ThreeCard imageUrl={service.image} title={service.title} />
-                ) : (
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 17vw"
-                  />
-                )}
-              </div>
-
-              {/* Styled Title Label Pill with 3D Tilt Effect */}
-              <div className="mt-4 w-full h-[90px] sm:h-[110px] md:h-[95px] lg:h-[120px] xl:h-[140px] perspective-[500px]">
+                {/* Illustration Card Image */}
                 <div 
-                  className="w-full h-full text-center py-2 px-2.5 rounded-[16px] sm:rounded-[20px] text-xs sm:text-sm md:text-xs lg:text-sm xl:text-[18px] font-bold transition-all duration-300 ease-out group-hover:bg-[#C2E4DA] group-hover:[transform:rotateX(10deg)_rotateY(-10deg)] flex items-center justify-center leading-snug shadow-sm select-none"
-                  style={{
-                    backgroundColor: "#DCEFE9",
-                    color: "#2D6FA3",
-                    transformStyle: "preserve-3d",
-                  }}
+                  className="w-full aspect-square rounded-[24px] overflow-hidden relative border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.03)] bg-white"
                 >
-                  <span className="transition-transform duration-300 group-hover:[transform:translateZ(30px)] block">
-                    {service.title}
-                  </span>
+                  {mounted ? (
+                    <ThreeCard imageUrl={service.image} title={service.title} />
+                  ) : (
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className="object-cover rounded-[24px]"
+                      sizes="200px"
+                    />
+                  )}
                 </div>
-              </div>
-            </a>
-          ))}
-        </div>
 
+                {/* Styled Title Label Pill */}
+                <div className="mt-4 w-full">
+                  <div 
+                    className="w-full text-center py-4 px-3 rounded-[20px] text-[13px] sm:text-[14px] font-extrabold flex items-center justify-center leading-snug shadow-sm select-none min-h-[76px] transition-transform duration-300 group-hover:scale-[1.03]"
+                    style={{
+                      backgroundColor: service.bgColor,
+                      color: service.textColor,
+                    }}
+                  >
+                    <span>
+                      {service.title}
+                    </span>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+
+        </div>
       </div>
     </section>
   );
