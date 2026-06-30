@@ -157,7 +157,7 @@ export default function ServicesPage() {
   }, []);
 
   const activeData = activeService ? services.find(s => s.key === activeService) : null;
-  const canvasHeight = activeService ? 2000 : 1080;
+  const canvasHeight = activeService ? 1937 : 1080;
 
   return (
     <>
@@ -267,7 +267,7 @@ export default function ServicesPage() {
               {/* Back Button */}
               <button
                 onClick={() => setActiveService(null)}
-                className="absolute left-[166px] top-[330px] z-20 flex items-center gap-3 px-5 py-3 rounded-full transition-all duration-300 hover:bg-black/5 cursor-pointer group"
+                className="absolute left-[216px] top-[340px] z-20 flex items-center gap-3 px-5 py-3 rounded-full transition-all duration-300 hover:bg-black/5 cursor-pointer group"
               >
                 <svg className="w-6 h-6 transition-transform group-hover:-translate-x-1" style={{ color: activeData.headerColor }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -278,7 +278,7 @@ export default function ServicesPage() {
               </button>
 
               {/* Mini Thumbnails Row */}
-              <div className="absolute left-[500px] top-[330px] flex gap-3 z-20">
+              <div className="absolute left-[600px] top-[345px] flex gap-4 z-20">
                 {services.map((svc) => (
                   <button
                     key={`thumb-${svc.key}`}
@@ -300,51 +300,48 @@ export default function ServicesPage() {
                 ))}
               </div>
 
-              {/* Service Title */}
-              <h2
-                className="absolute left-[166px] top-[410px] font-bold text-[48px] leading-[58px] z-10"
-                style={{ fontFamily: "Inter, sans-serif", color: activeData.headerColor }}
-              >
-                {activeData.title}
-              </h2>
-
-              {/* Main Image Card */}
+              {/* Main Card Image (matches ServiceDetailClient: 577x577) */}
               <div
-                className="absolute left-[166px] top-[500px] w-[600px] h-[400px] rounded-[30px] overflow-hidden shadow-xl z-10"
+                className="absolute left-[216px] top-[500px] w-[577px] h-[577px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100/50 z-10 bg-white"
               >
                 <img
                   src={activeData.image}
                   alt={activeData.title}
                   className="w-full h-full object-cover"
                 />
-                {/* Title overlay backing */}
-                <div
-                  className="absolute bottom-0 left-0 right-0 h-[80px] flex items-center px-8 rounded-b-[30px]"
-                  style={{ backgroundColor: activeData.bgColor }}
-                >
-                  <span className="font-semibold text-[24px]" style={{ fontFamily: "Inter, sans-serif", color: activeData.textColor }}>
-                    {activeData.title}
-                  </span>
-                </div>
               </div>
 
-              {/* Book a Session */}
+              {/* Title Backing (Rectangle 6) */}
+              <div
+                className="absolute left-[994px] top-[595px] w-[662px] h-[123px] rounded-[30px] z-10"
+                style={{ backgroundColor: activeData.bgColor }}
+              />
+
+              {/* Title Text */}
+              <div
+                className="absolute left-[1019px] top-[632px] w-[613px] h-[44px] font-semibold text-[36px] leading-[44px] flex items-center justify-center text-center z-15"
+                style={{ fontFamily: "Inter, sans-serif", color: activeData.textColor }}
+              >
+                {activeData.title}
+              </div>
+
+              {/* Book a Session Title */}
               <h3
-                className="absolute left-[834px] top-[500px] font-semibold text-[40px] leading-[48px] z-10"
+                className="absolute left-[834px] top-[736px] w-[331px] h-[105px] font-semibold text-[40px] leading-[48px] flex items-center z-10"
                 style={{ fontFamily: "Inter, sans-serif", color: activeData.headerColor }}
               >
                 Book a Session
               </h3>
 
-              {/* Date Card Backing */}
+              {/* Date Card Backing (Rectangle 7) */}
               <div
-                className="absolute left-[834px] top-[570px] w-[870px] h-[236px] rounded-[30px] z-10"
+                className="absolute left-[834px] top-[841px] w-[870px] h-[236px] rounded-[30px] z-10"
                 style={{ backgroundColor: activeData.bgColor }}
               />
 
               {/* Find a Date Text */}
               <div
-                className="absolute left-[886px] top-[588px] font-light text-[32px] leading-[39px] flex items-center z-15"
+                className="absolute left-[886px] top-[859px] w-[695px] h-[84px] font-light text-[32px] leading-[39px] flex items-center z-15"
                 style={{ fontFamily: "Inter, sans-serif", color: activeData.textColor }}
               >
                 Find a Date
@@ -360,10 +357,9 @@ export default function ServicesPage() {
                       setSelectedWeek(dateVal);
                       setShowScheduler(true);
                     }}
-                    className="absolute w-[179px] h-[84px] font-light text-[32px] leading-[39px] flex items-center justify-center text-center cursor-pointer hover:bg-white/30 rounded-xl transition-colors duration-200 z-15 border border-transparent hover:border-white/10"
+                    className="absolute w-[179px] h-[84px] top-[945px] font-light text-[32px] leading-[39px] flex items-center justify-center text-center cursor-pointer hover:bg-white/30 rounded-xl transition-colors duration-200 z-15 border border-transparent hover:border-white/10"
                     style={{
                       left: `${leftCoords[index]}px`,
-                      top: "674px",
                       fontFamily: "Inter, sans-serif",
                       color: activeData.textColor
                     }}
@@ -375,25 +371,21 @@ export default function ServicesPage() {
 
               {/* Description Title */}
               <h3
-                className="absolute left-[166px] top-[940px] font-semibold text-[40px] leading-[48px] z-10"
+                className="absolute left-[216px] top-[1079px] w-[331px] h-[105px] font-semibold text-[40px] leading-[48px] flex items-center z-10"
                 style={{ fontFamily: "Inter, sans-serif", color: activeData.headerColor }}
               >
                 Description
               </h3>
 
-              {/* Description Box Backing */}
+              {/* Description Box Backing (Rectangle 8) */}
               <div
-                className="absolute left-[166px] top-[1020px] w-[1588px] rounded-[30px] z-10"
-                style={{
-                  backgroundColor: activeData.bgColor,
-                  minHeight: "500px",
-                  paddingBottom: "60px",
-                }}
+                className="absolute left-[216px] top-[1184px] w-[1488px] h-[716px] rounded-[30px] z-10"
+                style={{ backgroundColor: activeData.bgColor }}
               />
 
-              {/* Description Detailed Content */}
+              {/* Description Detailed Content Text */}
               <div
-                className="absolute left-[220px] top-[1050px] w-[1480px] font-light text-[26px] leading-[36px] z-15 pr-4"
+                className="absolute left-[273px] top-[1219px] w-[1386px] h-[637px] font-light text-[28px] leading-[38px] z-15 overflow-y-auto pr-4"
                 style={{ fontFamily: "Inter, sans-serif", color: activeData.textColor }}
               >
                 <BulletDescription
