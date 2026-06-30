@@ -82,7 +82,21 @@ function DashboardContent() {
       const performAutoBooking = async () => {
         setAutoBooking(true);
         try {
-          const formattedDate = `${dateParam} at ${timeParam}`;
+          let hours = "09";
+          let minutes = "00";
+          try {
+            const [timeStr, modifier] = timeParam.split(" ");
+            const [h, m] = timeStr.split(":");
+            let hNum = parseInt(h, 10);
+            if (modifier === "PM" && hNum !== 12) hNum += 12;
+            if (modifier === "AM" && hNum === 12) hNum = 0;
+            hours = String(hNum).padStart(2, "0");
+            minutes = m.padStart(2, "0");
+          } catch (e) {
+            console.error("Error parsing timeParam:", e);
+          }
+          const formattedDate = `${dateParam} ${hours}:${minutes}:00`;
+
           let mappedService = bookParam;
           if (bookParam === 'virtual_bookkeeping') mappedService = 'bookkeeping';
           if (bookParam === 'accounts_and_logistics') mappedService = 'small_business';
