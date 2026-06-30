@@ -81,6 +81,11 @@ export default function ServiceDetailClient({ service }: { service: string }) {
   const [scale, setScale] = useState(1);
   const [leftOffset, setLeftOffset] = useState(0);
 
+  const [showScheduler, setShowScheduler] = useState(false);
+  const [selectedWeek, setSelectedWeek] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
+
   const details = serviceDetailsData[service] || serviceDetailsData.procurement;
 
   const dashboardPath = user
@@ -106,7 +111,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
     <>
       <Navbar />
       <main 
-        className="w-full min-h-screen bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center pt-0"
+        className="w-full min-h-screen bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center pt-0 relative"
         style={{
           paddingBottom: `${(1937 - 1937 * scale)}px` // Prevent scaling clipping issues for 1937px canvas height
         }}
@@ -204,17 +209,17 @@ export default function ServiceDetailClient({ service }: { service: string }) {
           Find a Date
         </div>
 
-        {/* Date Options Links */}
+        {/* Date Options Buttons */}
         {["This Week", "6-12 July", "13-19 July", "20-26 July"].map((dateVal, index) => {
           const leftCoords = [886, 1076, 1266, 1475];
-          const bookingUrl = user 
-            ? `/dashboard?book=${service}&date=${encodeURIComponent(dateVal)}` 
-            : `/login?book=${service}&date=${encodeURIComponent(dateVal)}`;
           
           return (
-            <Link 
+            <button 
               key={dateVal}
-              href={bookingUrl}
+              onClick={() => {
+                setSelectedWeek(dateVal);
+                setShowScheduler(true);
+              }}
               className="absolute w-[179px] h-[84px] top-[945px] font-light text-[32px] leading-[39px] flex items-center justify-center text-center cursor-pointer hover:bg-white/30 rounded-xl transition-colors duration-200 z-15 border border-transparent hover:border-white/10"
               style={{
                 left: `${leftCoords[index]}px`,
@@ -223,7 +228,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
               }}
             >
               {dateVal}
-            </Link>
+            </button>
           );
         })}
 
@@ -258,6 +263,92 @@ export default function ServiceDetailClient({ service }: { service: string }) {
         </div>
 
       </div>
+
+      {/* Scheduler Modal Popup */}
+      {showScheduler && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
+          <div className="bg-white/95 border border-slate-200 shadow-2xl rounded-3xl p-8 max-w-md w-full relative animate-scale-in text-slate-800">
+            {/* Close Button */}
+            <button 
+              onClick={() => setShowScheduler(false)}
+              className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <h3 className="text-xl font-black text-slate-900 mb-2" style={{ fontFamily: "Inter, sans-serif" }}>
+              Schedule Session
+            </h3>
+            <p className="text-xs text-slate-500 mb-6 font-semibold" style={{ fontFamily: "Inter, sans-serif" }}>
+              Selected Week: {selectedWeek}
+            </p>
+
+            <div className="space-y-6">
+              {/* Date Input */}
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2" style={{ fontFamily: "Inter, sans-serif" }}>
+                  Select Date
+                </label>
+                <input 
+                  type="date"
+                  required
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-500 font-semibold"
+                  style={{ fontFamily: "Inter, sans-serif" }}
+                />
+              </div>
+
+              {/* Time Slots */}
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-3" style={{ fontFamily: "Inter, sans-serif" }}>
+                  Select Time Slot
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  {["09:00 AM", "11:30 AM", "02:00 PM", "04:30 PM"].map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => setSelectedTime(t)}
+                      className={`py-3 rounded-xl border font-bold text-xs transition-all duration-200 ${
+                        selectedTime === t
+                          ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-900/10"
+                          : "border-slate-200 bg-white hover:bg-slate-50 text-slate-700"
+                      }`}
+                      style={{ fontFamily: "Inter, sans-serif" }}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Proceed Button */}
+              <button
+                onClick={() => {
+                  if (!selectedDate || !selectedTime) {
+                    alert("Please select both a date and a time slot.");
+                    return;
+                  }
+                  // Redirect to login or dashboard
+                  const nextUrl = user
+                    ? `/dashboard?book=${service}&date=${selectedDate}&time=${encodeURIComponent(selectedTime)}&payment=true`
+                    : `/login?book=${service}&date=${selectedDate}&time=${encodeURIComponent(selectedTime)}&payment=true`;
+                  window.location.href = nextUrl;
+                }}
+                className="w-full py-4 text-white font-extrabold text-[16px] rounded-full shadow-md transition-all hover:scale-[1.01] active:scale-[0.99] mt-6"
+                style={{
+                  backgroundColor: details.headerColor,
+                  fontFamily: "Inter, sans-serif"
+                }}
+              >
+                Proceed to Payment
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
     <Footer />
   </>

@@ -37,6 +37,20 @@ function DashboardContent() {
   // Client Details / Chat Modal state
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
 
+  // Auto-booking and payment states
+  const [autoBooking, setAutoBooking] = useState(false);
+  const [createdBooking, setCreatedBooking] = useState<Booking | null>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+
+  // Credit Card Form States
+  const [cardName, setCardName] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cardCvc, setCardCvc] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal">("card");
+
   const loadDashboardData = async () => {
     try {
       const [bookingsData, docsData] = await Promise.all([
@@ -58,7 +72,41 @@ function DashboardContent() {
 
   useEffect(() => {
     const bookParam = searchParams.get('book');
-    if (bookParam) {
+    const dateParam = searchParams.get('date');
+    const timeParam = searchParams.get('time');
+    const paymentParam = searchParams.get('payment');
+
+    if (bookParam && dateParam && timeParam && paymentParam === 'true') {
+      if (autoBooking || createdBooking) return;
+      
+      const performAutoBooking = async () => {
+        setAutoBooking(true);
+        try {
+          const formattedDate = `${dateParam} at ${timeParam}`;
+          let mappedService = bookParam;
+          if (bookParam === 'virtual_bookkeeping') mappedService = 'bookkeeping';
+          if (bookParam === 'accounts_and_logistics') mappedService = 'small_business';
+
+          const response = await bookingService.createBooking({
+            service_type: mappedService as any,
+            scheduled_at: formattedDate,
+            input_parameters: { notes: "Auto-booked via page selection scheduler modal" }
+          });
+          setCreatedBooking(response);
+          setShowPaymentModal(true);
+          
+          // Clear query parameters from address bar to prevent duplicate bookings on refresh
+          window.history.replaceState({}, document.title, window.location.pathname);
+        } catch (error) {
+          console.error("Auto booking failed:", error);
+          alert("Failed to auto-create booking. Please try booking directly inside the portal.");
+        } finally {
+          setAutoBooking(false);
+        }
+      };
+
+      performAutoBooking();
+    } else if (bookParam) {
       if (['tax_prep', 'virtual_bookkeeping', 'solar', 'accounts_and_logistics', 'procurement'].includes(bookParam)) {
         setServiceType(bookParam as any);
         setIsWizardOpen(true);
@@ -667,6 +715,214 @@ function DashboardContent() {
               Live Chat & Document Exchange
             </h4>
             <ChatPanel ticketId={selectedBooking.id} />
+          </div>
+        </div>
+      )}
+      {/* PAYMENT OPTION MODAL */}
+      {showPaymentModal && createdBooking && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div 
+            className="glass-dashboard-card w-full max-w-md rounded-3xl p-6 sm:p-8 border border-white/10 dark:border-white/5 shadow-2xl relative animate-scale-in text-slate-800 dark:text-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button 
+              onClick={() => {
+                setShowPaymentModal(false);
+                setCreatedBooking(null);
+                setPaymentSuccess(false);
+              }}
+              className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-white/10 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2">
+              Payment Checkout
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">
+              Secure payment processing for your scheduled session
+            </p>
+
+            {paymentSuccess ? (
+              <div className="text-center py-6 space-y-4">
+                <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto text-green-500 border border-green-500/25">
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Payment Completed!</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Your booking #{createdBooking.id} is confirmed. An expert will reach out to you shortly.
+                </p>
+                <button
+                  onClick={() => {
+                    setShowPaymentModal(false);
+                    setCreatedBooking(null);
+                    setPaymentSuccess(false);
+                  }}
+                  className="px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-lg cursor-pointer mt-4"
+                >
+                  Close & View Dashboard
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {/* Summary Info */}
+                <div className="p-4 bg-slate-50 dark:bg-slate-950/40 rounded-2xl border border-slate-100 dark:border-white/5 space-y-2">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-500 dark:text-slate-400">Service</span>
+                    <span className="font-bold capitalize text-slate-800 dark:text-white">{createdBooking.service_type.replace(/_/g, ' ')}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-500 dark:text-slate-400">Scheduled At</span>
+                    <span className="font-bold text-slate-800 dark:text-white">{createdBooking.scheduled_at}</span>
+                  </div>
+                  <div className="border-t border-slate-200/50 dark:border-white/5 my-2 pt-2 flex justify-between items-center text-sm">
+                    <span className="text-slate-800 dark:text-slate-200 font-bold">Total Price</span>
+                    <span className="font-black text-amber-500">
+                      {createdBooking.price ? `$${createdBooking.price}` : (
+                        createdBooking.service_type === 'tax_prep' ? '$299.00' :
+                        createdBooking.service_type === 'bookkeeping' ? '$350.00' :
+                        createdBooking.service_type === 'small_business' ? '$1,200.00' :
+                        createdBooking.service_type === 'procurement' ? '$1,000.00' : 'Contact for Quote'
+                      )}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Tabs */}
+                <div className="flex bg-slate-100 dark:bg-slate-950/60 p-1.5 rounded-xl border border-slate-200/50 dark:border-white/5">
+                  <button
+                    onClick={() => setPaymentMethod("card")}
+                    className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
+                      paymentMethod === "card" ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
+                    }`}
+                  >
+                    Credit / Debit Card
+                  </button>
+                  <button
+                    onClick={() => setPaymentMethod("paypal")}
+                    className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
+                      paymentMethod === "paypal" ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
+                    }`}
+                  >
+                    PayPal / Wire
+                  </button>
+                </div>
+
+                {paymentMethod === "card" ? (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Cardholder Name</label>
+                      <input 
+                        type="text" 
+                        required
+                        value={cardName}
+                        onChange={(e) => setCardName(e.target.value)}
+                        placeholder="John Doe"
+                        className="w-full bg-white/10 dark:bg-slate-900/30 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Card Number</label>
+                      <input 
+                        type="text"
+                        required
+                        maxLength={19}
+                        value={cardNumber}
+                        onChange={(e) => setCardNumber(e.target.value.replace(/\s?/g, '').replace(/(\d{4})/g, '$1 ').trim())}
+                        placeholder="4111 2222 3333 4444"
+                        className="w-full bg-white/10 dark:bg-slate-900/30 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Expiry Date</label>
+                        <input 
+                          type="text"
+                          required
+                          maxLength={5}
+                          value={cardExpiry}
+                          onChange={(e) => setCardExpiry(e.target.value)}
+                          placeholder="MM/YY"
+                          className="w-full bg-white/10 dark:bg-slate-900/30 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">CVV / CVC</label>
+                        <input 
+                          type="password"
+                          required
+                          maxLength={3}
+                          value={cardCvc}
+                          onChange={(e) => setCardCvc(e.target.value)}
+                          placeholder="***"
+                          className="w-full bg-white/10 dark:bg-slate-900/30 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-4 bg-slate-50/50 dark:bg-slate-950/20 border border-dashed border-slate-200 dark:border-white/10 rounded-2xl text-center space-y-2">
+                    <p className="text-xs font-semibold text-slate-600 dark:text-slate-300">PayPal & Wire Transfers</p>
+                    <p className="text-[11px] text-slate-400">
+                      Choose this option to receive an invoice via email. You can pay online via PayPal or complete a direct bank transfer prior to your scheduled slot.
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex gap-4 pt-4 border-t border-slate-200/50 dark:border-white/5">
+                  <button
+                    onClick={() => {
+                      setShowPaymentModal(false);
+                      setCreatedBooking(null);
+                      alert("Booking saved as Unpaid. You can settle the invoice at any time.");
+                    }}
+                    className="flex-1 py-3 border border-slate-300 dark:border-slate-700 text-xs font-bold rounded-full text-slate-700 dark:text-slate-300 hover:bg-white/10 transition-colors"
+                  >
+                    Pay Later
+                  </button>
+                  <button
+                    onClick={async () => {
+                      if (paymentMethod === 'card' && (!cardName || !cardNumber || !cardExpiry || !cardCvc)) {
+                        alert("Please fill in all credit card details.");
+                        return;
+                      }
+                      setPaymentLoading(true);
+                      try {
+                        // Simulate payment processing latency
+                        await new Promise((resolve) => setTimeout(resolve, 1500));
+                        
+                        // Update booking to Paid status
+                        const priceEstimate = 
+                          createdBooking.service_type === 'tax_prep' ? '299.00' :
+                          createdBooking.service_type === 'bookkeeping' ? '350.00' :
+                          createdBooking.service_type === 'small_business' ? '1200.00' :
+                          createdBooking.service_type === 'procurement' ? '1000.00' : '0.00';
+                        
+                        await bookingService.updateBooking(createdBooking.id, {
+                          payment_status: 'paid',
+                          price: priceEstimate
+                        });
+                        setPaymentSuccess(true);
+                        await loadDashboardData();
+                      } catch (error) {
+                        console.error("Payment simulator failed:", error);
+                        alert("Payment simulated gateway declined. Please check details.");
+                      } finally {
+                        setPaymentLoading(false);
+                      }
+                    }}
+                    className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-full shadow-lg shadow-amber-500/15 transition-all"
+                  >
+                    {paymentLoading ? "Processing..." : "Pay Now"}
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
