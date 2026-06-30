@@ -85,7 +85,7 @@ export default function ServicesPage() {
         {/* --- SERVICE CARDS (absolute coords) --- */}
 
         {/* Card 1: Procurement (Elements -CID (9) 1) */}
-        <Link href={user ? "/dashboard?book=procurement" : "/login?book=procurement"} className="absolute left-[166px] top-[490px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
+        <Link href="/services/procurement" className="absolute left-[166px] top-[490px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
           <img 
             src="/images/services/Procurement.webp" 
             alt="Procurement & Sourcing" 
@@ -94,7 +94,7 @@ export default function ServicesPage() {
         </Link>
 
         {/* Card 2: Small Business (Elements -CID (14) 1) */}
-        <Link href={user ? "/dashboard?book=accounts_and_logistics" : "/login?book=accounts_and_logistics"} className="absolute left-[486px] top-[495px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
+        <Link href="/services/accounts_and_logistics" className="absolute left-[486px] top-[495px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
           <img 
             src="/images/services/business.webp" 
             alt="Small Business Management" 
@@ -103,7 +103,7 @@ export default function ServicesPage() {
         </Link>
 
         {/* Card 3: Tax (Elements -CID (13) 1) */}
-        <Link href={user ? "/dashboard?book=tax_prep" : "/login?book=tax_prep"} className="absolute left-[807px] top-[495px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
+        <Link href="/services/tax_prep" className="absolute left-[807px] top-[495px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
           <img 
             src="/images/services/tax.webp" 
             alt="Tax Preparation" 
@@ -112,7 +112,7 @@ export default function ServicesPage() {
         </Link>
 
         {/* Card 4: Solar (Elements -CID (12) 1) */}
-        <Link href={user ? "/dashboard?book=solar" : "/login?book=solar"} className="absolute left-[1127px] top-[495px] w-[310px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
+        <Link href="/services/solar" className="absolute left-[1127px] top-[495px] w-[310px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
           <img 
             src="/images/services/solar.webp" 
             alt="Solar Solutions" 
@@ -121,7 +121,7 @@ export default function ServicesPage() {
         </Link>
 
         {/* Card 5: Virtual Bookkeeping (Elements -CID (11) 1) */}
-        <Link href={user ? "/dashboard?book=virtual_bookkeeping" : "/login?book=virtual_bookkeeping"} className="absolute left-[1444px] top-[495px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
+        <Link href="/services/virtual_bookkeeping" className="absolute left-[1444px] top-[495px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-105 transition-transform duration-300 z-10 cursor-pointer bg-white">
           <img 
             src="/images/services/bookkeeping.webp" 
             alt="Virtual Bookkeeping" 
