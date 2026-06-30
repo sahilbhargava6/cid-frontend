@@ -2,21 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
-import dynamic from "next/dynamic";
-
-const Background3D = dynamic(() => import("@/components/Background3D"), {
-  ssr: false,
-});
 
 interface ServiceDetail {
   title: string;
   image: string;
   bgColor: string;
   textColor: string;
-  accentBg: string;
+  headerColor: string;
   description: string;
 }
 
@@ -26,7 +20,7 @@ const serviceDetailsData: Record<string, ServiceDetail> = {
     image: "/images/services/Procurement.webp",
     bgColor: "rgba(63, 166, 114, 0.2)",
     textColor: "#0D2B1A",
-    accentBg: "rgba(63, 166, 114, 0.1)",
+    headerColor: "#3FA672",
     description: `Find a Vendor Negotiation & Cost Optimization: looking to buy a car or any large household item and do not want to haggle - Our Experts leverage supply chain knowledge to negotiate the best rates and quality for items, ensuring you get the right products at the right time without overpaying.
 · Personalized Errand Services: Dedicated assistants can manage your weekly grocery shopping, pick up prescriptions at local pharmacies, and handle routine post office tasks right in the Lake Hopatcong area.
 · Specialized Product Sourcing: Need a specific mobility aid, home medical equipment, or hard-to-find household item? Professionals can source, negotiate prices, and arrange delivery directly to your door.
@@ -38,7 +32,7 @@ const serviceDetailsData: Record<string, ServiceDetail> = {
     image: "/images/services/business.webp",
     bgColor: "rgba(232, 80, 58, 0.2)",
     textColor: "#5C1A0F",
-    accentBg: "rgba(232, 80, 58, 0.1)",
+    headerColor: "#E8503A",
     description: `· Administrative Support: Free up your business by outsourcing email management, scheduling, document preparation, and customer correspondence to our professional administrative team.
 · Workflow Optimization: We audit your business workflows, install modern SaaS tools, automate repetitive tasks, and design SOPs to make operations run smoothly and efficiently.
 · Logistics Coordination: Handling dispatching, inventory count tracking, freight negotiations, and third-party warehouse communications to keep your supply chain moving.
@@ -49,7 +43,7 @@ const serviceDetailsData: Record<string, ServiceDetail> = {
     image: "/images/services/tax.webp",
     bgColor: "rgba(45, 111, 163, 0.2)",
     textColor: "#0A1E35",
-    accentBg: "rgba(45, 111, 163, 0.1)",
+    headerColor: "#2D6FA3",
     description: `· Federal & State Filings: Professional year-end tax returns preparation for individuals, partnerships, LLCs, and corporations, ensuring absolute compliance with all tax codes.
 · Proactive Deductions Planning: Custom analysis of your business expenses, investments, and structures to legally minimize tax liabilities and maximize write-offs.
 · IRS Representation: Active support in responding to IRS notices, back-tax negotiations, installment agreements, and complete audit protection.
@@ -60,7 +54,7 @@ const serviceDetailsData: Record<string, ServiceDetail> = {
     image: "/images/services/solar.webp",
     bgColor: "rgba(232, 114, 140, 0.2)",
     textColor: "#3D0A1E",
-    accentBg: "rgba(232, 114, 140, 0.1)",
+    headerColor: "#E8728C",
     description: `· Custom Panel System Designs: Engineering state-of-the-art rooftop solar layouts custom-fit for your property's structure and sun exposure.
 · Energy Savings Audit: Deep historical utility bill analysis to calculate your exact return on investment and payback period before signing.
 · Net Metering Integration: Setting up net energy metering (NEM) so you can sell excess solar electricity back to the utility grid for credit.
@@ -71,7 +65,7 @@ const serviceDetailsData: Record<string, ServiceDetail> = {
     image: "/images/services/bookkeeping.webp",
     bgColor: "rgba(63, 166, 114, 0.2)",
     textColor: "#0D2B1A",
-    accentBg: "rgba(63, 166, 114, 0.1)",
+    headerColor: "#3FA672",
     description: `· Transaction Tracking: Importing, categorizing, and matching all bank and credit card transactions to keep your general ledger updated and accurate.
 · Account Reconciliations: Monthly reconciliation of cash accounts, credit cards, merchant processors (PayPal/Square), and business loans.
 · Financial Statements: Delivering clean, easy-to-read Balance Sheets, Income Statements, and Cash Flow Reports on the 5th of every month.
@@ -87,6 +81,12 @@ export default function ServiceDetailClient({ service }: { service: string }) {
 
   const details = serviceDetailsData[service] || serviceDetailsData.procurement;
 
+  const dashboardPath = user
+    ? (user.email.includes("admin") || user.email.includes("owner")
+      ? "/admin/dashboard"
+      : "/dashboard")
+    : "/login";
+
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -101,152 +101,256 @@ export default function ServiceDetailClient({ service }: { service: string }) {
   }, []);
 
   return (
-    <>
-      <Background3D />
-      <Navbar />
-      
-      <main 
-        className="w-full bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center pt-[76px] lg:pt-[90px]"
+    <div 
+      className="w-full min-h-screen bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center"
+      style={{
+        paddingBottom: `${(2447 - 2447 * scale)}px` // Prevent scaling clipping issues for 2447px height
+      }}
+    >
+      {/* 1920x2447 Pixel-Perfect Canvas Container */}
+      <div 
+        className="relative flex-shrink-0 select-none origin-top-left"
         style={{
-          paddingBottom: `${(1250 - 1250 * scale)}px` // Prevent scaling clipping whitespace issues
+          width: "1920px",
+          height: "2447px",
+          transform: `scale(${scale})`,
+          left: `${leftOffset}px` // Center the scaled canvas
         }}
       >
-        {/* 1920x1250 Pixel-Perfect Canvas Container */}
+        {/* Faded Background Element (cid ele 1) */}
         <div 
-          className="relative flex-shrink-0 select-none origin-top-left"
+          className="absolute left-0 top-0 w-[1920px] h-[800px] bg-cover bg-bottom bg-no-repeat z-0"
           style={{
-            width: "1920px",
-            height: "1250px",
-            transform: `scale(${scale})`,
-            left: `${leftOffset}px` // Center the scaled canvas
+            backgroundImage: "url('/images/hero.webp')"
           }}
         >
-          {/* Faded Background Element (cid ele 1) */}
-          <div 
-            className="absolute left-0 top-0 w-[1920px] h-[800px] bg-cover bg-bottom bg-no-repeat z-0"
-            style={{
-              backgroundImage: "url('/images/hero.webp')"
-            }}
-          >
-            {/* Semi-transparent white overlay to match Figma fade */}
-            <div className="absolute inset-0 bg-white/85 backdrop-blur-[2px]" />
-          </div>
+          {/* Semi-transparent white overlay to match Figma fade */}
+          <div className="absolute inset-0 bg-white/85 backdrop-blur-[2px]" />
+        </div>
 
-          {/* Header Title: Services */}
-          <h1 
-            className="absolute left-[166px] top-[230px] w-[315px] h-[170px] font-black text-[64px] leading-[77px] flex items-center select-none"
-            style={{
-              fontFamily: "Inter, sans-serif",
-              background: "linear-gradient(90deg, #5C1A0F 0%, #0A1E35 36.06%, #0D2B1A 64.9%, #3D0A1E 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            Services
-          </h1>
-
-          {/* Left Side: Card Illustration */}
-          <Link href="/services" className="absolute left-[166px] top-[490px] w-[309px] h-[309px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100 hover:scale-[1.03] transition-transform duration-300 z-10 cursor-pointer bg-white">
-            <img 
-              src={details.image} 
-              alt={details.title} 
-              className="w-full h-full object-cover"
+        {/* Custom Navbar Container (Rectangle 4) */}
+        <div 
+          className="absolute left-[216px] top-[28px] w-[1488px] h-[86px] rounded-[30px] z-20 flex items-center shadow-md border border-white/10"
+          style={{
+            backgroundColor: "rgba(10, 30, 53, 0.5)",
+            backdropFilter: "blur(10px)"
+          }}
+        >
+          {/* Logo image (image 3) */}
+          <Link href="/" className="absolute left-[43px] top-[12px] w-[62px] h-[62px] cursor-pointer hover:scale-105 transition-transform duration-200">
+            <Image 
+              src="/Consider_it_done_LOGO_4.webp" 
+              alt="Logo" 
+              width={62} 
+              height={62} 
+              className="object-contain"
+              priority
             />
           </Link>
 
-          {/* Title Pill Container (Rectangle next to image) */}
-          <div 
-            className="absolute left-[520px] top-[490px] w-[500px] h-[86px] rounded-[24px] z-10 flex items-center justify-center px-6 shadow-sm"
-            style={{
-              backgroundColor: details.bgColor,
-            }}
-          >
+          {/* Consider it Done text */}
+          <Link href="/" className="absolute left-[123px] top-[16px] cursor-pointer hover:opacity-90">
             <span 
-              className="font-extrabold text-[24px] leading-[29px] text-center"
+              className="font-semibold text-[36px] leading-[44px] tracking-tight"
               style={{
                 fontFamily: "Inter, sans-serif",
-                color: details.textColor
+                color: "#DDF0F7"
               }}
             >
-              {details.title}
+              Consider it Done
             </span>
-          </div>
+          </Link>
 
-          {/* Book a Session Title */}
-          <h3 
-            className="absolute left-[520px] top-[600px] font-bold text-[28px] leading-[34px]"
-            style={{
-              fontFamily: "Inter, sans-serif",
-              color: "#2E7D52"
-            }}
-          >
-            Book a Session
-          </h3>
+          {/* Nav Links */}
+          <Link href="/">
+            <span 
+              className="absolute left-[474px] top-[19px] w-[103px] h-[52px] font-semibold text-[24px] leading-[29px] flex items-center justify-center cursor-pointer hover:text-white transition-colors"
+              style={{ fontFamily: "Inter, sans-serif", color: "#DDF0F7" }}
+            >
+              Home
+            </span>
+          </Link>
 
-          {/* Date Selector Card Container */}
-          <div 
-            className="absolute left-[520px] top-[650px] w-[600px] h-[145px] rounded-[24px] z-10 p-5 shadow-sm border border-slate-100/50"
-            style={{
-              backgroundColor: details.accentBg
-            }}
-          >
-            <div className="text-[16px] font-semibold text-slate-500 mb-4" style={{ fontFamily: "Inter, sans-serif" }}>
-              Find a Date
-            </div>
-            
-            <div className="flex items-center gap-4">
-              {["This Week", "6-12 July", "13-19 July", "20-26 July"].map((dateVal) => {
-                const bookingUrl = user 
-                  ? `/dashboard?book=${service}&date=${encodeURIComponent(dateVal)}` 
-                  : `/login?book=${service}&date=${encodeURIComponent(dateVal)}`;
-                return (
-                  <Link 
-                    key={dateVal}
-                    href={bookingUrl}
-                    className="px-4 py-2 bg-white/70 hover:bg-white text-slate-700 font-semibold text-[15px] rounded-lg shadow-sm transition-all hover:scale-[1.03] active:scale-[0.98] border border-slate-200/50"
-                    style={{ fontFamily: "Inter, sans-serif" }}
-                  >
-                    {dateVal}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
+          <Link href="/services">
+            <span 
+              className="absolute left-[618px] top-[19px] w-[103px] h-[52px] font-semibold text-[24px] leading-[29px] flex items-center justify-center cursor-pointer text-white underline decoration-2 underline-offset-4"
+              style={{ fontFamily: "Inter, sans-serif" }}
+            >
+              Services
+            </span>
+          </Link>
 
-          {/* Description Section Header */}
-          <h3 
-            className="absolute left-[166px] top-[835px] font-bold text-[28px] leading-[34px]"
-            style={{
-              fontFamily: "Inter, sans-serif",
-              color: "#2E7D52"
-            }}
-          >
-            Description
-          </h3>
+          <Link href="/#why-us">
+            <span 
+              className="absolute left-[778px] top-[19px] w-[103px] h-[52px] font-semibold text-[24px] leading-[29px] flex items-center justify-center cursor-pointer hover:text-white transition-colors"
+              style={{ fontFamily: "Inter, sans-serif", color: "#DDF0F7" }}
+            >
+              About
+            </span>
+          </Link>
 
-          {/* Large Description Box */}
-          <div 
-            className="absolute left-[166px] top-[885px] w-[954px] min-h-[280px] rounded-[24px] z-10 p-7 shadow-sm border border-slate-100/50"
-            style={{
-              backgroundColor: details.accentBg
-            }}
-          >
-            <p 
-              className="text-[16px] leading-[26px] font-semibold whitespace-pre-line"
+          <Link href="/#contact">
+            <span 
+              className="absolute left-[917px] top-[19px] w-[128px] h-[52px] font-semibold text-[24px] leading-[29px] flex items-center justify-center cursor-pointer hover:text-white transition-colors"
+              style={{ fontFamily: "Inter, sans-serif", color: "#DDF0F7" }}
+            >
+              Contact us
+            </span>
+          </Link>
+
+          {/* Sign in/Sign up Button */}
+          <Link href={dashboardPath}>
+            <span 
+              className="absolute left-[1258px] top-[17px] w-[182px] h-[52px] font-semibold text-[24px] leading-[29px] flex items-center justify-center cursor-pointer hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full transition-all duration-300"
+              style={{ fontFamily: "Inter, sans-serif", color: "#DDF0F7" }}
+            >
+              {user ? "Dashboard" : "Sign in/up"}
+            </span>
+          </Link>
+        </div>
+
+        {/* Gradient Services Page Header */}
+        <h1 
+          className="absolute left-[216px] top-[230px] w-[315px] h-[170px] font-black text-[64px] leading-[77px] flex items-center select-none"
+          style={{
+            fontFamily: "Inter, sans-serif",
+            background: "linear-gradient(90deg, #5C1A0F 0%, #0A1E35 36.06%, #0D2B1A 64.9%, #3D0A1E 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+        >
+          Services
+        </h1>
+
+        {/* Main Card Image */}
+        <Link href="/services" className="absolute left-[216px] top-[643px] w-[577px] h-[577px] rounded-[30px] overflow-hidden shadow-lg border border-slate-100/50 hover:scale-[1.02] transition-all duration-300 z-10 cursor-pointer bg-white">
+          <img 
+            src={details.image} 
+            alt={details.title} 
+            className="w-full h-full object-cover"
+          />
+        </Link>
+
+        {/* Title Backing (Rectangle 6) */}
+        <div 
+          className="absolute left-[994px] top-[738px] w-[662px] h-[123px] rounded-[30px] z-10"
+          style={{
+            backgroundColor: details.bgColor,
+          }}
+        />
+
+        {/* Title Text (Procurement & Sourcing Services) */}
+        <div 
+          className="absolute left-[1019px] top-[775px] w-[613px] h-[44px] font-semibold text-[36px] leading-[44px] flex items-center justify-center text-center z-15"
+          style={{
+            fontFamily: "Inter, sans-serif",
+            color: details.textColor
+          }}
+        >
+          {details.title}
+        </div>
+
+        {/* Book a Session Title */}
+        <h3 
+          className="absolute left-[834px] top-[879px] w-[331px] h-[105px] font-semibold text-[40px] leading-[48px] flex items-center z-10"
+          style={{
+            fontFamily: "Inter, sans-serif",
+            color: details.headerColor
+          }}
+        >
+          Book a Session
+        </h3>
+
+        {/* Date Card Backing (Rectangle 7) */}
+        <div 
+          className="absolute left-[834px] top-[984px] w-[870px] h-[236px] rounded-[30px] z-10"
+          style={{
+            backgroundColor: details.bgColor,
+          }}
+        />
+
+        {/* Find a Date Text */}
+        <div 
+          className="absolute left-[886px] top-[1002px] w-[695px] h-[84px] font-light text-[32px] leading-[39px] flex items-center z-15"
+          style={{
+            fontFamily: "Inter, sans-serif",
+            color: details.textColor
+          }}
+        >
+          Find a Date
+        </div>
+
+        {/* Date Options Links */}
+        {["This Week", "6-12 July", "13-19 July", "20-26 July"].map((dateVal, index) => {
+          const leftCoords = [886, 1076, 1266, 1475];
+          const bookingUrl = user 
+            ? `/dashboard?book=${service}&date=${encodeURIComponent(dateVal)}` 
+            : `/login?book=${service}&date=${encodeURIComponent(dateVal)}`;
+          
+          return (
+            <Link 
+              key={dateVal}
+              href={bookingUrl}
+              className="absolute w-[179px] h-[84px] top-[1088px] font-light text-[32px] leading-[39px] flex items-center justify-center text-center cursor-pointer hover:bg-white/30 rounded-xl transition-colors duration-200 z-15 border border-transparent hover:border-white/10"
               style={{
+                left: `${leftCoords[index]}px`,
                 fontFamily: "Inter, sans-serif",
                 color: details.textColor
               }}
             >
-              {details.description}
-            </p>
-          </div>
+              {dateVal}
+            </Link>
+          );
+        })}
 
+        {/* Description Title */}
+        <h3 
+          className="absolute left-[216px] top-[1222px] w-[331px] h-[105px] font-semibold text-[40px] leading-[48px] flex items-center z-10"
+          style={{
+            fontFamily: "Inter, sans-serif",
+            color: details.headerColor
+          }}
+        >
+          Description
+        </h3>
+
+        {/* Description Box Backing (Rectangle 8) */}
+        <div 
+          className="absolute left-[216px] top-[1327px] w-[1488px] h-[716px] rounded-[30px] z-10"
+          style={{
+            backgroundColor: details.bgColor,
+          }}
+        />
+
+        {/* Description Detailed Content Text */}
+        <div 
+          className="absolute left-[273px] top-[1362px] w-[1386px] h-[637px] font-light text-[32px] leading-[39px] flex items-center z-15 whitespace-pre-line"
+          style={{
+            fontFamily: "Inter, sans-serif",
+            color: details.textColor
+          }}
+        >
+          {details.description}
         </div>
-      </main>
 
-      <Footer />
-    </>
+        {/* Mockup Footer (Rectangle 19) */}
+        <div 
+          className="absolute left-0 top-[2147px] w-[1920px] h-[300px] z-10 flex flex-col items-center justify-center text-slate-700 select-none shadow-inner"
+          style={{
+            background: "linear-gradient(90deg, rgba(232, 80, 58, 0.2) 0%, rgba(45, 111, 163, 0.2) 35.58%, rgba(63, 166, 114, 0.2) 68.27%, rgba(232, 114, 140, 0.2) 100%)",
+          }}
+        >
+          <span className="font-semibold text-lg" style={{ fontFamily: "Inter, sans-serif" }}>
+            © 2026 Consider It Done. All rights reserved.
+          </span>
+          <div className="flex gap-6 mt-4 font-medium text-sm" style={{ fontFamily: "Inter, sans-serif" }}>
+            <Link href="/privacy" className="hover:underline">Privacy Policy</Link>
+            <Link href="/terms" className="hover:underline">Terms of Service</Link>
+          </div>
+        </div>
+
+      </div>
+    </div>
   );
 }
