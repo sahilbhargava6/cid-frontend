@@ -1,9 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import dynamic from "next/dynamic";
+
+const Background3D = dynamic(() => import("@/components/Background3D"), {
+  ssr: false,
+});
 
 export default function ServicesPage() {
   const auth = useAuth();
@@ -32,113 +38,35 @@ export default function ServicesPage() {
   }, []);
 
   return (
-    <div 
-      className="w-full min-h-screen bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center"
-      style={{
-        paddingBottom: `${(1080 - 1080 * scale)}px` // Prevent clipping whitespace issues on scale
-      }}
-    >
-      {/* 1920x1080 Pixel-Perfect Canvas Container */}
-      <div 
-        className="relative flex-shrink-0 select-none origin-top-left"
+    <>
+      <Background3D />
+      <Navbar />
+      <main 
+        className="w-full bg-[#FFFFFF] overflow-x-hidden flex items-start justify-center pt-[76px] lg:pt-[90px]"
         style={{
-          width: "1920px",
-          height: "1080px",
-          transform: `scale(${scale})`,
-          left: `${leftOffset}px` // Center the scaled canvas
+          paddingBottom: `${(1080 - 1080 * scale)}px` // Prevent clipping whitespace issues on scale
         }}
       >
-        {/* Faded Background Element (cid ele 1) */}
+        {/* 1920x1080 Pixel-Perfect Canvas Container */}
         <div 
-          className="absolute left-0 top-0 w-[1920px] h-[800px] bg-cover bg-bottom bg-no-repeat z-0"
+          className="relative flex-shrink-0 select-none origin-top-left"
           style={{
-            backgroundImage: "url('/images/hero.webp')"
+            width: "1920px",
+            height: "1080px",
+            transform: `scale(${scale})`,
+            left: `${leftOffset}px` // Center the scaled canvas
           }}
         >
-          {/* Semi-transparent white overlay to match Figma fade */}
-          <div className="absolute inset-0 bg-white/85 backdrop-blur-[2px]" />
-        </div>
-
-        {/* Custom Navbar Container (Rectangle 4) */}
-        <div 
-          className="absolute left-[216px] top-[28px] w-[1488px] h-[86px] rounded-[30px] z-20 flex items-center shadow-md border border-white/10"
-          style={{
-            backgroundColor: "rgba(10, 30, 53, 0.5)",
-            backdropFilter: "blur(10px)"
-          }}
-        >
-          {/* Logo image (image 3) */}
-          <Link href="/" className="absolute left-[43px] top-[12px] w-[62px] h-[62px] cursor-pointer hover:scale-105 transition-transform duration-200">
-            <Image 
-              src="/Consider_it_done_LOGO_4.webp" 
-              alt="Logo" 
-              width={62} 
-              height={62} 
-              className="object-contain"
-              priority
-            />
-          </Link>
-
-          {/* Consider it Done text */}
-          <Link href="/" className="absolute left-[123px] top-[16px] cursor-pointer hover:opacity-90">
-            <span 
-              className="font-semibold text-[36px] leading-[44px] tracking-tight"
-              style={{
-                fontFamily: "Inter, sans-serif",
-                color: "#DDF0F7"
-              }}
-            >
-              Consider it Done
-            </span>
-          </Link>
-
-          {/* Nav Links */}
-          <Link href="/">
-            <span 
-              className="absolute left-[474px] top-[19px] w-[103px] h-[52px] font-semibold text-[24px] leading-[29px] flex items-center justify-center cursor-pointer hover:text-white transition-colors"
-              style={{ fontFamily: "Inter, sans-serif", color: "#DDF0F7" }}
-            >
-              Home
-            </span>
-          </Link>
-
-          <Link href="/services">
-            <span 
-              className="absolute left-[618px] top-[19px] w-[103px] h-[52px] font-semibold text-[24px] leading-[29px] flex items-center justify-center cursor-pointer text-white underline decoration-2 underline-offset-4"
-              style={{ fontFamily: "Inter, sans-serif" }}
-            >
-              Services
-            </span>
-          </Link>
-
-          <Link href="/#why-us">
-            <span 
-              className="absolute left-[778px] top-[19px] w-[103px] h-[52px] font-semibold text-[24px] leading-[29px] flex items-center justify-center cursor-pointer hover:text-white transition-colors"
-              style={{ fontFamily: "Inter, sans-serif", color: "#DDF0F7" }}
-            >
-              About
-            </span>
-          </Link>
-
-          <Link href="/#contact">
-            <span 
-              className="absolute left-[917px] top-[19px] w-[128px] h-[52px] font-semibold text-[24px] leading-[29px] flex items-center justify-center cursor-pointer hover:text-white transition-colors"
-              style={{ fontFamily: "Inter, sans-serif", color: "#DDF0F7" }}
-            >
-              Contact us
-            </span>
-          </Link>
-
-          {/* Sign in/Sign up Button */}
-          <Link href={dashboardPath}>
-            <span 
-              className="absolute left-[1258px] top-[17px] w-[182px] h-[52px] font-semibold text-[24px] leading-[29px] flex items-center justify-center cursor-pointer hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded-full transition-all duration-300"
-              style={{ fontFamily: "Inter, sans-serif", color: "#DDF0F7" }}
-            >
-              {user ? "Dashboard" : "Sign in/up"}
-            </span>
-          </Link>
-        </div>
+          {/* Faded Background Element (cid ele 1) */}
+          <div 
+            className="absolute left-0 top-0 w-[1920px] h-[800px] bg-cover bg-bottom bg-no-repeat z-0"
+            style={{
+              backgroundImage: "url('/images/hero.webp')"
+            }}
+          >
+            {/* Semi-transparent white overlay to match Figma fade */}
+            <div className="absolute inset-0 bg-white/85 backdrop-blur-[2px]" />
+          </div>
 
         {/* Gradient Services Page Header */}
         <h1 
@@ -278,6 +206,8 @@ export default function ServicesPage() {
         </div>
 
       </div>
-    </div>
-  );
+    </main>
+    <Footer />
+  </>
+);
 }

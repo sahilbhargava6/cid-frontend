@@ -128,7 +128,7 @@ export default function MockupServices() {
   }, []);
 
   const getBookingUrl = (param: string) => {
-    return user ? `/dashboard?book=${param}` : `/login?book=${param}`;
+    return `/services/${param}`;
   };
 
   return (
