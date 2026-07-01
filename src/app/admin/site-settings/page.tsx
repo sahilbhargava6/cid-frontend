@@ -141,11 +141,11 @@ export default function SiteSettingsPage() {
         </div>
 
         {/* Right Side: Tab Contents */}
-        <div className="flex-1 bg-white border border-slate-200/80 rounded-3xl p-6 lg:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+        <div className="flex-1 bg-white text-slate-800 dark:text-slate-800 border border-slate-200/80 rounded-3xl p-6 lg:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
           {/* TAB 1: GENERAL BRAND & CONTACT */}
           {activeTab === "general" && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-slate-800">Brand & Contact Information</h2>
+              <h2 className="text-xl font-bold text-slate-800 dark:text-slate-800">Brand & Contact Information</h2>
               <hr className="border-slate-100" />
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -155,7 +155,7 @@ export default function SiteSettingsPage() {
                     type="text"
                     value={config.brandName}
                     onChange={(e) => updateConfigField("brandName", e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold text-slate-700"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold"
                     placeholder="Consider It Done"
                   />
                 </div>
@@ -166,7 +166,7 @@ export default function SiteSettingsPage() {
                     type="email"
                     value={config.contactEmail}
                     onChange={(e) => updateConfigField("contactEmail", e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold text-slate-700"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold"
                     placeholder="info@consideritdone.com"
                   />
                 </div>
@@ -177,7 +177,7 @@ export default function SiteSettingsPage() {
                     type="text"
                     value={config.contactPhone}
                     onChange={(e) => updateConfigField("contactPhone", e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold text-slate-700"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold"
                     placeholder="(973) 555-0199"
                   />
                 </div>
@@ -188,7 +188,7 @@ export default function SiteSettingsPage() {
                     type="text"
                     value={config.contactAddress}
                     onChange={(e) => updateConfigField("contactAddress", e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold text-slate-700"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold"
                     placeholder="Lake Hopatcong, NJ 07849"
                   />
                 </div>
@@ -201,13 +201,13 @@ export default function SiteSettingsPage() {
             <div className="space-y-6">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                  <h2 className="text-xl font-bold text-slate-800">Hero Hover Glass Cards</h2>
+                  <h2 className="text-xl font-bold text-slate-800 dark:text-slate-800">Hero Hover Glass Cards</h2>
                   <p className="text-xs text-slate-400 mt-0.5">Customize the popups visible when hovering over the character elements.</p>
                 </div>
                 <select
                   value={selectedHeroKey}
                   onChange={(e) => setSelectedHeroKey(e.target.value)}
-                  className="px-4 py-2 rounded-xl border border-slate-200 bg-white text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500/30"
+                  className="px-4 py-2 rounded-xl border border-slate-200 bg-white dark:bg-white text-sm font-bold text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30"
                 >
                   <option value="solar">Solar (Roof)</option>
                   <option value="business">Business Solutions (Bottom Left)</option>
@@ -258,7 +258,7 @@ export default function SiteSettingsPage() {
                         type="text"
                         value={hoverItem.title}
                         onChange={(e) => updateHoverTitle(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold text-slate-700"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold"
                         placeholder="Procurement & Sourcing Services"
                       />
                     </div>
@@ -267,8 +267,8 @@ export default function SiteSettingsPage() {
                       <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Bullet Points</label>
                       <ul className="space-y-2 mt-2">
                         {hoverItem.bullets.map((bullet, idx) => (
-                          <li key={idx} className="flex items-center justify-between gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200/60">
-                            <span className="text-sm font-semibold text-slate-700">{bullet}</span>
+                          <li key={idx} className="flex items-center justify-between gap-3 p-3 bg-slate-50 border border-slate-200/60 text-slate-800 dark:text-slate-800">
+                            <span className="text-sm font-semibold">{bullet}</span>
                             <button
                               onClick={() => deleteBullet(idx)}
                               className="text-xs text-rose-500 hover:text-rose-700 font-bold px-2 py-1 rounded hover:bg-rose-50 transition"
@@ -286,7 +286,7 @@ export default function SiteSettingsPage() {
                           value={newBulletText}
                           onChange={(e) => setNewBulletText(e.target.value)}
                           placeholder="Add details / bullet point..."
-                          className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500/30"
+                          className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500/30"
                           onKeyDown={(e) => e.key === "Enter" && addBullet()}
                         />
                         <button
@@ -306,7 +306,7 @@ export default function SiteSettingsPage() {
           {/* TAB 3: WHY CHOOSE US */}
           {activeTab === "whyus" && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-slate-800">Why Choose Us Block Configuration</h2>
+              <h2 className="text-xl font-bold text-slate-800 dark:text-slate-800">Why Choose Us Block Configuration</h2>
               <hr className="border-slate-100" />
 
               <div className="space-y-6">
@@ -316,14 +316,14 @@ export default function SiteSettingsPage() {
                     type="text"
                     value={config.whyChooseUsTitle}
                     onChange={(e) => updateConfigField("whyChooseUsTitle", e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold text-slate-700"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold"
                     placeholder="Why Smart People Work With Us"
                   />
                 </div>
 
                 {/* Left block settings */}
                 <div className="p-5 border border-slate-200/80 rounded-2xl bg-slate-50/50 space-y-4">
-                  <h3 className="text-sm font-bold text-slate-700">Left Column Card (Tall block)</h3>
+                  <h3 className="text-sm font-bold text-slate-700 dark:text-slate-700">Left Column Card (Tall block)</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Title</label>
@@ -337,7 +337,7 @@ export default function SiteSettingsPage() {
                           };
                           handleSave(updated);
                         }}
-                        className="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold"
+                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
                       />
                     </div>
                     <div>
@@ -352,7 +352,7 @@ export default function SiteSettingsPage() {
                           };
                           handleSave(updated);
                         }}
-                        className="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold"
+                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
                       />
                     </div>
                   </div>
@@ -367,14 +367,14 @@ export default function SiteSettingsPage() {
                         };
                         handleSave(updated);
                       }}
-                      className="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold h-20 resize-none"
+                      className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold h-20 resize-none"
                     />
                   </div>
                 </div>
 
                 {/* Right block card 1 settings */}
                 <div className="p-5 border border-slate-200/80 rounded-2xl bg-slate-50/50 space-y-4">
-                  <h3 className="text-sm font-bold text-slate-700">Right Column - Card 1</h3>
+                  <h3 className="text-sm font-bold text-slate-700 dark:text-slate-700">Right Column - Card 1</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Title</label>
@@ -388,7 +388,7 @@ export default function SiteSettingsPage() {
                           };
                           handleSave(updated);
                         }}
-                        className="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold"
+                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
                       />
                     </div>
                     <div>
@@ -403,7 +403,7 @@ export default function SiteSettingsPage() {
                           };
                           handleSave(updated);
                         }}
-                        className="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold"
+                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
                       />
                     </div>
                   </div>
@@ -411,7 +411,7 @@ export default function SiteSettingsPage() {
 
                 {/* Right block card 2 settings */}
                 <div className="p-5 border border-slate-200/80 rounded-2xl bg-slate-50/50 space-y-4">
-                  <h3 className="text-sm font-bold text-slate-700">Right Column - Card 2</h3>
+                  <h3 className="text-sm font-bold text-slate-700 dark:text-slate-700">Right Column - Card 2</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Title</label>
@@ -425,7 +425,7 @@ export default function SiteSettingsPage() {
                           };
                           handleSave(updated);
                         }}
-                        className="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold"
+                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
                       />
                     </div>
                     <div>
@@ -440,7 +440,7 @@ export default function SiteSettingsPage() {
                           };
                           handleSave(updated);
                         }}
-                        className="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold"
+                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
                       />
                     </div>
                   </div>
@@ -454,13 +454,13 @@ export default function SiteSettingsPage() {
             <div className="space-y-6">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                  <h2 className="text-xl font-bold text-slate-800">FAQ Accordion Manager</h2>
+                  <h2 className="text-xl font-bold text-slate-800 dark:text-slate-800">FAQ Accordion Manager</h2>
                   <p className="text-xs text-slate-400 mt-0.5">Manage questions and answers sorted by categories.</p>
                 </div>
                 <select
                   value={selectedFaqCatIndex}
                   onChange={(e) => setSelectedFaqCatIndex(parseInt(e.target.value))}
-                  className="px-4 py-2 rounded-xl border border-slate-200 bg-white text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500/30"
+                  className="px-4 py-2 rounded-xl border border-slate-200 bg-white dark:bg-white text-sm font-bold text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30"
                 >
                   {config.faqs.map((cat, idx) => (
                     <option key={idx} value={idx}>{cat.category}</option>
@@ -497,7 +497,7 @@ export default function SiteSettingsPage() {
                   <div className="space-y-6">
                     <div className="space-y-4">
                       {category.questions.map((faq, idx) => (
-                        <div key={idx} className="p-4 bg-slate-50 border border-slate-200/70 rounded-2xl relative group">
+                        <div key={idx} className="p-4 bg-slate-50 border border-slate-200/70 rounded-2xl relative group text-slate-800 dark:text-slate-800">
                           <button
                             onClick={() => deleteQuestion(idx)}
                             className="absolute top-4 right-4 text-xs text-rose-500 hover:text-rose-700 font-bold px-2 py-1 rounded hover:bg-rose-50 transition"
@@ -511,7 +511,7 @@ export default function SiteSettingsPage() {
                     </div>
 
                     {/* Add FAQ panel */}
-                    <div className="p-6 border border-amber-200/60 bg-amber-50/15 rounded-2xl space-y-4">
+                    <div className="p-6 border border-amber-200/60 bg-amber-50/15 rounded-2xl space-y-4 text-slate-800 dark:text-slate-800">
                       <h4 className="text-sm font-bold text-amber-800">Add New Question in Category &quot;{category.category}&quot;</h4>
                       <div>
                         <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Question Text</label>
@@ -520,7 +520,7 @@ export default function SiteSettingsPage() {
                           value={newQuestionText}
                           onChange={(e) => setNewQuestionText(e.target.value)}
                           placeholder="e.g. How long do reports take to prepare?"
-                          className="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none"
+                          className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold focus:outline-none"
                         />
                       </div>
                       <div>
@@ -529,7 +529,7 @@ export default function SiteSettingsPage() {
                           value={newAnswerText}
                           onChange={(e) => setNewAnswerText(e.target.value)}
                           placeholder="e.g. We typically deliver reports within 3-5 business days depending on transaction size..."
-                          className="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold h-24 resize-none focus:outline-none"
+                          className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold h-24 resize-none focus:outline-none"
                         />
                       </div>
                       <button
@@ -548,7 +548,7 @@ export default function SiteSettingsPage() {
           {/* TAB 5: ABOUT US PAGE */}
           {activeTab === "about" && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-slate-800">About Us Page Content</h2>
+              <h2 className="text-xl font-bold text-slate-800 dark:text-slate-800">About Us Page Content</h2>
               <hr className="border-slate-100" />
 
               <div className="space-y-6">
@@ -558,7 +558,7 @@ export default function SiteSettingsPage() {
                     type="text"
                     value={config.aboutPill}
                     onChange={(e) => updateConfigField("aboutPill", e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold text-slate-700"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold"
                     placeholder="Our Mission & Philosophy"
                   />
                 </div>
@@ -568,7 +568,7 @@ export default function SiteSettingsPage() {
                   <textarea
                     value={config.aboutIntro}
                     onChange={(e) => updateConfigField("aboutIntro", e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold text-slate-700 h-28 resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold h-28 resize-none"
                     placeholder="At Consider It Done..."
                   />
                 </div>
@@ -576,14 +576,14 @@ export default function SiteSettingsPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {/* Left Column: Why Partner With Us */}
                   <div className="p-5 border border-slate-200/80 rounded-2xl bg-slate-50/50 space-y-4">
-                    <h3 className="text-sm font-bold text-slate-700">Left Column: Bullet Points</h3>
+                    <h3 className="text-sm font-bold text-slate-700 dark:text-slate-700">Left Column: Bullet Points</h3>
                     <div>
                       <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Column Header</label>
                       <input
                         type="text"
                         value={config.aboutCol1Header}
                         onChange={(e) => updateConfigField("aboutCol1Header", e.target.value)}
-                        className="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold"
+                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
                       />
                     </div>
                     
@@ -591,8 +591,8 @@ export default function SiteSettingsPage() {
                       <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Bullet Items</label>
                       <ul className="space-y-2 mt-2">
                         {config.aboutCol1Bullets.map((bullet, idx) => (
-                          <li key={idx} className="flex items-center justify-between gap-3 p-2.5 bg-white rounded-xl border border-slate-200/60">
-                            <span className="text-xs font-semibold text-slate-600">{bullet}</span>
+                          <li key={idx} className="flex items-center justify-between gap-3 p-2.5 bg-white border border-slate-200/60 text-slate-800 dark:text-slate-800">
+                            <span className="text-xs font-semibold">{bullet}</span>
                             <button
                               onClick={() => {
                                 const filtered = config.aboutCol1Bullets.filter((_, i) => i !== idx);
@@ -612,7 +612,7 @@ export default function SiteSettingsPage() {
                           value={newAboutBulletText}
                           onChange={(e) => setNewAboutBulletText(e.target.value)}
                           placeholder="Add new partner reason..."
-                          className="flex-1 px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-none"
+                          className="flex-1 px-3 py-1.5 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 text-xs font-semibold focus:outline-none"
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
                               e.preventDefault();
@@ -640,14 +640,14 @@ export default function SiteSettingsPage() {
 
                   {/* Right Column: Dynamic Services Description */}
                   <div className="p-5 border border-slate-200/80 rounded-2xl bg-slate-50/50 space-y-4">
-                    <h3 className="text-sm font-bold text-slate-700">Right Column: Overview Text</h3>
+                    <h3 className="text-sm font-bold text-slate-700 dark:text-slate-700">Right Column: Overview Text</h3>
                     <div>
                       <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Column Header</label>
                       <input
                         type="text"
                         value={config.aboutCol2Header}
                         onChange={(e) => updateConfigField("aboutCol2Header", e.target.value)}
-                        className="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold"
+                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
                       />
                     </div>
                     <div>
@@ -655,7 +655,7 @@ export default function SiteSettingsPage() {
                       <textarea
                         value={config.aboutCol2Text}
                         onChange={(e) => updateConfigField("aboutCol2Text", e.target.value)}
-                        className="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold h-36 resize-none"
+                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold h-36 resize-none"
                       />
                     </div>
                   </div>

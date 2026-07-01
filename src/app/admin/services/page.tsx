@@ -243,17 +243,43 @@ export default function AdminServicesEditor() {
                 />
               </div>
 
-              {/* Image Path */}
+              {/* Image Upload */}
               <div>
                 <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                  Image Path / URL
+                  Service Image (Upload File)
                 </label>
-                <input
-                  type="text"
-                  value={editingService.image}
-                  onChange={(e) => handleFieldChange('image', e.target.value)}
-                  className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
-                />
+                <div className="flex items-center gap-3">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          if (typeof reader.result === 'string') {
+                            handleFieldChange('image', reader.result);
+                          }
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                    className="hidden"
+                    id="service-image-upload"
+                  />
+                  <label
+                    htmlFor="service-image-upload"
+                    className="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow-md cursor-pointer transition-colors"
+                  >
+                    Upload Image File
+                  </label>
+                  <input
+                    type="text"
+                    value={editingService.image.startsWith('data:') ? 'Custom Uploaded Image (Base64)' : editingService.image}
+                    disabled
+                    className="flex-1 bg-white/10 dark:bg-slate-900/20 border border-white/5 rounded-xl px-4 py-2.5 text-xs text-slate-400 cursor-not-allowed"
+                  />
+                </div>
                 {/* Live Image Preview */}
                 <div className="mt-2 relative w-full h-32 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-white/5">
                   <Image
