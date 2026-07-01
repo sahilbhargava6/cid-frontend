@@ -587,7 +587,7 @@ button:focus-visible {
 .dark .glass-dashboard-container p,
 .dark .glass-dashboard-container span:not(.text-amber-500):not(.text-green-500):not(.text-red-500):not(.bg-amber-500):not(.bg-green-500),
 .dark .glass-dashboard-container div:not(.bg-amber-500):not(.bg-green-500):not(.h-1\.5):not(.h-full) {
-  color: #e2e8f0;
+  color: #f96057;
   /* Elegant soft slate white */
 }
 
