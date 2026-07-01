@@ -63,12 +63,12 @@ export default function SiteSettingsPage() {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">Website Settings</h1>
-          <p className="text-sm text-slate-500 mt-1">Manage the text, content, and FAQs displayed on the customer landing page.</p>
+          <h1 className="text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight">Website Settings</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage the text, content, and FAQs displayed on the customer landing page.</p>
         </div>
         <button
           onClick={handleReset}
-          className="px-4 py-2 border border-rose-200 text-rose-600 hover:bg-rose-50 rounded-xl text-sm font-semibold transition duration-150"
+          className="px-4 py-2 border border-rose-200 dark:border-rose-500/30 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-xl text-sm font-semibold transition duration-150"
         >
           Reset to Defaults
         </button>
@@ -87,13 +87,13 @@ export default function SiteSettingsPage() {
       {/* Tabs Layout */}
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left Side: Navigation Links */}
-        <div className="w-full lg:w-64 flex-shrink-0 flex flex-row lg:flex-col gap-1 overflow-x-auto pb-2 lg:pb-0 border-b lg:border-b-0 lg:border-r border-slate-200">
+        <div className="w-full lg:w-64 flex-shrink-0 flex flex-row lg:flex-col gap-1 overflow-x-auto pb-2 lg:pb-0 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800">
           <button
             onClick={() => setActiveTab("general")}
             className={`px-4 py-3 rounded-xl text-left font-bold text-sm transition whitespace-nowrap ${
               activeTab === "general"
-                ? "bg-amber-500/10 text-amber-700 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
-                : "text-slate-600 hover:bg-slate-100"
+                ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
+                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
             }`}
           >
             📋 Brand & Contact
@@ -102,8 +102,8 @@ export default function SiteSettingsPage() {
             onClick={() => setActiveTab("hero")}
             className={`px-4 py-3 rounded-xl text-left font-bold text-sm transition whitespace-nowrap ${
               activeTab === "hero"
-                ? "bg-amber-500/10 text-amber-700 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
-                : "text-slate-600 hover:bg-slate-100"
+                ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
+                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
             }`}
           >
             🦸 Hero Hover Cards
@@ -112,8 +112,8 @@ export default function SiteSettingsPage() {
             onClick={() => setActiveTab("whyus")}
             className={`px-4 py-3 rounded-xl text-left font-bold text-sm transition whitespace-nowrap ${
               activeTab === "whyus"
-                ? "bg-amber-500/10 text-amber-700 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
-                : "text-slate-600 hover:bg-slate-100"
+                ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
+                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
             }`}
           >
             🤔 Why Choose Us
@@ -122,8 +122,8 @@ export default function SiteSettingsPage() {
             onClick={() => setActiveTab("faqs")}
             className={`px-4 py-3 rounded-xl text-left font-bold text-sm transition whitespace-nowrap ${
               activeTab === "faqs"
-                ? "bg-amber-500/10 text-amber-700 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
-                : "text-slate-600 hover:bg-slate-100"
+                ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
+                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
             }`}
           >
             💬 FAQ Accordion
@@ -132,8 +132,8 @@ export default function SiteSettingsPage() {
             onClick={() => setActiveTab("about")}
             className={`px-4 py-3 rounded-xl text-left font-bold text-sm transition whitespace-nowrap ${
               activeTab === "about"
-                ? "bg-amber-500/10 text-amber-700 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
-                : "text-slate-600 hover:bg-slate-100"
+                ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
+                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
             }`}
           >
             ℹ️ About Us Page
