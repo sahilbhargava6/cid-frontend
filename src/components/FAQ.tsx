@@ -1,66 +1,7 @@
 "use client";
 
-import { useState } from "react";
-
-const faqData = [
-  {
-    category: "Tax Preparation",
-    questions: [
-      {
-        q: "What types of tax returns do you handle?",
-        a: "We handle individual (1040), small business (Schedule C), partnership (1065), S-Corp (1120-S), and C-Corp (1120) returns. We also assist with state filings in all 50 states, amended returns, and back taxes.",
-      },
-      {
-        q: "How do you guarantee accuracy?",
-        a: "Every return goes through a triple-check process: initial preparation by a certified tax professional, quality review by a senior accountant, and final compliance check before filing. We cover any penalties due to our errors.",
-      },
-    ],
-  },
-  {
-    category: "Virtual Bookkeeping",
-    questions: [
-      {
-        q: "How does virtual bookkeeping work?",
-        a: "We securely connect to your accounting software (QuickBooks, Xero, FreshBooks, etc.) and handle daily transaction categorization, bank reconciliation, monthly financial statements, and year-end preparation — all remotely.",
-      },
-      {
-        q: "Can you work with my existing accounting software?",
-        a: "Absolutely. We support QuickBooks Online, Xero, FreshBooks, Wave, and most major platforms. If you don't have one yet, we'll help you set up the best option for your business.",
-      },
-    ],
-  },
-  {
-    category: "Home Solar",
-    questions: [
-      {
-        q: "How much can I save with solar panels?",
-        a: "Most homeowners save 50–80% on electricity bills. The exact savings depend on your location, roof size, energy usage, and available federal/state incentives. We provide a free assessment with projected savings.",
-      },
-      {
-        q: "Do you handle permits and installation?",
-        a: "Yes — we manage the entire process from site assessment, engineering design, permits, installation, utility interconnection, to final inspection. True turnkey service.",
-      },
-    ],
-  },
-  {
-    category: "Business Management",
-    questions: [
-      {
-        q: "What's included in the unified business solution?",
-        a: "Our unified solution covers accounts payable/receivable, payroll management, inventory tracking, shipping logistics, front desk optimization (Setmore, Calendly), and marketing/cross-selling strategy recommendations — all in one package.",
-      },
-    ],
-  },
-  {
-    category: "Procurement",
-    questions: [
-      {
-        q: "What can you source for me?",
-        a: "Virtually anything — electronics, vehicles, industrial equipment, real estate, office supplies, specialized machinery. We leverage our network of vendors and wholesale partnerships to find the best price and quality.",
-      },
-    ],
-  },
-];
+import { useState, useEffect } from "react";
+import { getSiteConfig } from "@/data/siteConfigData";
 
 function AccordionItem({
   question,
@@ -130,7 +71,13 @@ function AccordionItem({
 export default function FAQ() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [config, setConfig] = useState(() => getSiteConfig());
 
+  useEffect(() => {
+    setConfig(getSiteConfig());
+  }, []);
+
+  const faqData = config.faqs;
   const categories = ["All", ...faqData.map((cat) => cat.category)];
 
   const filteredQuestions = faqData

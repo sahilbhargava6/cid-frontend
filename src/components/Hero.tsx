@@ -1,35 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-
-interface ServiceHoverDetail {
-  title: string;
-  bullets: string[];
-}
-
-const serviceDetails: Record<string, ServiceHoverDetail> = {
-  procurement: {
-    title: "Procurement & Sourcing Services",
-    bullets: ["Global item sourcing", "Automobiles & real estate", "Supplier negotiations", "Import logistics management"],
-  },
-  business: {
-    title: "Small Business Management Solutions",
-    bullets: ["Unified accounts", "Front desk optimization", "Logistics coordination", "Cross-selling support"],
-  },
-  tax: {
-    title: "Tax Preparation & Resolution",
-    bullets: ["Tax filing", "Tax optimization", "Tax issue resolution", "Compliance support"],
-  },
-  solar: {
-    title: "Solar, Roofing, Gutter and Generac Solutions (NJ/NY/PA)",
-    bullets: ["Clean electricity", "Lower utility bills", "Custom roof designs", "No gimmicks guarantee"],
-  },
-  bookkeeping: {
-    title: "Virtual Bookkeeping",
-    bullets: ["Daily transaction tracking", "Bank accounts reconciliation", "Monthly financial statements", "Year-end tax readiness"],
-  },
-};
+import { getSiteConfig } from "@/data/siteConfigData";
 
 const cardPositions: Record<string, string> = {
   solar: "top-[18%] left-[43%]",
@@ -41,7 +14,13 @@ const cardPositions: Record<string, string> = {
 
 export default function Hero() {
   const [activeHover, setActiveHover] = useState<string | null>(null);
+  const [config, setConfig] = useState(() => getSiteConfig());
 
+  useEffect(() => {
+    setConfig(getSiteConfig());
+  }, []);
+
+  const serviceDetails = config.heroHovers;
   const activeDetail = activeHover ? serviceDetails[activeHover] : null;
 
   return (

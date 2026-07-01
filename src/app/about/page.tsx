@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { getSiteConfig } from "@/data/siteConfigData";
 import dynamic from "next/dynamic";
 
 const Background3D = dynamic(() => import("@/components/Background3D"), {
@@ -13,8 +14,11 @@ const Background3D = dynamic(() => import("@/components/Background3D"), {
 export default function AboutPage() {
   const [scale, setScale] = useState(1);
   const [leftOffset, setLeftOffset] = useState(0);
+  const [config, setConfig] = useState(() => getSiteConfig());
 
   useEffect(() => {
+    setConfig(getSiteConfig());
+
     const handleResize = () => {
       const width = window.innerWidth;
       const scaleFactor = Math.min(width / 1920, 1);
@@ -81,7 +85,7 @@ export default function AboutPage() {
               className="font-bold text-[24px] leading-[29px] text-[#0A1E35] text-center"
               style={{ fontFamily: "Inter, sans-serif" }}
             >
-              Our Mission & Philosophy
+              {config.aboutPill}
             </span>
           </div>
 
@@ -93,40 +97,30 @@ export default function AboutPage() {
               className="text-[28px] leading-[44px] font-light text-slate-700 mb-8"
               style={{ fontFamily: "Inter, sans-serif" }}
             >
-              At <strong className="font-bold text-[#E85D3A]">Consider It Done</strong>, we believe execution is everything. We serve as a premium administrative, logistical, and specialized task partner for busy individuals and expanding small businesses across the United States. 
+              {config.aboutIntro}
             </p>
 
             <div className="grid grid-cols-2 gap-12 mt-12">
               <div>
                 <h4 className="text-[32px] font-bold text-[#0A1E35] mb-4" style={{ fontFamily: "Inter, sans-serif" }}>
-                  Why Partner With Us?
+                  {config.aboutCol1Header}
                 </h4>
                 <ul className="space-y-4 text-[22px] font-light text-slate-600" style={{ fontFamily: "Inter, sans-serif" }}>
-                  <li className="flex items-center gap-3">
-                    <span className="w-3 h-3 rounded-full bg-[#3FA672] flex-shrink-0" />
-                    100% US-Based Experts & Coordinators
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <span className="w-3 h-3 rounded-full bg-[#3FA672] flex-shrink-0" />
-                    Strict Data Privacy & Security Protocols
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <span className="w-3 h-3 rounded-full bg-[#3FA672] flex-shrink-0" />
-                    No-Gimmicks Performance Guarantees
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <span className="w-3 h-3 rounded-full bg-[#3FA672] flex-shrink-0" />
-                    Custom Integrations tailored to your needs
-                  </li>
+                  {config.aboutCol1Bullets.map((bullet, idx) => (
+                    <li key={idx} className="flex items-center gap-3">
+                      <span className="w-3 h-3 rounded-full bg-[#3FA672] flex-shrink-0" />
+                      {bullet}
+                    </li>
+                  ))}
                 </ul>
               </div>
 
               <div>
                 <h4 className="text-[32px] font-bold text-[#0A1E35] mb-4" style={{ fontFamily: "Inter, sans-serif" }}>
-                  Our Dynamic Services
+                  {config.aboutCol2Header}
                 </h4>
                 <p className="text-[22px] leading-[36px] font-light text-slate-600 mb-6" style={{ fontFamily: "Inter, sans-serif" }}>
-                  We unify essential personal and business workflows under one virtual roof. From global procurement and supply logistics to tax preparations, virtual bookkeeping, and home solar engineering audits, our teams ensure every task is considered done.
+                  {config.aboutCol2Text}
                 </p>
                 <Link 
                   href="/services" 

@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import { getSiteConfig } from "@/data/siteConfigData";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -16,6 +17,11 @@ export default function Navbar() {
   const auth = useAuth();
   const user = auth ? auth.user : null;
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [config, setConfig] = useState(() => getSiteConfig());
+
+  useEffect(() => {
+    setConfig(getSiteConfig());
+  }, []);
 
   const dashboardPath = user
     ? (user.email.includes("admin") || user.email.includes("owner")
@@ -51,7 +57,7 @@ export default function Navbar() {
               color: "#DDF0F7"
             }}
           >
-            Consider it Done
+            {config.brandName}
           </span>
         </Link>
 
