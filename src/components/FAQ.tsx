@@ -164,7 +164,7 @@ export default function FAQ() {
               />
             ))
           ) : (
-            <p className="text-center py-6 text-sm font-semibold style={{ color: '#7A8F9E' }}">
+            <p className="text-center py-6 text-sm font-semibold" style={{ color: '#7A8F9E' }}>
               No questions found.
             </p>
           )}

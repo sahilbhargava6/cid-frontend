@@ -66,7 +66,7 @@ export default function PrivacyPolicy() {
                   1. Introduction
                 </h2>
                 <p>
-                  Consider It Done ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy describes how we collect, use, disclose, and safeguard your personal information when you use our website, client portals, and virtual business or home services (including tax preparation, virtual bookkeeping, solar systems sourcing, small business management, and procurement).
+                  consider-itdone ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy describes how we collect, use, disclose, and safeguard your personal information when you use our website, client portals, and virtual business or home services (including tax preparation, virtual bookkeeping, solar systems sourcing, small business management, and procurement).
                 </p>
               </section>
 
@@ -122,7 +122,7 @@ export default function PrivacyPolicy() {
                   5. California Privacy Rights (CCPA/CPRA)
                 </h2>
                 <p>
-                  If you are a California resident, you have specific rights under the California Consumer Privacy Act. These include the right to request access to the categories and specific pieces of personal information we collect, the right to request deletion of your information, and the right to opt-out of any sales of personal information. Consider It Done does not sell personal information.
+                  If you are a California resident, you have specific rights under the California Consumer Privacy Act. These include the right to request access to the categories and specific pieces of personal information we collect, the right to request deletion of your information, and the right to opt-out of any sales of personal information. consider-itdone does not sell personal information.
                 </p>
               </section>
 
@@ -149,7 +149,7 @@ export default function PrivacyPolicy() {
                   If you have questions or concerns about this Privacy Policy, please contact us at:
                 </p>
                 <div className="p-5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-800/50 rounded-2xl text-xs sm:text-sm space-y-1.5">
-                  <p className="font-extrabold text-slate-800 dark:text-slate-100">Consider It Done Privacy Team</p>
+                  <p className="font-extrabold text-slate-800 dark:text-slate-100">consider-itdone Privacy Team</p>
                   <p><span className="font-semibold text-slate-400">Email:</span> privacy@consideritdone.com</p>
                   <p><span className="font-semibold text-slate-400">Toll-Free Phone:</span> +1 (732) 433-0463</p>
                 </div>

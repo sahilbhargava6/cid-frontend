@@ -16,7 +16,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Consider It Done | Premium US Business & Home Solutions",
+  title: "consider-itdone | Premium US Business & Home Solutions",
   description:
     "Stress-free Tax Resolution, Accurate Virtual Bookkeeping, Home Solar Systems, Unified Business Accounts & Logistics, and Global Procurement Services — all handled by US-based experts.",
   keywords: [
@@ -26,21 +26,21 @@ export const metadata: Metadata = {
     "small business management",
     "procurement services",
     "US business solutions",
-    "consider it done",
+    "consider-itdone",
   ],
-  authors: [{ name: "Consider It Done" }],
+  authors: [{ name: "consider-itdone" }],
   openGraph: {
-    title: "Consider It Done | Premium US Business & Home Solutions",
+    title: "consider-itdone | Premium US Business & Home Solutions",
     description:
       "From tax resolution to solar installations — we handle everything so you don't have to.",
     url: "https://www.consideritdone.com",
-    siteName: "Consider It Done",
+    siteName: "consider-itdone",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Consider It Done | Premium US Business & Home Solutions",
+    title: "consider-itdone | Premium US Business & Home Solutions",
     description:
       "From tax resolution to solar installations — we handle everything so you don't have to.",
   },
@@ -67,7 +67,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "Consider It Done",
+              name: "consider-itdone",
               description:
                 "Premium US-based business services: Tax Preparation, Virtual Bookkeeping, Home Solar Systems, Small Business Management, and Procurement.",
               url: "https://www.consideritdone.com",

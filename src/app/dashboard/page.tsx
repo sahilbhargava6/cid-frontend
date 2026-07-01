@@ -13,11 +13,11 @@ import { useSearchParams } from 'next/navigation';
 function DashboardContent() {
   const { user } = useAuth();
   const searchParams = useSearchParams();
-  
+
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [documents, setDocuments] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   // File upload state
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [selectedTicketId, setSelectedTicketId] = useState<string>('');
@@ -78,7 +78,7 @@ function DashboardContent() {
 
     if (bookParam && dateParam && timeParam && paymentParam === 'true') {
       if (autoBooking || createdBooking) return;
-      
+
       const performAutoBooking = async () => {
         setAutoBooking(true);
         try {
@@ -108,7 +108,7 @@ function DashboardContent() {
           });
           setCreatedBooking(response);
           setShowPaymentModal(true);
-          
+
           // Clear query parameters from address bar to prevent duplicate bookings on refresh
           window.history.replaceState({}, document.title, window.location.pathname);
         } catch (error) {
@@ -160,12 +160,12 @@ function DashboardContent() {
   };
 
   const downloadICS = (booking: Booking) => {
-    const title = `Consider It Done: ${booking.service_type.replace(/_/g, ' ').toUpperCase()}`;
-    const desc = `Scheduled Session with Consider It Done. Booking ID: #${booking.id}`;
-    
+    const title = `consider-itdone: ${booking.service_type.replace(/_/g, ' ').toUpperCase()}`;
+    const desc = `Scheduled Session with consider-itdone. Booking ID: #${booking.id}`;
+
     const start = booking.scheduled_at ? new Date(booking.scheduled_at) : new Date();
     const end = new Date(start.getTime() + 60 * 60 * 1000);
-    
+
     const formatICSDate = (date: Date) => {
       return date.toISOString().replace(/-|:|\.\d\d\d/g, "");
     };
@@ -173,7 +173,7 @@ function DashboardContent() {
     const icsContent = [
       "BEGIN:VCALENDAR",
       "VERSION:2.0",
-      "PRODID:-//Consider It Done//Session Booking Calendar//EN",
+      "PRODID:-//consider-itdone//Session Booking Calendar//EN",
       "BEGIN:VEVENT",
       `UID:booking-${booking.id}@consideritdone.com`,
       `DTSTAMP:${formatICSDate(new Date())}`,
@@ -253,7 +253,7 @@ function DashboardContent() {
   return (
     <DashboardLayout>
       <div className="space-y-8">
-        
+
         {/* Welcome Section */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -262,7 +262,7 @@ function DashboardContent() {
               Manage your bookings and secure documents below.
             </p>
           </div>
-          <button 
+          <button
             onClick={() => { setIsWizardOpen(true); setWizardStep(1); }}
             className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm rounded-xl shadow-lg shadow-amber-500/25 transition-all self-start sm:self-center cursor-pointer"
           >
@@ -272,20 +272,20 @@ function DashboardContent() {
 
         {/* Dashboard Grid (Dashboard v4 style layout) */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
-          
+
           {/* LEFT 2 COLUMNS: Projects (Bookings) Grid Widget */}
           <div className="xl:col-span-2 space-y-6">
-            
+
             {/* BOOKINGS WRAPPER (v4 style header + grid) */}
             <div className="glass-dashboard-card rounded-3xl p-6 shadow-xl space-y-6">
-              
+
               {/* Stats & Header Row */}
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-white/10 dark:border-white/5">
                 <div>
                   <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">Your Booked Services</h3>
                   <p className="text-xs text-slate-400 mt-1">Status overview and scheduling</p>
                 </div>
-                
+
                 <div className="flex gap-6 text-slate-700 dark:text-slate-300">
                   <div className="pr-4 border-r border-white/10 dark:border-white/5">
                     <div className="text-xl font-black text-amber-500">{bookings.filter(b => b.status === 'pending').length}</div>
@@ -311,10 +311,10 @@ function DashboardContent() {
                     const isCompleted = booking.status === 'completed';
                     const progressPercent = isCompleted ? 100 : booking.status === 'pending' ? 40 : 70;
                     const progressBg = isCompleted ? 'bg-green-500' : 'bg-amber-500';
-                    
+
                     return (
-                      <div 
-                        key={booking.id} 
+                      <div
+                        key={booking.id}
                         onClick={() => setSelectedBooking(booking)}
                         className="p-4 bg-white/10 dark:bg-slate-950/20 border border-white/10 dark:border-white/5 rounded-2xl flex flex-col justify-between h-48 hover:scale-[1.01] hover:bg-white/15 dark:hover:bg-slate-950/30 transition-all duration-200 cursor-pointer"
                       >
@@ -360,9 +360,8 @@ function DashboardContent() {
                               <span className="text-[10px] font-bold text-green-500 bg-green-500/10 px-2.5 py-1 rounded-lg">Paid ✓</span>
                             )}
                           </div>
-                          <span className={`inline-flex px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase tracking-wider ${
-                            isCompleted ? 'text-green-500 bg-green-500/10' : 'text-amber-500 bg-amber-500/10'
-                          }`}>
+                          <span className={`inline-flex px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase tracking-wider ${isCompleted ? 'text-green-500 bg-green-500/10' : 'text-amber-500 bg-amber-500/10'
+                            }`}>
                             {booking.status.replace(/_/g, ' ')}
                           </span>
                         </div>
@@ -376,7 +375,7 @@ function DashboardContent() {
             {/* DOCUMENT FILES VAULT */}
             <div className="glass-dashboard-card rounded-3xl p-6 shadow-xl space-y-4">
               <h3 className="text-lg font-bold text-slate-900 dark:text-white">Uploaded Document Vault</h3>
-              
+
               {documents.length === 0 ? (
                 <p className="text-sm text-slate-500 dark:text-slate-400">No documents found. Use the uploader tool to share paperwork securely.</p>
               ) : (
@@ -394,7 +393,7 @@ function DashboardContent() {
                           <p className="text-[10px] text-slate-400 uppercase mt-0.5">{doc.file_type || 'File'}</p>
                         </div>
                       </div>
-                      <button 
+                      <button
                         onClick={() => handleDownload(doc.id)}
                         className="p-2 bg-white/20 dark:bg-slate-800/50 text-amber-600 dark:text-amber-500 border border-white/25 dark:border-white/5 rounded-xl hover:bg-white/40 dark:hover:bg-slate-700/50 transition-all flex-shrink-0"
                         title="Download file"
@@ -413,11 +412,11 @@ function DashboardContent() {
 
           {/* RIGHT COLUMN: Document Uploader Form */}
           <div className="space-y-6">
-            
+
             {/* SECURE FILE UPLOADER */}
             <div className="glass-dashboard-card rounded-3xl p-6 shadow-xl space-y-4">
               <h3 className="text-lg font-bold text-slate-900 dark:text-white">Secure Upload Tool</h3>
-              
+
               {uploadSuccess && (
                 <div className="p-3 bg-green-500/10 border border-green-500/25 text-green-700 dark:text-green-400 text-xs font-semibold rounded-xl mb-2">
                   Document uploaded and secured successfully!
@@ -427,7 +426,7 @@ function DashboardContent() {
               <form onSubmit={handleUpload} className="space-y-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Document Display Name</label>
-                  <input 
+                  <input
                     type="text"
                     value={uploadName}
                     onChange={(e) => setUploadName(e.target.value)}
@@ -438,7 +437,7 @@ function DashboardContent() {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Associate with Booking</label>
-                  <select 
+                  <select
                     value={selectedTicketId}
                     onChange={(e) => setSelectedTicketId(e.target.value)}
                     className="w-full bg-white/20 dark:bg-slate-900/30 border border-white/25 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
@@ -454,7 +453,7 @@ function DashboardContent() {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">File Attachment</label>
-                  <input 
+                  <input
                     type="file"
                     required
                     onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
@@ -462,7 +461,7 @@ function DashboardContent() {
                   />
                 </div>
 
-                <button 
+                <button
                   type="submit"
                   disabled={uploading || !uploadFile}
                   className="w-full bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white rounded-xl py-3 text-sm font-bold shadow-md shadow-amber-500/10 transition-all mt-4"
@@ -480,12 +479,12 @@ function DashboardContent() {
       {/* DYNAMIC MULTI-STEP BOOKING WIZARD MODAL */}
       {isWizardOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-          <div 
+          <div
             className="glass-dashboard-card w-full max-w-xl rounded-3xl p-6 sm:p-8 border border-white/10 dark:border-white/5 shadow-2xl relative animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
-            <button 
+            <button
               onClick={() => setIsWizardOpen(false)}
               className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-white/10 transition-colors"
             >
@@ -505,9 +504,9 @@ function DashboardContent() {
               <div>
                 <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2">Book a Premium Service</h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">Select one of our core services to start configuration</p>
-                
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <button 
+                  <button
                     onClick={() => handleServiceSelect('tax_prep')}
                     className="p-4 bg-white/5 dark:bg-black/20 hover:bg-amber-500/10 border border-white/10 dark:border-white/5 rounded-2xl text-left hover:scale-[1.02] transition-all"
                   >
@@ -515,7 +514,7 @@ function DashboardContent() {
                     <p className="text-[10px] text-slate-400 mt-1">Stress-free resolution & optimized returns</p>
                   </button>
 
-                  <button 
+                  <button
                     onClick={() => handleServiceSelect('virtual_bookkeeping')}
                     className="p-4 bg-white/5 dark:bg-black/20 hover:bg-amber-500/10 border border-white/10 dark:border-white/5 rounded-2xl text-left hover:scale-[1.02] transition-all"
                   >
@@ -523,7 +522,7 @@ function DashboardContent() {
                     <p className="text-[10px] text-slate-400 mt-1">Daily reconciliation & financial clarity</p>
                   </button>
 
-                  <button 
+                  <button
                     onClick={() => handleServiceSelect('accounts_and_logistics')}
                     className="p-4 bg-white/5 dark:bg-black/20 hover:bg-amber-500/10 border border-white/10 dark:border-white/5 rounded-2xl text-left hover:scale-[1.02] transition-all"
                   >
@@ -531,7 +530,7 @@ function DashboardContent() {
                     <p className="text-[10px] text-slate-400 mt-1">Unified accounts & front desk optimizations</p>
                   </button>
 
-                  <button 
+                  <button
                     onClick={() => handleServiceSelect('procurement')}
                     className="p-4 bg-white/5 dark:bg-black/20 hover:bg-amber-500/10 border border-white/10 dark:border-white/5 rounded-2xl text-left hover:scale-[1.02] transition-all"
                   >
@@ -554,7 +553,7 @@ function DashboardContent() {
                     <>
                       <div>
                         <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Filing Tax Year</label>
-                        <input 
+                        <input
                           type="number"
                           placeholder="e.g. 2025"
                           onChange={(e) => handleParamChange('tax_year', e.target.value)}
@@ -563,7 +562,7 @@ function DashboardContent() {
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Filing Status</label>
-                        <select 
+                        <select
                           onChange={(e) => handleParamChange('filing_status', e.target.value)}
                           className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
                         >
@@ -580,7 +579,7 @@ function DashboardContent() {
                     <>
                       <div>
                         <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Company Legal Name</label>
-                        <input 
+                        <input
                           type="text"
                           placeholder="Nova Tech Ltd"
                           onChange={(e) => handleParamChange('company_name', e.target.value)}
@@ -589,7 +588,7 @@ function DashboardContent() {
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Software Platform</label>
-                        <select 
+                        <select
                           onChange={(e) => handleParamChange('system', e.target.value)}
                           className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
                         >
@@ -606,7 +605,7 @@ function DashboardContent() {
                     <>
                       <div>
                         <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Company Legal Name</label>
-                        <input 
+                        <input
                           type="text"
                           placeholder="Swift Deliveries Inc"
                           onChange={(e) => handleParamChange('company_name', e.target.value)}
@@ -615,7 +614,7 @@ function DashboardContent() {
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Scheduling System Integration</label>
-                        <select 
+                        <select
                           onChange={(e) => handleParamChange('optimization', e.target.value)}
                           className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
                         >
@@ -631,7 +630,7 @@ function DashboardContent() {
                     <>
                       <div>
                         <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Item Category</label>
-                        <select 
+                        <select
                           onChange={(e) => handleParamChange('item_category', e.target.value)}
                           className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
                         >
@@ -644,13 +643,13 @@ function DashboardContent() {
                       <div>
                         <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Target Item & Budget</label>
                         <div className="grid grid-cols-2 gap-4">
-                          <input 
+                          <input
                             type="text"
                             placeholder="Tesla Model Y"
                             onChange={(e) => handleParamChange('target_item', e.target.value)}
                             className="w-full bg-white/10 dark:bg-slate-900/30 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
                           />
-                          <input 
+                          <input
                             type="number"
                             placeholder="Max Budget ($)"
                             onChange={(e) => handleParamChange('max_budget', e.target.value)}
@@ -663,13 +662,13 @@ function DashboardContent() {
                 </div>
 
                 <div className="flex justify-between">
-                  <button 
+                  <button
                     onClick={() => setWizardStep(1)}
                     className="px-4 py-2 border border-slate-300 dark:border-slate-700 text-xs font-bold rounded-xl text-slate-700 dark:text-slate-300 hover:bg-white/10 transition-colors"
                   >
                     Back
                   </button>
-                  <button 
+                  <button
                     onClick={() => setWizardStep(3)}
                     className="px-5 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow-md shadow-amber-500/10 transition-all"
                   >
@@ -688,7 +687,7 @@ function DashboardContent() {
                 <div className="space-y-4 mb-6">
                   <div>
                     <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Target Start Date</label>
-                    <input 
+                    <input
                       type="date"
                       required
                       value={scheduledAt}
@@ -707,14 +706,14 @@ function DashboardContent() {
                 </div>
 
                 <div className="flex justify-between">
-                  <button 
+                  <button
                     type="button"
                     onClick={() => setWizardStep(2)}
                     className="px-4 py-2 border border-slate-300 dark:border-slate-700 text-xs font-bold rounded-xl text-slate-700 dark:text-slate-300 hover:bg-white/10 transition-colors"
                   >
                     Back
                   </button>
-                  <button 
+                  <button
                     type="submit"
                     disabled={bookingLoading}
                     className="px-5 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow-md shadow-amber-500/10 transition-all"
@@ -732,12 +731,12 @@ function DashboardContent() {
       {/* CLIENT BOOKING DETAIL & LIVE CHAT MODAL */}
       {selectedBooking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-          <div 
+          <div
             className="glass-dashboard-card w-full max-w-xl rounded-3xl p-6 border border-white/10 dark:border-white/5 shadow-2xl relative animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
-            <button 
+            <button
               onClick={() => setSelectedBooking(null)}
               className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-white/10 transition-colors"
             >
@@ -749,7 +748,7 @@ function DashboardContent() {
             <h3 className="text-lg font-black text-slate-800 dark:text-white capitalize mb-2">
               {selectedBooking.service_type.replace(/_/g, ' ')} Request Details
             </h3>
-            
+
             <div className="grid grid-cols-3 gap-4 text-xs mb-4 p-3 bg-white/5 rounded-xl border border-white/5 items-center">
               <div>
                 <span className="text-slate-400 font-bold text-[9px] uppercase tracking-wider block">Status</span>
@@ -778,7 +777,7 @@ function DashboardContent() {
               <div className="relative flex items-center justify-between w-full">
                 {/* Horizontal line */}
                 <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-slate-200/20 dark:bg-slate-700/30 z-0" />
-                
+
                 {[
                   { step: "Requested", status: "pending" },
                   { step: "Confirmed", status: "confirmed" },
@@ -788,14 +787,13 @@ function DashboardContent() {
                   const statuses = ["pending", "confirmed", "preparing", "completed"];
                   const currentIdx = statuses.indexOf(selectedBooking.status);
                   const isPassed = currentIdx >= idx || (selectedBooking.status === "pending" && idx === 0);
-                  
+
                   return (
                     <div key={s.step} className="relative z-10 flex flex-col items-center gap-1.5">
-                      <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black transition-all ${
-                        isPassed 
-                          ? "bg-amber-505 bg-amber-500 text-white shadow-lg shadow-amber-500/25" 
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black transition-all ${isPassed
+                          ? "bg-amber-505 bg-amber-500 text-white shadow-lg shadow-amber-500/25"
                           : "bg-slate-200 dark:bg-slate-800 text-slate-400"
-                      }`}>
+                        }`}>
                         {isPassed ? "✓" : idx + 1}
                       </div>
                       <span className={`text-[10px] font-bold ${isPassed ? "text-slate-800 dark:text-slate-200" : "text-slate-400"}`}>
@@ -818,12 +816,12 @@ function DashboardContent() {
       {/* PAYMENT OPTION MODAL */}
       {showPaymentModal && createdBooking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-          <div 
+          <div
             className="glass-dashboard-card w-full max-w-md rounded-3xl p-6 sm:p-8 border border-white/10 dark:border-white/5 shadow-2xl relative animate-scale-in text-slate-800 dark:text-white"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
-            <button 
+            <button
               onClick={() => {
                 setShowPaymentModal(false);
                 setCreatedBooking(null);
@@ -882,9 +880,9 @@ function DashboardContent() {
                     <span className="font-black text-amber-500">
                       {createdBooking.price ? `$${createdBooking.price}` : (
                         createdBooking.service_type === 'tax_prep' ? '$299.00' :
-                        createdBooking.service_type === 'bookkeeping' ? '$350.00' :
-                        createdBooking.service_type === 'small_business' ? '$1,200.00' :
-                        createdBooking.service_type === 'procurement' ? '$1,000.00' : 'Contact for Quote'
+                          createdBooking.service_type === 'bookkeeping' ? '$350.00' :
+                            createdBooking.service_type === 'small_business' ? '$1,200.00' :
+                              createdBooking.service_type === 'procurement' ? '$1,000.00' : 'Contact for Quote'
                       )}
                     </span>
                   </div>
@@ -894,17 +892,15 @@ function DashboardContent() {
                 <div className="flex bg-slate-100 dark:bg-slate-950/60 p-1.5 rounded-xl border border-slate-200/50 dark:border-white/5">
                   <button
                     onClick={() => setPaymentMethod("card")}
-                    className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
-                      paymentMethod === "card" ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
-                    }`}
+                    className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${paymentMethod === "card" ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
+                      }`}
                   >
                     Credit / Debit Card
                   </button>
                   <button
                     onClick={() => setPaymentMethod("paypal")}
-                    className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
-                      paymentMethod === "paypal" ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
-                    }`}
+                    className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${paymentMethod === "paypal" ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
+                      }`}
                   >
                     PayPal / Wire
                   </button>
@@ -914,8 +910,8 @@ function DashboardContent() {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Cardholder Name</label>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         required
                         value={cardName}
                         onChange={(e) => setCardName(e.target.value)}
@@ -925,7 +921,7 @@ function DashboardContent() {
                     </div>
                     <div>
                       <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Card Number</label>
-                      <input 
+                      <input
                         type="text"
                         required
                         maxLength={19}
@@ -938,7 +934,7 @@ function DashboardContent() {
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Expiry Date</label>
-                        <input 
+                        <input
                           type="text"
                           required
                           maxLength={5}
@@ -950,7 +946,7 @@ function DashboardContent() {
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">CVV / CVC</label>
-                        <input 
+                        <input
                           type="password"
                           required
                           maxLength={3}
@@ -993,14 +989,14 @@ function DashboardContent() {
                       try {
                         // Simulate payment processing latency
                         await new Promise((resolve) => setTimeout(resolve, 1500));
-                        
+
                         // Update booking to Paid status
-                        const priceEstimate = 
+                        const priceEstimate =
                           createdBooking.service_type === 'tax_prep' ? '299.00' :
-                          createdBooking.service_type === 'bookkeeping' ? '350.00' :
-                          createdBooking.service_type === 'small_business' ? '1200.00' :
-                          createdBooking.service_type === 'procurement' ? '1000.00' : '0.00';
-                        
+                            createdBooking.service_type === 'bookkeeping' ? '350.00' :
+                              createdBooking.service_type === 'small_business' ? '1200.00' :
+                                createdBooking.service_type === 'procurement' ? '1000.00' : '0.00';
+
                         await bookingService.updateBooking(createdBooking.id, {
                           payment_status: 'paid',
                           price: priceEstimate

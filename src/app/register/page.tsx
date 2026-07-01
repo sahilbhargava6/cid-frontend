@@ -29,9 +29,9 @@ function RegisterContent() {
     } catch (err: any) {
       console.error('Registration error:', err);
       setError(
-        err.response?.data?.message || 
-        err.response?.data?.errors?.email?.[0] || 
-        err.response?.data?.errors?.password?.[0] || 
+        err.response?.data?.message ||
+        err.response?.data?.errors?.email?.[0] ||
+        err.response?.data?.errors?.password?.[0] ||
         'Registration failed. Please try again.'
       );
     }
@@ -43,10 +43,10 @@ function RegisterContent() {
   return (
     <div className="glass-dashboard-bg glass-dashboard-container flex items-center justify-center px-4 transition-colors duration-300">
       <div className="glass-dashboard-card w-full max-w-md p-8 rounded-2xl border relative z-10 transition-all duration-300">
-        
+
         {/* Logo and Header */}
         <div className="flex flex-col items-center mb-6">
-          <Image src="/images/logo.webp" alt="Consider It Done Logo" width={64} height={64} className="h-16 w-auto object-contain mb-3 filter drop-shadow-sm" priority />
+          <Image src="/images/logo.webp" alt="consider-itdone Logo" width={64} height={64} className="h-16 w-auto object-contain mb-3 filter drop-shadow-sm" priority />
           <h2 className="text-3xl font-extrabold tracking-tight text-slate-800 dark:text-white">
             Create Account
           </h2>
@@ -67,7 +67,7 @@ function RegisterContent() {
             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">
               Full Name
             </label>
-            <input 
+            <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -81,7 +81,7 @@ function RegisterContent() {
             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">
               Email Address
             </label>
-            <input 
+            <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -95,7 +95,7 @@ function RegisterContent() {
             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">
               Password
             </label>
-            <input 
+            <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -109,7 +109,7 @@ function RegisterContent() {
             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">
               Confirm Password
             </label>
-            <input 
+            <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -119,7 +119,7 @@ function RegisterContent() {
             />
           </div>
 
-          <button 
+          <button
             type="submit"
             disabled={loading}
             className="w-full bg-amber-500 hover:bg-amber-600 active:scale-[0.98] disabled:opacity-50 text-white rounded-xl py-3 text-sm font-bold shadow-lg shadow-amber-500/20 transition-all duration-200 mt-4 cursor-pointer"

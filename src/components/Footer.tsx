@@ -40,7 +40,7 @@ export default function Footer() {
             <div className="flex items-center gap-3 mb-5">
               <Image
                 src="/Consider_it_done_LOGO_4.webp"
-                alt="Consider It Done logo"
+                alt="consider-itdone logo"
                 width={40}
                 height={40}
                 className="rounded-lg"

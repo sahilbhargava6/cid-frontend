@@ -33,7 +33,7 @@ export default function Hero() {
         {/* Main Background Image - Fits exactly to 16:9 container */}
         <img
           src="/images/hero.webp"
-          alt="Consider It Done Premium Services Layout"
+          alt="consider-itdone Premium Services Layout"
           loading="eager"
           className="absolute inset-0 w-full h-full object-cover object-bottom pointer-events-none"
         />

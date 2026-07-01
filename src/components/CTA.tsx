@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import api from "@/lib/api";
 
 const availableServices = [
   "Tax Preparation",
@@ -59,7 +60,7 @@ export default function CTA() {
     return nextErrors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const nextErrors = validateForm();
     if (Object.keys(nextErrors).length > 0) {
@@ -69,12 +70,24 @@ export default function CTA() {
 
     setStatus("submitting");
 
-    // Simulate API submission
-    setTimeout(() => {
+    try {
+      const fullMessage = `Selected Services Needed: ${selectedServices.join(", ") || "None selected"}\n\nMessage:\n${formData.message}`;
+
+      await api.post("/contact", {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: fullMessage,
+      });
+
       setStatus("success");
       setFormData({ name: "", email: "", phone: "", message: "" });
       setSelectedServices([]);
-    }, 1500);
+    } catch (err) {
+      console.error("Failed to submit CTA contact form:", err);
+      setErrors({ form: "Failed to submit request. Please try again later." });
+      setStatus("idle");
+    }
   };
 
   return (
@@ -283,6 +296,11 @@ export default function CTA() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                {errors.form && (
+                  <div className="p-3.5 bg-rose-500/10 border border-rose-500/25 rounded-xl text-xs font-semibold text-rose-400">
+                    {errors.form}
+                  </div>
+                )}
                 <div>
                   <h3 className="text-lg font-bold text-white mb-1">Get Your Free Consultation</h3>
                   <p className="text-xs text-[var(--cid-gray-400)]">

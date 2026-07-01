@@ -1,6 +1,6 @@
-# Consider It Done (CID) Frontend
+# consider-itdone (CID) Frontend
 
-A premium, modern web portal for **Consider It Done** (CID), featuring a sleek glassmorphic design and modular widget dashboards. Built on Next.js 16 (App Router), React 19, Tailwind CSS v4, and TypeScript, it connects seamlessly with the CID Laravel backend API.
+A premium, modern web portal for **consider-itdone** (CID), featuring a sleek glassmorphic design and modular widget dashboards. Built on Next.js 16 (App Router), React 19, Tailwind CSS v4, and TypeScript, it connects seamlessly with the CID Laravel backend API.
 
 ---
 

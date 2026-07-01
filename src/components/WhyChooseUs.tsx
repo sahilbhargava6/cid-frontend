@@ -75,17 +75,17 @@ export default function WhyChooseUs() {
               </div>
               <div>
                 <h4
-                  className="text-base md:text-lg font-bold mb-2 tracking-tight"
-                  style={{ color: "#2d6fa3" }}
+                  className="text-xl md:text-2xl font-bold mb-2 tracking-tight"
+                  style={{ color: "#E85D3A" }}
                 >
                   {whyChooseUsRight1.title}
                 </h4>
                 {whyChooseUsRight1.points && (
-                  <ol className="list-decimal pl-5 text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]">
+                  <ul className="list-disc pl-5 text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]">
                     {whyChooseUsRight1.points.map((p, idx) => (
                       <li key={idx}> {p} </li>
                     ))}
-                  </ol>
+                  </ul>
                 )}
               </div>
             </div>
@@ -102,17 +102,17 @@ export default function WhyChooseUs() {
               </div>
               <div>
                 <h4
-                  className="text-base md:text-lg font-bold mb-2 tracking-tight"
-                  style={{ color: "#2d6fa3" }}
+                  className="text-xl md:text-2xl font-bold mb-2 tracking-tight"
+                  style={{ color: "#E85D3A" }}
                 >
                   {whyChooseUsRight2.title}
                 </h4>
                 {whyChooseUsRight2.points && (
-                  <ol className="list-decimal pl-5 text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]">
+                  <ul className="list-disc pl-5 text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]">
                     {whyChooseUsRight2.points.map((p, idx) => (
                       <li key={idx}> {p} </li>
                     ))}
-                  </ol>
+                  </ul>
                 )}
               </div>
             </div>

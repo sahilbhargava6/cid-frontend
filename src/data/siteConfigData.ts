@@ -46,7 +46,7 @@ export interface SiteConfig {
 const STORAGE_KEY = "cid_site_config";
 
 export const defaultSiteConfig: SiteConfig = {
-  brandName: "Consider It Done",
+  brandName: "consider-itdone",
   contactEmail: "info@consideritdone.com",
   contactPhone: "(973) 555-0199",
   contactAddress: "Lake Hopatcong, NJ 07849",
@@ -75,7 +75,7 @@ export const defaultSiteConfig: SiteConfig = {
     ]
   },
   aboutPill: "Our Mission & Philosophy",
-  aboutIntro: "At Consider It Done, we believe execution is everything. We serve as a premium administrative, logistical, and specialized task partner for busy individuals and expanding small businesses across the United States.",
+  aboutIntro: "At consider-itdone, we believe execution is everything. We serve as a premium administrative, logistical, and specialized task partner for busy individuals and expanding small businesses across the United States.",
   aboutCol1Header: "Why Partner With Us?",
   aboutCol1Bullets: [
     "100% US-Based Experts & Coordinators",

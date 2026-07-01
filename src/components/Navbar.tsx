@@ -51,7 +51,7 @@ export default function Navbar() {
             priority
           />
           <span 
-            className="hidden sm:inline font-semibold text-[22px] lg:text-[32px] tracking-tight"
+            className="inline font-semibold text-[15px] sm:text-[22px] lg:text-[32px] tracking-tight"
             style={{
               fontFamily: "Inter, sans-serif",
               color: "#DDF0F7"

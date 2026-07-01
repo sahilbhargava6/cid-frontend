@@ -4,7 +4,7 @@ const testimonials = [
     role: "Small Business Owner, Austin TX",
     service: "Tax Preparation",
     rating: 5,
-    text: "Consider It Done handled my small business taxes flawlessly. They found deductions I didn't even know existed and saved me over $4,000. Stress-free doesn't even begin to describe it.",
+    text: "consider-itdone handled my small business taxes flawlessly. They found deductions I didn't even know existed and saved me over $4,000. Stress-free doesn't even begin to describe it.",
     avatar: "SM",
   },
   {

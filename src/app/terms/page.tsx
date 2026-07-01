@@ -66,7 +66,7 @@ export default function TermsOfService() {
                   1. Agreement to Terms
                 </h2>
                 <p>
-                  By accessing or using the services provided by Consider It Done ("we," "our," or "us") via this portal or through virtual client accounts, you agree to be bound by these Terms of Service. If you do not agree to these terms, you must not access or use our services.
+                  By accessing or using the services provided by consider-itdone ("we," "our," or "us") via this portal or through virtual client accounts, you agree to be bound by these Terms of Service. If you do not agree to these terms, you must not access or use our services.
                 </p>
               </section>
 
@@ -78,7 +78,7 @@ export default function TermsOfService() {
                   2. Services Offered
                 </h2>
                 <p>
-                  Consider It Done is a multi-service business support provider. Our virtual offerings include tax resolution, professional bookkeeping, procurement coordination, solar options sourcing, and business administrative setup. All tax preparation is carried out in accordance with IRS guidelines, and final returns are subject to client review and electronic authorization (Form 8879) before submission.
+                  consider-itdone is a multi-service business support provider. Our virtual offerings include tax resolution, professional bookkeeping, procurement coordination, solar options sourcing, and business administrative setup. All tax preparation is carried out in accordance with IRS guidelines, and final returns are subject to client review and electronic authorization (Form 8879) before submission.
                 </p>
               </section>
 
@@ -114,7 +114,7 @@ export default function TermsOfService() {
                   5. Limitation of Liability
                 </h2>
                 <p>
-                  To the maximum extent permitted by applicable US law, Consider It Done shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues (including losses from IRS penalties arising from incomplete client documents or delayed submissions where documents were not provided to us in a timely manner). Our aggregate liability for any claims shall not exceed the fees paid by you for the specific service in question during the prior 6-month period.
+                  To the maximum extent permitted by applicable US law, consider-itdone shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues (including losses from IRS penalties arising from incomplete client documents or delayed submissions where documents were not provided to us in a timely manner). Our aggregate liability for any claims shall not exceed the fees paid by you for the specific service in question during the prior 6-month period.
                 </p>
               </section>
 
@@ -141,7 +141,7 @@ export default function TermsOfService() {
                   We reserve the right to modify these Terms of Service at any time. We will alert users to modifications by updating the "Last Updated" date. Continued use of our portal after changes are posted constitutes acceptance of the modified Terms of Service.
                 </p>
                 <div className="p-5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-800/50 rounded-2xl text-xs sm:text-sm space-y-1.5">
-                  <p className="font-extrabold text-slate-800 dark:text-slate-100">Consider It Done Support Team</p>
+                  <p className="font-extrabold text-slate-800 dark:text-slate-100">consider-itdone Support Team</p>
                   <p><span className="font-semibold text-slate-400">Email:</span> support@consideritdone.com</p>
                   <p><span className="font-semibold text-slate-400">Toll-Free Phone:</span> +1 (732) 433-0463</p>
                 </div>

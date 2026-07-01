@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import api from "@/lib/api";
 import dynamic from "next/dynamic";
 
 const Background3D = dynamic(() => import("@/components/Background3D"), {
@@ -13,6 +14,16 @@ export default function ContactUsPage() {
   const [scale, setScale] = useState(1);
   const [leftOffset, setLeftOffset] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    service: "procurement",
+    message: "",
+  });
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,9 +38,34 @@ export default function ContactUsPage() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+
+    try {
+      // Build a cleaner message that appends selected service info
+      const fullMessage = `Selected Service: ${formData.service.toUpperCase()}\n\nMessage:\n${formData.message}`;
+
+      await api.post("/contact", {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: fullMessage,
+      });
+
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error("Failed to submit contact form:", err);
+      setError(err?.response?.data?.message || "Failed to send contact inquiry. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -154,11 +190,20 @@ export default function ContactUsPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="w-full space-y-6">
+                  {error && (
+                    <div className="p-4 bg-rose-50 border border-rose-200 text-rose-600 rounded-xl text-sm font-semibold">
+                      {error}
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-bold text-[#0A1E35] mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Name</label>
                       <input
                         type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
                         required
                         placeholder="John Doe"
                         className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#E85D3A] text-slate-800 font-semibold"
@@ -169,6 +214,9 @@ export default function ContactUsPage() {
                       <label className="block text-sm font-bold text-[#0A1E35] mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Email</label>
                       <input
                         type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         required
                         placeholder="john@example.com"
                         className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#E85D3A] text-slate-800 font-semibold"
@@ -182,6 +230,9 @@ export default function ContactUsPage() {
                       <label className="block text-sm font-bold text-[#0A1E35] mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Phone</label>
                       <input
                         type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
                         placeholder="(555) 000-0000"
                         className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#E85D3A] text-slate-800 font-semibold"
                         style={{ fontFamily: "Inter, sans-serif" }}
@@ -190,6 +241,9 @@ export default function ContactUsPage() {
                     <div>
                       <label className="block text-sm font-bold text-[#0A1E35] mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Select Service</label>
                       <select
+                        name="service"
+                        value={formData.service}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#E85D3A] text-slate-800 font-semibold appearance-none"
                         style={{ fontFamily: "Inter, sans-serif" }}
@@ -206,6 +260,9 @@ export default function ContactUsPage() {
                   <div>
                     <label className="block text-sm font-bold text-[#0A1E35] mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Message</label>
                     <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
                       required
                       rows={4}
                       placeholder="How can we help you?"
@@ -216,10 +273,15 @@ export default function ContactUsPage() {
 
                   <button
                     type="submit"
-                    className="w-full py-4 bg-[#E85D3A] hover:bg-[#C44A2A] text-white font-extrabold text-[20px] rounded-full shadow-md transition-transform hover:scale-[1.01] active:scale-[0.99]"
+                    disabled={loading}
+                    className="w-full py-4 bg-[#E85D3A] hover:bg-[#C44A2A] text-white font-extrabold text-[20px] rounded-full shadow-md transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     style={{ fontFamily: "Inter, sans-serif" }}
                   >
-                    Send Message
+                    {loading ? (
+                      <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      "Send Message"
+                    )}
                   </button>
                 </form>
               )}
