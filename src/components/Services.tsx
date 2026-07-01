@@ -112,7 +112,7 @@ export default function Services() {
             className="text-2xl md:text-3xl font-extrabold mb-4 tracking-tight"
             style={{ color: "#591B1B", fontFamily: "var(--font-heading)" }}
           >
-            Best Service Porvider for your Home and Financials
+            Best Service Provider for your Home and Financials
           </h2>
           <p
             className="max-w-4xl mx-auto text-xs sm:text-[13px] leading-relaxed font-bold"
