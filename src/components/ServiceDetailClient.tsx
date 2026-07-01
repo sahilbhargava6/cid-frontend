@@ -124,7 +124,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
 
           {/* Main Image */}
           <div className="w-full max-w-sm mx-auto aspect-square rounded-3xl overflow-hidden bg-slate-50 p-6 border border-slate-100 shadow-md flex items-center justify-center">
-            <img src={details.image} alt={details.title} className="w-full h-full object-contain" />
+            <img src={details.image} alt={details.title} className="w-full h-full object-contain" loading="lazy" />
           </div>
 
           {/* Title Banner */}
@@ -245,6 +245,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
                   src={details.image}
                   alt={details.title}
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
 

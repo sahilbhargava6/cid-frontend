@@ -207,7 +207,7 @@ export default function ServicesPage() {
 
                 {/* Main Image */}
                 <div className="w-full max-w-sm mx-auto aspect-square rounded-3xl overflow-hidden bg-slate-50 p-6 border border-slate-100 shadow-md flex items-center justify-center">
-                  <img src={activeData.image} alt={activeData.title} className="w-full h-full object-contain" />
+                  <img src={activeData.image} alt={activeData.title} className="w-full h-full object-contain" loading="lazy" />
                 </div>
 
                 {/* Title Banner */}
@@ -287,7 +287,7 @@ export default function ServicesPage() {
                           borderColor: svc.key === activeService ? activeData.headerColor : "transparent",
                         }}
                       >
-                        <img src={svc.image} alt={svc.title} className="w-full h-full object-contain" />
+                        <img src={svc.image} alt={svc.title} className="w-full h-full object-contain" loading="lazy" />
                       </button>
                     ))}
                   </div>
@@ -355,6 +355,7 @@ export default function ServicesPage() {
                         src={svc.image}
                         alt={svc.title}
                         className="w-full h-full object-cover"
+                        loading="lazy"
                       />
                     </button>
                   ))}
@@ -435,7 +436,7 @@ export default function ServicesPage() {
                           borderColor: svc.key === activeService ? activeData.headerColor : "transparent",
                         }}
                       >
-                        <img src={svc.image} alt={svc.title} className="w-full h-full object-cover" />
+                        <img src={svc.image} alt={svc.title} className="w-full h-full object-cover" loading="lazy" />
                       </button>
                     ))}
                   </div>
@@ -446,6 +447,7 @@ export default function ServicesPage() {
                       src={activeData.image}
                       alt={activeData.title}
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                   </div>
 
