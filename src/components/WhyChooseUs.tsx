@@ -53,11 +53,13 @@ export default function WhyChooseUs() {
             >
               {whyChooseUsLeft.title}
             </h3>
-            <p
-              className="text-sm md:text-base leading-relaxed font-bold max-w-sm text-[#0E2D53]"
+            <ul
+              className="list-disc pl-5 text-sm md:text-base leading-relaxed font-bold max-w-sm text-[#0E2D53] text-left"
             >
-              {whyChooseUsLeft.description}
-            </p>
+              {whyChooseUsLeft.description.split(",").map((item, idx) => (
+                <li key={idx} className="mt-1"> {item.trim()} </li>
+              ))}
+            </ul>
           </div>
 
           {/* Right Block - Stacked Cards */}
