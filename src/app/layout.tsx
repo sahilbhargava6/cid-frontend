@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     "consider-itdone",
   ],
   authors: [{ name: "consider-itdone" }],
+  manifest: "/manifest.json",
   openGraph: {
     title: "consider-itdone | Premium US Business & Home Solutions",
     description:
@@ -61,6 +62,21 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js').then(function(reg) {
+                    console.log('ServiceWorker registration successful with scope: ', reg.scope);
+                  }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                  });
+                });
+              }
+            `
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

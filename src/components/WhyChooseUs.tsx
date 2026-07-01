@@ -56,7 +56,7 @@ export default function WhyChooseUs() {
             <ul
               className="list-disc pl-5 text-sm md:text-base leading-relaxed font-bold max-w-sm text-[#0E2D53] text-left"
             >
-              {whyChooseUsLeft.description.split(",").map((item, idx) => (
+              {whyChooseUsLeft.description && whyChooseUsLeft.description.split(",").map((item, idx) => (
                 <li key={idx} className="mt-1"> {item.trim()} </li>
               ))}
             </ul>
