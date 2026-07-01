@@ -1,7 +1,7 @@
 "use client";
  
 import { useState, useEffect } from "react";
-import { getSiteConfig } from "@/data/siteConfigData";
+import { getSiteConfig, WhyChooseUsCard } from "@/data/siteConfigData";
 
 export default function WhyChooseUs() {
   const [config, setConfig] = useState(() => getSiteConfig());
@@ -11,6 +11,16 @@ export default function WhyChooseUs() {
   }, []);
 
   const { whyChooseUsTitle, whyChooseUsLeft, whyChooseUsRight1, whyChooseUsRight2 } = config;
+
+  const getPoints = (card: WhyChooseUsCard) => {
+    if (card.points && Array.isArray(card.points) && card.points.length > 0) {
+      return card.points;
+    }
+    if (card.description) {
+      return card.description.split(",").map(item => item.trim()).filter(Boolean);
+    }
+    return [];
+  };
 
   return (
     <section
@@ -43,21 +53,17 @@ export default function WhyChooseUs() {
             {/* Background glowing circle */}
             <div className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-[#E85D3A]/5 blur-2xl group-hover:bg-[#E85D3A]/10 transition-colors duration-500" />
 
-            <div className="w-16 h-16 rounded-2xl bg-[#E85D3A]/10 flex items-center justify-center text-3xl mb-6 shadow-sm">
-              {whyChooseUsLeft.icon}
-            </div>
-
             <h3
-              className="text-xl md:text-2xl font-bold mb-4 tracking-tight"
+              className="text-2xl md:text-3xl font-bold mb-6 tracking-tight"
               style={{ color: "#E85D3A" }}
             >
               {whyChooseUsLeft.title}
             </h3>
             <ul
-              className="list-disc pl-5 text-sm md:text-base leading-relaxed font-bold max-w-sm text-[#0E2D53] text-left"
+              className="list-disc pl-5 text-base md:text-lg leading-relaxed font-bold max-w-sm text-[#0E2D53] text-left space-y-2.5"
             >
-              {whyChooseUsLeft.description && whyChooseUsLeft.description.split(",").map((item, idx) => (
-                <li key={idx} className="mt-1"> {item.trim()} </li>
+              {getPoints(whyChooseUsLeft).map((item, idx) => (
+                <li key={idx}> {item} </li>
               ))}
             </ul>
           </div>
@@ -67,56 +73,42 @@ export default function WhyChooseUs() {
 
             {/* Card 1 */}
             <div
-              className="group rounded-[28px] p-6 md:p-8 flex items-start gap-5 transition-all duration-500 hover:scale-[1.02] border border-white/40 dark:border-white/10 shadow-[0_12px_40px_rgba(15,17,23,0.04)] hover:shadow-[0_15px_30px_rgba(46,158,90,0.1)] backdrop-blur-md flex-1 relative overflow-hidden"
+              className="group rounded-[28px] p-6 md:p-8 flex flex-col justify-center transition-all duration-500 hover:scale-[1.02] border border-white/40 dark:border-white/10 shadow-[0_12px_40px_rgba(15,17,23,0.04)] hover:shadow-[0_15px_30px_rgba(46,158,90,0.1)] backdrop-blur-md flex-1 relative overflow-hidden"
               style={{
                 background: "linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(235,241,245,0.4) 100%)",
               }}
             >
-              <div className="w-12 h-12 rounded-xl bg-[#2E9E5A]/10 flex items-center justify-center text-xl shrink-0">
-                {whyChooseUsRight1.icon}
-              </div>
-              <div>
-                <h4
-                  className="text-xl md:text-2xl font-bold mb-2 tracking-tight"
-                  style={{ color: "#E85D3A" }}
-                >
-                  {whyChooseUsRight1.title}
-                </h4>
-                {whyChooseUsRight1.points && (
-                  <ul className="list-disc pl-5 text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]">
-                    {whyChooseUsRight1.points.map((p, idx) => (
-                      <li key={idx}> {p} </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+              <h4
+                className="text-xl md:text-2xl font-bold mb-3 tracking-tight"
+                style={{ color: "#E85D3A" }}
+              >
+                {whyChooseUsRight1.title}
+              </h4>
+              <ul className="list-disc pl-5 text-sm sm:text-base leading-relaxed font-bold text-[#0E2D53] space-y-1.5">
+                {getPoints(whyChooseUsRight1).map((p, idx) => (
+                  <li key={idx}> {p} </li>
+                ))}
+              </ul>
             </div>
 
             {/* Card 2 */}
             <div
-              className="group rounded-[28px] p-6 md:p-8 flex items-start gap-5 transition-all duration-500 hover:scale-[1.02] border border-white/40 dark:border-white/10 shadow-[0_12px_40px_rgba(15,17,23,0.04)] hover:shadow-[0_15px_30px_rgba(27,94,146,0.1)] backdrop-blur-md flex-1 relative overflow-hidden"
+              className="group rounded-[28px] p-6 md:p-8 flex flex-col justify-center transition-all duration-500 hover:scale-[1.02] border border-white/40 dark:border-white/10 shadow-[0_12px_40px_rgba(15,17,23,0.04)] hover:shadow-[0_15px_30px_rgba(27,94,146,0.1)] backdrop-blur-md flex-1 relative overflow-hidden"
               style={{
                 background: "linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(235,241,245,0.4) 100%)",
               }}
             >
-              <div className="w-12 h-12 rounded-xl bg-[#1B5E92]/10 flex items-center justify-center text-xl shrink-0">
-                {whyChooseUsRight2.icon}
-              </div>
-              <div>
-                <h4
-                  className="text-xl md:text-2xl font-bold mb-2 tracking-tight"
-                  style={{ color: "#E85D3A" }}
-                >
-                  {whyChooseUsRight2.title}
-                </h4>
-                {whyChooseUsRight2.points && (
-                  <ul className="list-disc pl-5 text-xs sm:text-sm leading-relaxed font-bold text-[#0E2D53]">
-                    {whyChooseUsRight2.points.map((p, idx) => (
-                      <li key={idx}> {p} </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+              <h4
+                className="text-xl md:text-2xl font-bold mb-3 tracking-tight"
+                style={{ color: "#E85D3A" }}
+              >
+                {whyChooseUsRight2.title}
+              </h4>
+              <ul className="list-disc pl-5 text-sm sm:text-base leading-relaxed font-bold text-[#0E2D53] space-y-1.5">
+                {getPoints(whyChooseUsRight2).map((p, idx) => (
+                  <li key={idx}> {p} </li>
+                ))}
+              </ul>
             </div>
 
           </div>
@@ -127,4 +119,3 @@ export default function WhyChooseUs() {
     </section>
   );
 }
-

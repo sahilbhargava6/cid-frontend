@@ -317,42 +317,26 @@ export default function SiteSettingsPage() {
                 </div>
 
                 {/* Left block settings */}
+                {/* Left block settings */}
                 <div className="p-5 border border-slate-200/80 rounded-2xl bg-slate-50/50 space-y-4">
                   <h3 className="text-sm font-bold text-slate-700 dark:text-slate-700">Left Column Card (Tall block)</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Title</label>
-                      <input
-                        type="text"
-                        value={config.whyChooseUsLeft.title}
-                        onChange={(e) => {
-                          const updated = {
-                            ...config,
-                            whyChooseUsLeft: { ...config.whyChooseUsLeft, title: e.target.value }
-                          };
-                          handleSave(updated);
-                        }}
-                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Icon Emoji</label>
-                      <input
-                        type="text"
-                        value={config.whyChooseUsLeft.icon}
-                        onChange={(e) => {
-                          const updated = {
-                            ...config,
-                            whyChooseUsLeft: { ...config.whyChooseUsLeft, icon: e.target.value }
-                          };
-                          handleSave(updated);
-                        }}
-                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Title</label>
+                    <input
+                      type="text"
+                      value={config.whyChooseUsLeft.title}
+                      onChange={(e) => {
+                        const updated = {
+                          ...config,
+                          whyChooseUsLeft: { ...config.whyChooseUsLeft, title: e.target.value }
+                        };
+                        handleSave(updated);
+                      }}
+                      className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
+                    />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Description text</label>
+                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Description text (comma-separated)</label>
                     <textarea
                       value={config.whyChooseUsLeft.description}
                       onChange={(e) => {
@@ -369,75 +353,79 @@ export default function SiteSettingsPage() {
 
                 {/* Right block card 1 settings */}
                 <div className="p-5 border border-slate-200/80 rounded-2xl bg-slate-50/50 space-y-4">
-                  <h3 className="text-sm font-bold text-slate-700 dark:text-slate-700">Right Column - Card 1</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Title</label>
-                      <input
-                        type="text"
-                        value={config.whyChooseUsRight1.title}
-                        onChange={(e) => {
-                          const updated = {
-                            ...config,
-                            whyChooseUsRight1: { ...config.whyChooseUsRight1, title: e.target.value }
-                          };
-                          handleSave(updated);
-                        }}
-                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Icon Emoji</label>
-                      <input
-                        type="text"
-                        value={config.whyChooseUsRight1.icon}
-                        onChange={(e) => {
-                          const updated = {
-                            ...config,
-                            whyChooseUsRight1: { ...config.whyChooseUsRight1, icon: e.target.value }
-                          };
-                          handleSave(updated);
-                        }}
-                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
-                      />
-                    </div>
+                  <h3 className="text-sm font-bold text-slate-700 dark:text-slate-700">Right Column - Card 1 (You Save)</h3>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Title</label>
+                    <input
+                      type="text"
+                      value={config.whyChooseUsRight1.title}
+                      onChange={(e) => {
+                        const updated = {
+                          ...config,
+                          whyChooseUsRight1: { ...config.whyChooseUsRight1, title: e.target.value }
+                        };
+                        handleSave(updated);
+                      }}
+                      className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Points / Description (comma-separated)</label>
+                    <textarea
+                      value={Array.isArray(config.whyChooseUsRight1.points) ? config.whyChooseUsRight1.points.join(", ") : (config.whyChooseUsRight1.description || "")}
+                      onChange={(e) => {
+                        const pts = e.target.value.split(",").map(s => s.trim()).filter(Boolean);
+                        const updated = {
+                          ...config,
+                          whyChooseUsRight1: { 
+                            ...config.whyChooseUsRight1, 
+                            points: pts,
+                            description: e.target.value 
+                          }
+                        };
+                        handleSave(updated);
+                      }}
+                      className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold h-20 resize-none"
+                    />
                   </div>
                 </div>
 
                 {/* Right block card 2 settings */}
                 <div className="p-5 border border-slate-200/80 rounded-2xl bg-slate-50/50 space-y-4">
-                  <h3 className="text-sm font-bold text-slate-700 dark:text-slate-700">Right Column - Card 2</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Title</label>
-                      <input
-                        type="text"
-                        value={config.whyChooseUsRight2.title}
-                        onChange={(e) => {
-                          const updated = {
-                            ...config,
-                            whyChooseUsRight2: { ...config.whyChooseUsRight2, title: e.target.value }
-                          };
-                          handleSave(updated);
-                        }}
-                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Icon Emoji</label>
-                      <input
-                        type="text"
-                        value={config.whyChooseUsRight2.icon}
-                        onChange={(e) => {
-                          const updated = {
-                            ...config,
-                            whyChooseUsRight2: { ...config.whyChooseUsRight2, icon: e.target.value }
-                          };
-                          handleSave(updated);
-                        }}
-                        className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
-                      />
-                    </div>
+                  <h3 className="text-sm font-bold text-slate-700 dark:text-slate-700">Right Column - Card 2 (You Decide)</h3>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Title</label>
+                    <input
+                      type="text"
+                      value={config.whyChooseUsRight2.title}
+                      onChange={(e) => {
+                        const updated = {
+                          ...config,
+                          whyChooseUsRight2: { ...config.whyChooseUsRight2, title: e.target.value }
+                        };
+                        handleSave(updated);
+                      }}
+                      className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Card Points / Description (comma-separated)</label>
+                    <textarea
+                      value={Array.isArray(config.whyChooseUsRight2.points) ? config.whyChooseUsRight2.points.join(", ") : (config.whyChooseUsRight2.description || "")}
+                      onChange={(e) => {
+                        const pts = e.target.value.split(",").map(s => s.trim()).filter(Boolean);
+                        const updated = {
+                          ...config,
+                          whyChooseUsRight2: { 
+                            ...config.whyChooseUsRight2, 
+                            points: pts,
+                            description: e.target.value 
+                          }
+                        };
+                        handleSave(updated);
+                      }}
+                      className="w-full px-4 py-2 border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 rounded-xl text-sm font-semibold h-20 resize-none"
+                    />
                   </div>
                 </div>
               </div>

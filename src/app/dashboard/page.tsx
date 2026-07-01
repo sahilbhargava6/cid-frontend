@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, Suspense } from 'react';
+import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
 import bookingService, { Booking } from '@/services/bookingService';
@@ -262,12 +263,20 @@ function DashboardContent() {
               Manage your bookings and secure documents below.
             </p>
           </div>
-          <button
-            onClick={() => { setIsWizardOpen(true); setWizardStep(1); }}
-            className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm rounded-xl shadow-lg shadow-amber-500/25 transition-all self-start sm:self-center cursor-pointer"
-          >
-            Book a Service
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/"
+              className="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white font-bold text-sm rounded-xl transition-all shadow-sm cursor-pointer"
+            >
+              Go to Home Page
+            </Link>
+            <Link
+              href="/services"
+              className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm rounded-xl shadow-lg shadow-amber-500/25 transition-all cursor-pointer"
+            >
+              Book a Service
+            </Link>
+          </div>
         </div>
 
         {/* Dashboard Grid (Dashboard v4 style layout) */}
