@@ -47,7 +47,7 @@ const STORAGE_KEY = "cid_site_config";
 
 export const defaultSiteConfig: SiteConfig = {
   brandName: "consider-itdone",
-  contactEmail: "info@consideritdone.com",
+  contactEmail: "info@consider-itdone.com",
   contactPhone: "(973) 555-0199",
   contactAddress: "Lake Hopatcong, NJ 07849",
   whyChooseUsTitle: "Why Smart People Work With Us",
@@ -57,7 +57,7 @@ export const defaultSiteConfig: SiteConfig = {
     description: "Home Improvement, Household Procurements, Tax Preparation, Miscellaneous",
   },
   whyChooseUsRight1: {
-    title: "You Save - We Shine",
+    title: "You Save - We Strive",
     icon: "📈",
     points: [
       "Biggest bang for your buck",
@@ -98,7 +98,7 @@ export const defaultSiteConfig: SiteConfig = {
     },
     tax: {
       key: "tax",
-      title: "Tax Preparation & Resolution",
+      title: "Tax Preparation",
       bullets: ["Tax filing", "Tax optimization", "Tax issue resolution", "Compliance support"],
     },
     solar: {

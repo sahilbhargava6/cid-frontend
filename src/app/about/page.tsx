@@ -61,7 +61,7 @@ export default function AboutPage() {
           </div>
 
           {/* Main About Card */}
-          <div className="rounded-3xl p-6 sm:p-10 shadow-md border border-slate-100 bg-white/80 backdrop-blur-md space-y-8">
+          <div className="rounded-3xl p-6 sm:p-10 shadow-lg border-2 border-slate-200 bg-white/80 backdrop-blur-md space-y-8">
             <p className="text-lg sm:text-xl leading-relaxed font-light text-slate-700" style={{ fontFamily: "Inter, sans-serif" }}>
               {config.aboutIntro}
             </p>
@@ -127,7 +127,7 @@ export default function AboutPage() {
                   backgroundImage: "url('/images/hero.webp')"
                 }}
               >
-                <div className="absolute inset-0 bg-white/85 backdrop-blur-[2px]" />
+                <div className="absolute inset-0 bg-white/50 backdrop-blur-[2px]" />
               </div>
 
               {/* Page Title */}
@@ -158,7 +158,7 @@ export default function AboutPage() {
 
               {/* Main About Details Card */}
               <div 
-                className="absolute left-[216px] top-[430px] w-[1488px] h-[720px] rounded-[30px] z-10 p-12 shadow-sm border border-slate-100/50 bg-white/40 backdrop-blur-md"
+                className="absolute left-[216px] top-[430px] w-[1488px] h-[720px] rounded-[30px] z-10 p-12 shadow-lg border-2 border-slate-200 bg-white/60 backdrop-blur-md"
               >
                 <p 
                   className="text-[28px] leading-[44px] font-light text-slate-700 mb-8"

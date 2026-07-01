@@ -106,20 +106,35 @@ export default function Services() {
     >
       <div className="max-w-[1700px] mx-auto px-4 sm:px-6">
 
-        {/* Header section */}
-        <div className="text-center mb-12">
-          <h2
-            className="text-2xl md:text-3xl font-extrabold mb-4 tracking-tight"
-            style={{ color: "#591B1B", fontFamily: "var(--font-heading)" }}
-          >
-            Best Service Provider for your Home and Financials
-          </h2>
-          <p
-            className="max-w-4xl mx-auto text-xs sm:text-[13px] leading-relaxed font-bold"
-            style={{ color: "#E07A6B" }}
-          >
-            Empowering our clients by providing premium services for home and financial pathways
-          </p>
+        {/* Header section (Moving Ticker Marquee) */}
+        <div className="relative w-full overflow-hidden py-6 bg-slate-50/40 backdrop-blur-[1px] border-y border-[#E07A6B]/15 mb-14 select-none">
+          <style dangerouslySetInnerHTML={{__html: `
+            @keyframes marquee-single {
+              0% { transform: translateX(60vw); }
+              100% { transform: translateX(-100%); }
+            }
+            .marquee-single {
+              display: inline-flex;
+              animation: marquee-single 18s linear infinite;
+            }
+            .marquee-single:hover {
+              animation-play-state: paused;
+            }
+          `}} />
+          <div className="marquee-single flex-col items-center justify-center text-center gap-2 whitespace-nowrap">
+            <span 
+              className="block text-xl md:text-2xl font-black tracking-tight"
+              style={{ color: "#591B1B", fontFamily: "var(--font-heading)" }}
+            >
+              Best Service Provider for your Home and Financials
+            </span>
+            <span 
+              className="block text-xs md:text-sm font-bold"
+              style={{ color: "#E07A6B" }}
+            >
+              Empowering our clients by providing premium services for home and financial pathways
+            </span>
+          </div>
         </div>
 
         {/* Responsive grid */}

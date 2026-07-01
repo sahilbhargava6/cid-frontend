@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
+import { getServiceByKey } from '@/data/servicesData';
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
 import bookingService, { Booking } from '@/services/bookingService';
@@ -234,6 +235,10 @@ function DashboardContent() {
   };
 
   const getServicePriceEstimate = () => {
+    let mappedService = serviceType;
+    const svc = getServiceByKey(mappedService);
+    if (svc && svc.price) return svc.price;
+
     switch (serviceType) {
       case 'tax_prep': return '$299.00';
       case 'virtual_bookkeeping': return '$350.00 / month';
@@ -800,8 +805,8 @@ function DashboardContent() {
                   return (
                     <div key={s.step} className="relative z-10 flex flex-col items-center gap-1.5">
                       <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black transition-all ${isPassed
-                          ? "bg-amber-505 bg-amber-500 text-white shadow-lg shadow-amber-500/25"
-                          : "bg-slate-200 dark:bg-slate-800 text-slate-400"
+                        ? "bg-amber-505 bg-amber-500 text-white shadow-lg shadow-amber-500/25"
+                        : "bg-slate-200 dark:bg-slate-800 text-slate-400"
                         }`}>
                         {isPassed ? "✓" : idx + 1}
                       </div>
@@ -887,12 +892,18 @@ function DashboardContent() {
                   <div className="border-t border-slate-200/50 dark:border-white/5 my-2 pt-2 flex justify-between items-center text-sm">
                     <span className="text-slate-800 dark:text-slate-200 font-bold">Total Price</span>
                     <span className="font-black text-amber-500">
-                      {createdBooking.price ? `$${createdBooking.price}` : (
-                        createdBooking.service_type === 'tax_prep' ? '$299.00' :
+                      {createdBooking.price ? `$${createdBooking.price}` : (() => {
+                        let mappedType: string = createdBooking.service_type;
+                        if (createdBooking.service_type === 'bookkeeping') mappedType = 'virtual_bookkeeping';
+                        if (createdBooking.service_type === 'small_business') mappedType = 'accounts_and_logistics';
+                        const svc = getServiceByKey(mappedType);
+                        if (svc && svc.price) return svc.price;
+
+                        return createdBooking.service_type === 'tax_prep' ? '$299.00' :
                           createdBooking.service_type === 'bookkeeping' ? '$350.00' :
                             createdBooking.service_type === 'small_business' ? '$1,200.00' :
-                              createdBooking.service_type === 'procurement' ? '$1,000.00' : 'Contact for Quote'
-                      )}
+                              createdBooking.service_type === 'procurement' ? '$1,000.00' : 'Contact for Quote';
+                      })()}
                     </span>
                   </div>
                 </div>

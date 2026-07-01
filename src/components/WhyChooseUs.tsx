@@ -24,95 +24,225 @@ export default function WhyChooseUs() {
 
   return (
     <section
-      id="why-us"
-      className="py-20 bg-transparent"
+      aria-labelledby="why-choose-us-heading"
+      className="w-full relative py-20 lg:py-32 overflow-hidden bg-white/40"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2
-            className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight"
-            style={{ color: "#0E2D53", fontFamily: "var(--font-heading)" }}
-          >
-            {whyChooseUsTitle}
-          </h2>
-          <div className="w-16 h-1 bg-[#E85D3A] mx-auto rounded-full" />
+        {/* Section Header (Moving Ticker Marquee) */}
+        <div className="relative w-full overflow-hidden py-6 bg-[#F4F7FA]/40 backdrop-blur-[1px] border-y border-[#E85D3A]/15 mb-20 select-none">
+          <style dangerouslySetInnerHTML={{__html: `
+            @keyframes marquee-why {
+              0% { transform: translateX(60vw); }
+              100% { transform: translateX(-100%); }
+            }
+            .marquee-why {
+              display: inline-flex;
+              animation: marquee-why 18s linear infinite;
+              will-change: transform;
+            }
+            .marquee-why:hover {
+              animation-play-state: paused;
+            }
+          `}} />
+          <div className="marquee-why flex-col items-center justify-center text-center gap-1 whitespace-nowrap">
+            <span
+              className="block text-2xl md:text-3xl font-extrabold tracking-tight"
+              style={{ color: "#0E2D53", fontFamily: "var(--font-heading)" }}
+            >
+              {whyChooseUsTitle}
+            </span>
+          </div>
         </div>
 
-        {/* Two Columns Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+        {/* ================= DESKTOP TRIANGLE LAYOUT (>= 768px) ================= */}
+        <div className="hidden md:block relative w-[900px] h-[580px] mx-auto">
+          {/* SVG Connecting Arrows */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+              <marker
+                id="arrow"
+                viewBox="0 0 10 10"
+                refX="6"
+                refY="5"
+                markerWidth="6"
+                markerHeight="6"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#E85D3A" />
+              </marker>
+            </defs>
+            
+            {/* Arrow 1: You Plan (Top Center) <-> You Save (Bottom Left) */}
+            <path
+              d="M 342 239 Q 230 230 251 325"
+              fill="none"
+              stroke="#E85D3A"
+              strokeWidth="3.5"
+              strokeOpacity="0.85"
+              markerStart="url(#arrow)"
+              markerEnd="url(#arrow)"
+              strokeDasharray="8 6"
+              filter="url(#glow)"
+              className="animate-[dash_40s_linear_infinite]"
+            />
+            
+            {/* Arrow 2: You Save (Bottom Left) <-> You Decide (Bottom Right) */}
+            <path
+              d="M 293 429 Q 450 510 607 429"
+              fill="none"
+              stroke="#E85D3A"
+              strokeWidth="3.5"
+              strokeOpacity="0.85"
+              markerStart="url(#arrow)"
+              markerEnd="url(#arrow)"
+              strokeDasharray="8 6"
+              filter="url(#glow)"
+              className="animate-[dash_40s_linear_infinite]"
+            />
+            
+            {/* Arrow 3: You Plan (Top Center) <-> You Decide (Bottom Right) */}
+            <path
+              d="M 558 239 Q 670 230 649 325"
+              fill="none"
+              stroke="#E85D3A"
+              strokeWidth="3.5"
+              strokeOpacity="0.85"
+              markerStart="url(#arrow)"
+              markerEnd="url(#arrow)"
+              strokeDasharray="8 6"
+              filter="url(#glow)"
+              className="animate-[dash_40s_linear_infinite]"
+            />
+          </svg>
 
-          {/* Left Block - Centered tall card */}
+          {/* Circle 1: Top Center (You Plan - We Implement) */}
           <div
-            className="group rounded-[32px] p-8 md:p-12 flex flex-col justify-center items-center text-center transition-all duration-500 hover:scale-[1.02] border border-white/40 dark:border-white/10 shadow-[0_12px_40px_rgba(15,17,23,0.04)] hover:shadow-[0_20px_50px_rgba(232,93,58,0.15)] min-h-[300px] backdrop-blur-md relative overflow-hidden"
-            style={{
-              background: "linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(235,241,245,0.4) 100%)",
-            }}
+            className="absolute left-1/2 -translate-x-1/2 top-0 z-10 w-[270px] h-[270px] rounded-full p-6 flex flex-col justify-center items-center text-center transition-all duration-500 hover:scale-[1.03] border-2 border-slate-200 shadow-[0_8px_32px_rgba(14,45,83,0.06)] hover:shadow-[0_16px_48px_rgba(232,93,58,0.15)] backdrop-blur-xl overflow-hidden bg-gradient-to-br from-white/95 to-white/60"
           >
-            {/* Background glowing circle */}
-            <div className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-[#E85D3A]/5 blur-2xl group-hover:bg-[#E85D3A]/10 transition-colors duration-500" />
-
             <h3
-              className="text-2xl md:text-3xl font-bold mb-6 tracking-tight"
+              className="text-lg md:text-xl font-black mb-4 tracking-tight leading-tight drop-shadow-sm"
               style={{ color: "#E85D3A" }}
             >
               {whyChooseUsLeft.title}
             </h3>
-            <ul
-              className="list-disc pl-5 text-base md:text-lg leading-relaxed font-bold max-w-sm text-[#0E2D53] text-left space-y-2.5"
-            >
-              {getPoints(whyChooseUsLeft).map((item, idx) => (
-                <li key={idx}> {item} </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Right Block - Stacked Cards */}
-          <div className="flex flex-col gap-6 justify-between">
-
-            {/* Card 1 */}
-            <div
-              className="group rounded-[28px] p-6 md:p-8 flex flex-col justify-center transition-all duration-500 hover:scale-[1.02] border border-white/40 dark:border-white/10 shadow-[0_12px_40px_rgba(15,17,23,0.04)] hover:shadow-[0_15px_30px_rgba(46,158,90,0.1)] backdrop-blur-md flex-1 relative overflow-hidden"
-              style={{
-                background: "linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(235,241,245,0.4) 100%)",
-              }}
-            >
-              <h4
-                className="text-xl md:text-2xl font-bold mb-3 tracking-tight"
-                style={{ color: "#E85D3A" }}
-              >
-                {whyChooseUsRight1.title}
-              </h4>
-              <ul className="list-disc pl-5 text-sm sm:text-base leading-relaxed font-bold text-[#0E2D53] space-y-1.5">
-                {getPoints(whyChooseUsRight1).map((p, idx) => (
-                  <li key={idx}> {p} </li>
+            <div className="w-full flex justify-center">
+              <ul className="text-left text-[11px] sm:text-[12px] leading-[1.6] font-extrabold text-[#0E2D53] space-y-2.5 list-none max-w-[200px]">
+                {getPoints(whyChooseUsLeft).map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E85D3A] shrink-0 mt-[5px]" />
+                    <span>{item}</span>
+                  </li>
                 ))}
               </ul>
             </div>
+          </div>
 
-            {/* Card 2 */}
-            <div
-              className="group rounded-[28px] p-6 md:p-8 flex flex-col justify-center transition-all duration-500 hover:scale-[1.02] border border-white/40 dark:border-white/10 shadow-[0_12px_40px_rgba(15,17,23,0.04)] hover:shadow-[0_15px_30px_rgba(27,94,146,0.1)] backdrop-blur-md flex-1 relative overflow-hidden"
-              style={{
-                background: "linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(235,241,245,0.4) 100%)",
-              }}
+          {/* Circle 2: Bottom Left (You Save - We Strive) */}
+          <div
+            className="absolute left-2 bottom-4 z-10 w-[270px] h-[270px] rounded-full p-6 flex flex-col justify-center items-center text-center transition-all duration-500 hover:scale-[1.03] border-2 border-slate-200 shadow-[0_8px_32px_rgba(14,45,83,0.06)] hover:shadow-[0_16px_48px_rgba(232,93,58,0.15)] backdrop-blur-xl overflow-hidden bg-gradient-to-br from-white/95 to-white/60"
+          >
+            <h3
+              className="text-lg md:text-xl font-black mb-4 tracking-tight leading-tight drop-shadow-sm"
+              style={{ color: "#E85D3A" }}
             >
-              <h4
-                className="text-xl md:text-2xl font-bold mb-3 tracking-tight"
-                style={{ color: "#E85D3A" }}
-              >
-                {whyChooseUsRight2.title}
-              </h4>
-              <ul className="list-disc pl-5 text-sm sm:text-base leading-relaxed font-bold text-[#0E2D53] space-y-1.5">
-                {getPoints(whyChooseUsRight2).map((p, idx) => (
-                  <li key={idx}> {p} </li>
+              {whyChooseUsRight1.title}
+            </h3>
+            <div className="w-full flex justify-center">
+              <ul className="text-left text-[11px] sm:text-[12px] leading-[1.6] font-extrabold text-[#0E2D53] space-y-2.5 list-none max-w-[200px]">
+                {getPoints(whyChooseUsRight1).map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E85D3A] shrink-0 mt-[5px]" />
+                    <span>{item}</span>
+                  </li>
                 ))}
               </ul>
             </div>
-
           </div>
 
+          {/* Circle 3: Bottom Right (You Decide - We Execute) */}
+          <div
+            className="absolute right-2 bottom-4 z-10 w-[270px] h-[270px] rounded-full p-6 flex flex-col justify-center items-center text-center transition-all duration-500 hover:scale-[1.03] border-2 border-slate-200 shadow-[0_8px_32px_rgba(14,45,83,0.06)] hover:shadow-[0_16px_48px_rgba(232,93,58,0.15)] backdrop-blur-xl overflow-hidden bg-gradient-to-br from-white/95 to-white/60"
+          >
+            <h3
+              className="text-lg md:text-xl font-black mb-4 tracking-tight leading-tight drop-shadow-sm"
+              style={{ color: "#E85D3A" }}
+            >
+              {whyChooseUsRight2.title}
+            </h3>
+            <div className="w-full flex justify-center">
+              <ul className="text-left text-[11px] sm:text-[12px] leading-[1.6] font-extrabold text-[#0E2D53] space-y-2.5 list-none max-w-[200px]">
+                {getPoints(whyChooseUsRight2).map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E85D3A] shrink-0 mt-[5px]" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* ================= MOBILE STACK LAYOUT (< 768px) ================= */}
+        <div className="flex md:hidden flex-col items-center gap-8">
+          {/* Card 1 */}
+          <div className="w-[290px] h-[290px] rounded-full p-6 flex flex-col justify-center items-center text-center border-2 border-slate-200 shadow-lg backdrop-blur-md bg-white/70">
+            <h3 className="text-lg font-black mb-3 text-[#E85D3A]">{whyChooseUsLeft.title}</h3>
+            <div className="w-full flex justify-center">
+              <ul className="text-left text-xs font-extrabold text-[#0E2D53] space-y-1.5 list-none max-w-[200px]">
+                {getPoints(whyChooseUsLeft).map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E85D3A] shrink-0 mt-[5px]" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Down Arrow */}
+          <svg className="w-8 h-8 text-[#E85D3A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 13l-7 7-7-7m14-6l-7 7-7-7" />
+          </svg>
+
+          {/* Card 2 */}
+          <div className="w-[290px] h-[290px] rounded-full p-6 flex flex-col justify-center items-center text-center border-2 border-slate-200 shadow-lg backdrop-blur-md bg-white/70">
+            <h3 className="text-lg font-black mb-3 text-[#E85D3A]">{whyChooseUsRight1.title}</h3>
+            <div className="w-full flex justify-center">
+              <ul className="text-left text-xs font-extrabold text-[#0E2D53] space-y-1.5 list-none max-w-[200px]">
+                {getPoints(whyChooseUsRight1).map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E85D3A] shrink-0 mt-[5px]" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Down Arrow */}
+          <svg className="w-8 h-8 text-[#E85D3A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 13l-7 7-7-7m14-6l-7 7-7-7" />
+          </svg>
+
+          {/* Card 3 */}
+          <div className="w-[290px] h-[290px] rounded-full p-6 flex flex-col justify-center items-center text-center border-2 border-slate-200 shadow-lg backdrop-blur-md bg-white/70">
+            <h3 className="text-lg font-black mb-3 text-[#E85D3A]">{whyChooseUsRight2.title}</h3>
+            <div className="w-full flex justify-center">
+              <ul className="text-left text-xs font-extrabold text-[#0E2D53] space-y-1.5 list-none max-w-[200px]">
+                {getPoints(whyChooseUsRight2).map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E85D3A] shrink-0 mt-[5px]" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
 
       </div>

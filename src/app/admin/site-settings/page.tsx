@@ -91,8 +91,8 @@ export default function SiteSettingsPage() {
           <button
             onClick={() => setActiveTab("general")}
             className={`px-4 py-3 rounded-xl text-left font-bold text-sm transition whitespace-nowrap ${activeTab === "general"
-                ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
+              ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
+              : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
               }`}
           >
             📋 Brand & Contact
@@ -100,8 +100,8 @@ export default function SiteSettingsPage() {
           <button
             onClick={() => setActiveTab("hero")}
             className={`px-4 py-3 rounded-xl text-left font-bold text-sm transition whitespace-nowrap ${activeTab === "hero"
-                ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
+              ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
+              : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
               }`}
           >
             🦸 Hero Hover Cards
@@ -109,8 +109,8 @@ export default function SiteSettingsPage() {
           <button
             onClick={() => setActiveTab("whyus")}
             className={`px-4 py-3 rounded-xl text-left font-bold text-sm transition whitespace-nowrap ${activeTab === "whyus"
-                ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
+              ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
+              : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
               }`}
           >
             🤔 Why Choose Us
@@ -118,8 +118,8 @@ export default function SiteSettingsPage() {
           <button
             onClick={() => setActiveTab("faqs")}
             className={`px-4 py-3 rounded-xl text-left font-bold text-sm transition whitespace-nowrap ${activeTab === "faqs"
-                ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
+              ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
+              : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
               }`}
           >
             💬 FAQ Accordion
@@ -127,8 +127,8 @@ export default function SiteSettingsPage() {
           <button
             onClick={() => setActiveTab("about")}
             className={`px-4 py-3 rounded-xl text-left font-bold text-sm transition whitespace-nowrap ${activeTab === "about"
-                ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
-                : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
+              ? "bg-amber-500/10 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 lg:border-l-4 lg:border-amber-500 lg:rounded-l-none"
+              : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/30 hover:text-slate-800 dark:hover:text-slate-200"
               }`}
           >
             ℹ️ About Us Page
@@ -162,7 +162,7 @@ export default function SiteSettingsPage() {
                     value={config.contactEmail}
                     onChange={(e) => updateConfigField("contactEmail", e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold"
-                    placeholder="info@consideritdone.com"
+                    placeholder="info@consider-itdone.com"
                   />
                 </div>
 
@@ -377,10 +377,10 @@ export default function SiteSettingsPage() {
                         const pts = e.target.value.split(",").map(s => s.trim()).filter(Boolean);
                         const updated = {
                           ...config,
-                          whyChooseUsRight1: { 
-                            ...config.whyChooseUsRight1, 
+                          whyChooseUsRight1: {
+                            ...config.whyChooseUsRight1,
                             points: pts,
-                            description: e.target.value 
+                            description: e.target.value
                           }
                         };
                         handleSave(updated);
@@ -416,10 +416,10 @@ export default function SiteSettingsPage() {
                         const pts = e.target.value.split(",").map(s => s.trim()).filter(Boolean);
                         const updated = {
                           ...config,
-                          whyChooseUsRight2: { 
-                            ...config.whyChooseUsRight2, 
+                          whyChooseUsRight2: {
+                            ...config.whyChooseUsRight2,
                             points: pts,
-                            description: e.target.value 
+                            description: e.target.value
                           }
                         };
                         handleSave(updated);

@@ -15,7 +15,7 @@ if (typeof window !== "undefined") {
 function ParticleField() {
   const pointsRef = useRef<THREE.Points>(null);
   
-  const count = 1000;
+  const count = 1200;
   const positions = React.useMemo(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count * 3; i += 3) {
@@ -26,21 +26,35 @@ function ParticleField() {
     return arr;
   }, []);
 
+  const colors = React.useMemo(() => {
+    const arr = new Float32Array(count * 3);
+    const palette = ["#E8503A", "#2D6FA3", "#3FA672", "#E8728C"];
+    const tempColor = new THREE.Color();
+    for (let i = 0; i < count * 3; i += 3) {
+      const hex = palette[Math.floor(Math.random() * palette.length)];
+      tempColor.set(hex);
+      arr[i] = tempColor.r;
+      arr[i + 1] = tempColor.g;
+      arr[i + 2] = tempColor.b;
+    }
+    return arr;
+  }, []);
+
   useFrame((state) => {
     if (!pointsRef.current) return;
-    pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.02;
-    pointsRef.current.rotation.x = state.clock.getElapsedTime() * 0.01;
+    pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.04;
+    pointsRef.current.rotation.x = state.clock.getElapsedTime() * 0.02;
   });
 
   return (
-    <Points ref={pointsRef} positions={positions} stride={3} frustumCulled={false}>
+    <Points ref={pointsRef} positions={positions} colors={colors} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color="#2d6fa3"
-        size={0.055}
+        vertexColors
+        size={0.11}
         sizeAttenuation={true}
         depthWrite={false}
-        opacity={0.3}
+        opacity={0.75}
       />
     </Points>
   );
@@ -215,7 +229,11 @@ export default function Background3D() {
   return (
     <div className="fixed inset-0 z-[-1] pointer-events-none bg-gradient-to-b from-[#FAFBFD] to-[#FFFFFF] transition-colors duration-300">
       {!isMobile && (
-        <Canvas camera={{ position: [0, 0, 5], fov: 55 }}>
+        <Canvas 
+          camera={{ position: [0, 0, 5], fov: 55 }}
+          dpr={[1, 1.5]}
+          gl={{ antialias: false, powerPreference: "high-performance" }}
+        >
           <ambientLight intensity={0.4} />
           <directionalLight position={[2, 3, 4]} intensity={0.8} />
           <SceneContainer />

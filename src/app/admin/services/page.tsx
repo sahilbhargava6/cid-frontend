@@ -147,9 +147,14 @@ export default function AdminServicesEditor() {
               <h3 className="text-sm font-black text-slate-800 dark:text-white mb-1 line-clamp-2">
                 {svc.title}
               </h3>
-              <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-3">
-                Key: {svc.key}
-              </p>
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
+                  Key: {svc.key}
+                </p>
+                <span className="text-xs font-black text-amber-600 dark:text-amber-400">
+                  {svc.price || 'No price set'}
+                </span>
+              </div>
 
               {/* Color Preview Dots */}
               <div className="flex items-center gap-2 mb-4">
@@ -239,6 +244,20 @@ export default function AdminServicesEditor() {
                   type="text"
                   value={editingService.title}
                   onChange={(e) => handleFieldChange('title', e.target.value)}
+                  className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+              </div>
+
+              {/* Booking Price */}
+              <div>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  Booking Price (e.g. $199, Free Consultation)
+                </label>
+                <input
+                  type="text"
+                  value={editingService.price || ''}
+                  onChange={(e) => handleFieldChange('price', e.target.value)}
+                  placeholder="e.g. $199 / Free Consultation"
                   className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
                 />
               </div>

@@ -97,7 +97,7 @@ export default function ContactUsPage() {
           </div>
 
           {/* Contact Form Card */}
-          <div className="rounded-3xl p-6 sm:p-10 shadow-md border border-slate-100 bg-white/80 backdrop-blur-md space-y-8">
+          <div className="rounded-3xl p-6 sm:p-10 shadow-lg border-2 border-slate-200 bg-white/80 backdrop-blur-md space-y-8">
             {/* Contact Info Header */}
             <div>
               <h4 className="text-2xl sm:text-3xl font-bold text-[#0A1E35] mb-3" style={{ fontFamily: "Inter, sans-serif" }}>
@@ -123,7 +123,7 @@ export default function ContactUsPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
                   </div>
-                  <span className="truncate">hello@consideritdone.com</span>
+                  <span className="truncate">info@consider-itdone.com</span>
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -274,7 +274,7 @@ export default function ContactUsPage() {
                   backgroundImage: "url('/images/hero.webp')"
                 }}
               >
-                <div className="absolute inset-0 bg-white/85 backdrop-blur-[2px]" />
+                <div className="absolute inset-0 bg-white/50 backdrop-blur-[2px]" />
               </div>
 
               {/* Page Title */}
@@ -305,7 +305,7 @@ export default function ContactUsPage() {
 
               {/* Main Contact Form Details Card */}
               <div
-                className="absolute left-[216px] top-[430px] w-[1488px] h-[720px] rounded-[30px] z-10 p-12 shadow-sm border border-slate-100/50 bg-white/40 backdrop-blur-md grid grid-cols-12 gap-12"
+                className="absolute left-[216px] top-[430px] w-[1488px] h-[720px] rounded-[30px] z-10 p-12 shadow-lg border-2 border-slate-200 bg-white/60 backdrop-blur-md grid grid-cols-12 gap-12"
               >
                 {/* Left Side: Contact Info */}
                 <div className="col-span-5 flex flex-col justify-between h-full">
@@ -334,7 +334,7 @@ export default function ContactUsPage() {
                           <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
                       </div>
-                      <span>hello@consideritdone.com</span>
+                      <span>info@consider-itdone.com</span>
                     </div>
 
                     <div className="flex items-center gap-4">

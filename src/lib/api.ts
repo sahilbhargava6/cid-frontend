@@ -30,9 +30,14 @@ api.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       if (typeof window !== 'undefined') {
+        // Skip redirect for auth-check calls — AuthContext handles those gracefully
+        const requestUrl = error.config?.url || '';
+        const isAuthCheck = requestUrl === '/me' || requestUrl.endsWith('/me');
+        
         localStorage.removeItem('auth_token');
+        
         const currentPath = window.location.pathname;
-        if (currentPath !== '/login' && currentPath !== '/register') {
+        if (!isAuthCheck && currentPath !== '/login' && currentPath !== '/register') {
           window.location.href = '/login';
         }
       }

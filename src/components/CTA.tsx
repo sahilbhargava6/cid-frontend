@@ -198,7 +198,7 @@ export default function CTA() {
               </a>
 
               <a
-                href="mailto:hello@consideritdone.com"
+                href="mailto:info@consider-itdone.com"
                 className="flex items-center gap-4 group text-white hover:text-[var(--cid-coral-light)] transition-colors duration-200"
               >
                 <div
@@ -224,7 +224,7 @@ export default function CTA() {
                 </div>
                 <div>
                   <p className="text-xs text-[var(--cid-gray-400)]">Email Support</p>
-                  <p className="text-lg font-bold">hello@consideritdone.com</p>
+                  <p className="text-lg font-bold">info@consider-itdone.com</p>
                 </div>
               </a>
             </div>

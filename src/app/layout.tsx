@@ -66,13 +66,21 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               if ('serviceWorker' in navigator) {
-                window.addEventListener('load', function() {
-                  navigator.serviceWorker.register('/sw.js').then(function(reg) {
-                    console.log('ServiceWorker registration successful with scope: ', reg.scope);
-                  }, function(err) {
-                    console.log('ServiceWorker registration failed: ', err);
+                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for (let registration of registrations) {
+                      registration.unregister();
+                    }
                   });
-                });
+                } else {
+                  window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/sw.js').then(function(reg) {
+                      console.log('ServiceWorker registration successful with scope: ', reg.scope);
+                    }, function(err) {
+                      console.log('ServiceWorker registration failed: ', err);
+                    });
+                  });
+                }
               }
             `
           }}

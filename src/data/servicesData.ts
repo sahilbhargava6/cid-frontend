@@ -9,6 +9,7 @@ export interface ServiceData {
   textColor: string;
   headerColor: string;
   description: string;
+  price?: string;
   // Layout coordinates for the services page
   left: number;
   top: number;
@@ -53,7 +54,7 @@ export const defaultServices: ServiceData[] = [
   },
   {
     key: "tax_prep",
-    title: "Tax Preparation & Resolution for Individuals and LLCs",
+    title: "Tax Preparation for Individuals and LLCs",
     image: "/images/services/tax.webp",
     bgColor: "rgba(45, 111, 163, 0.2)",
     textColor: "#0A1E35",
