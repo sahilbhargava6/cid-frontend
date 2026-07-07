@@ -8,6 +8,18 @@ import Footer from "@/components/Footer";
 import { getServiceByKey, ServiceData } from "@/data/servicesData";
 
 function BulletDescription({ description, headerColor, textColor }: { description: string; headerColor: string; textColor: string }) {
+  const hasHtml = /<[a-z][\s\S]*>/i.test(description);
+  
+  if (hasHtml) {
+    return (
+      <div 
+        className="text-current [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5 [&_p]:mb-4"
+        style={{ color: textColor }}
+        dangerouslySetInnerHTML={{ __html: description }} 
+      />
+    );
+  }
+
   return (
     <>
       {description.split('\n').filter(line => line.trim()).map((line, idx) => {

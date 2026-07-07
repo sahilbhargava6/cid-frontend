@@ -2,7 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
 import { getServices, saveServices, resetService, resetAllServices, addService, deleteService, isCustomService, ServiceData } from '@/data/servicesData';
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+
 
 export default function AdminServicesEditor() {
   const [services, setServicesState] = useState<ServiceData[]>([]);
@@ -316,12 +321,13 @@ export default function AdminServicesEditor() {
                 <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
                   Description
                 </label>
-                <textarea
-                  value={editingService.description}
-                  onChange={(e) => handleFieldChange('description', e.target.value)}
-                  rows={8}
-                  className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500 resize-y"
-                />
+                <div className="bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl overflow-hidden [&_.ql-toolbar]:border-b [&_.ql-toolbar]:border-white/10 [&_.ql-toolbar]:bg-white/50 dark:[&_.ql-toolbar]:bg-slate-800/80 [&_.ql-container]:border-none [&_.ql-editor]:min-h-[200px] text-slate-800 dark:text-white">
+                  <ReactQuill
+                    theme="snow"
+                    value={editingService.description}
+                    onChange={(content) => handleFieldChange('description', content)}
+                  />
+                </div>
               </div>
 
               {/* Colors Row */}

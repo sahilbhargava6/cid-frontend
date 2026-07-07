@@ -83,6 +83,17 @@ export default function BookingsManager() {
     }
   };
 
+  const handleDeleteBooking = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this booking? This cannot be undone.')) return;
+    try {
+      await api.delete(`/bookings/${id}`);
+      await loadBookings();
+    } catch (error) {
+      console.error('Failed to delete booking:', error);
+      alert('Failed to delete booking.');
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex h-64 w-full items-center justify-center">
@@ -194,12 +205,20 @@ export default function BookingsManager() {
                     </td>
                     <td className="p-4 font-semibold">${booking.price || '0.00'}</td>
                     <td className="p-4 text-right">
-                      <button 
-                        onClick={() => openEditor(booking)}
-                        className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 rounded-lg text-xs font-semibold text-slate-700 dark:text-white transition-all"
-                      >
-                        Manage
-                      </button>
+                      <div className="flex items-center justify-end gap-2">
+                        <button 
+                          onClick={() => openEditor(booking)}
+                          className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 rounded-lg text-xs font-semibold text-slate-700 dark:text-white transition-all"
+                        >
+                          Manage
+                        </button>
+                        <button 
+                          onClick={() => handleDeleteBooking(booking.id)}
+                          className="px-3 py-1.5 bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-800/50 rounded-lg text-xs font-semibold text-red-600 dark:text-red-400 transition-all"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))

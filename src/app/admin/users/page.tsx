@@ -29,6 +29,17 @@ export default function UsersManager() {
     fetchUsers();
   }, []);
 
+  const handleDeleteUser = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this user? This cannot be undone.')) return;
+    try {
+      await api.delete(`/users/${id}`);
+      setUsers(users.filter(u => u.id !== id));
+    } catch (error) {
+      console.error('Failed to delete user:', error);
+      alert('Failed to delete user.');
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex h-64 w-full items-center justify-center">
@@ -50,6 +61,7 @@ export default function UsersManager() {
                 <th className="p-4">Name</th>
                 <th className="p-4">Email</th>
                 <th className="p-4">Joined Date</th>
+                <th className="p-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-700 text-sm text-slate-700 dark:text-slate-300">
@@ -60,6 +72,14 @@ export default function UsersManager() {
                   <td className="p-4">{user.email}</td>
                   <td className="p-4 text-xs text-slate-500">
                     {new Date(user.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="p-4 text-right">
+                    <button 
+                      onClick={() => handleDeleteUser(user.id)}
+                      className="px-3 py-1.5 bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-800/50 rounded-lg text-xs font-semibold text-red-600 dark:text-red-400 transition-all"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
