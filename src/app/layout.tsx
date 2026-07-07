@@ -16,20 +16,36 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.consideritdone.com"),
   title: "consider-itdone | Premium US Business & Home Solutions",
   description:
     "Stress-free Tax Resolution, Accurate Virtual Bookkeeping, Home Solar Systems, Unified Business Accounts & Logistics, and Global Procurement Services — all handled by US-based experts.",
   keywords: [
+    "consider it done",
+    "consider-itdone",
     "tax preparation",
+    "tax resolution",
     "virtual bookkeeping",
     "home solar systems",
+    "solar installation",
     "small business management",
+    "business logistics",
     "procurement services",
     "US business solutions",
-    "consider-itdone",
+    "US based experts",
+    "home solutions"
   ],
   authors: [{ name: "consider-itdone" }],
   manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/Consider_it_done_LOGO_4.webp', type: 'image/webp' }
+    ],
+    apple: [
+      { url: '/Consider_it_done_LOGO_4.png' }
+    ]
+  },
   openGraph: {
     title: "consider-itdone | Premium US Business & Home Solutions",
     description:

@@ -29,6 +29,9 @@ export default function Hero() {
       className="w-full overflow-hidden bg-slate-200 pt-[76px] lg:pt-0"
       onClick={() => setActiveHover(null)}
     >
+      <h1 id="hero-heading" className="sr-only">
+        consider-itdone | Premium US Business & Home Solutions
+      </h1>
       <div className="relative w-full aspect-[16/9] select-none">
         {/* Main Background Image - Fits exactly to 16:9 container */}
         <img

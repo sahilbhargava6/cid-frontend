@@ -31,7 +31,7 @@ export default function Home() {
         <div className="w-full mt-20 mb-10">
           <img
             src="/images/services/bottombanner.webp"
-            alt="consider-itdone Bottom Banner"
+            alt="Consider it Done Premium US Business and Home Solutions Bottom Banner"
             className="w-full h-auto object-cover block"
             loading="lazy"
           />

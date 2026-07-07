@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import dynamic from "next/dynamic";
 import { getServices, ServiceData } from "@/data/servicesData";
+import Link from "next/link";
 
 const Background3D = dynamic(() => import("@/components/Background3D"), {
   ssr: false,
@@ -164,12 +165,9 @@ export default function ServicesPage() {
                   "rgba(63, 166, 114, 0.15)",
                 ];
                 return (
-                  <div
+                  <Link
+                    href={`/services/${svc.key}`}
                     key={svc.key}
-                    onClick={() => {
-                      setActiveService(svc.key);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
                     className="group rounded-3xl overflow-hidden bg-white/80 border border-slate-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer"
                   >
                     <div className="w-full aspect-square relative overflow-hidden bg-slate-50 p-4 flex items-center justify-center">
@@ -189,15 +187,15 @@ export default function ServicesPage() {
                       >
                         {svc.title}
                       </h3>
-                      <button 
+                      <div 
                         className="self-start px-5 py-2.5 rounded-full font-bold text-sm bg-white/90 hover:bg-white text-slate-800 shadow-sm transition-all flex items-center gap-2 group-hover:translate-x-1"
                         style={{ fontFamily: "Inter, sans-serif" }}
                       >
                         <span>View Details</span>
                         <span>→</span>
-                      </button>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
@@ -354,12 +352,9 @@ export default function ServicesPage() {
                 <>
                   {/* Service Cards */}
                   {services.map((svc) => (
-                    <button
+                    <Link
+                      href={`/services/${svc.key}`}
                       key={svc.key}
-                      onClick={() => {
-                        setActiveService(svc.key);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
                       className="absolute w-[309px] h-[309px] rounded-[30px] overflow-hidden hover:scale-105 transition-all duration-500 z-10 cursor-pointer"
                       style={{ left: `${svc.left}px`, top: `${svc.top}px` }}
                     >
@@ -369,7 +364,7 @@ export default function ServicesPage() {
                         className="w-full h-full object-cover"
                         loading="lazy"
                       />
-                    </button>
+                    </Link>
                   ))}
 
                   {/* Pill Backings */}
@@ -392,12 +387,9 @@ export default function ServicesPage() {
 
                   {/* Pill Text Labels */}
                   {services.map((svc) => (
-                    <button
+                    <Link
+                      href={`/services/${svc.key}`}
                       key={`label-${svc.key}`}
-                      onClick={() => {
-                        setActiveService(svc.key);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
                       className="absolute font-semibold text-[24px] leading-[29px] flex items-center justify-center text-center z-15 hover:scale-105 transition-all duration-300 cursor-pointer bg-transparent border-0 p-0"
                       style={{
                         left: `${svc.pillLabelLeft}px`,
@@ -409,7 +401,7 @@ export default function ServicesPage() {
                       }}
                     >
                       {svc.title}
-                    </button>
+                    </Link>
                   ))}
                 </>
               )}
