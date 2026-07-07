@@ -34,11 +34,13 @@ export default function Hero() {
       </h1>
       <div className="relative w-full aspect-[16/9] select-none">
         {/* Main Background Image - Fits exactly to 16:9 container */}
-        <img
+        <Image
           src="/images/hero.webp"
           alt="consider-itdone Premium Services Layout"
-          loading="eager"
-          className="absolute inset-0 w-full h-full object-cover object-bottom pointer-events-none"
+          fill
+          priority
+          className="object-cover object-bottom pointer-events-none"
+          sizes="100vw"
         />
 
         {/* Interactive Overlays & Hover Zones (With glass bubbles removed) */}
@@ -152,11 +154,13 @@ export default function Hero() {
                 background: "radial-gradient(circle, rgba(46,158,90,0.45) 0%, rgba(46,158,90,0) 70%)"
               }}
             />
-            <img
+            <Image
               src="/images/services/5.webp"
               alt="Virtual Bookkeeper"
-              loading="eager"
-              className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105 relative z-10"
+              fill
+              priority
+              className="object-contain transition-transform duration-300 group-hover:scale-105 relative z-10"
+              sizes="250px"
             />
           </div>
         </div>
