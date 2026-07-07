@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css';
+import 'react-quill-new/dist/quill.snow.css';
 import { getServices, saveServices, resetService, resetAllServices, addService, deleteService, isCustomService, ServiceData } from '@/data/servicesData';
 
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 
 export default function AdminServicesEditor() {
