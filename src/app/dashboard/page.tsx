@@ -11,6 +11,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import { DashboardLayout } from '@/components/dashboard/Layout';
 import { ChatPanel } from '@/components/dashboard/ChatPanel';
 import { useSearchParams } from 'next/navigation';
+import api from '@/lib/api';
 
 function DashboardContent() {
   const { user } = useAuth();
@@ -379,6 +380,27 @@ function DashboardContent() {
                             {booking.status.replace(/_/g, ' ')}
                           </span>
                         </div>
+                        {booking.payment_status !== 'paid' && booking.price && parseFloat(booking.price) > 0 && (
+                          <div className="mt-3">
+                            <button
+                              onClick={async (e) => {
+                                e.stopPropagation();
+                                try {
+                                  const res = await api.post(`/bookings/${booking.id}/checkout`);
+                                  if (res.data && res.data.url) {
+                                    window.location.href = res.data.url;
+                                  }
+                                } catch (error) {
+                                  console.error("Stripe checkout error:", error);
+                                  alert("Failed to initiate checkout. Please ensure the admin has set a valid price.");
+                                }
+                              }}
+                              className="w-full py-2 bg-amber-500 hover:bg-amber-600 text-white text-[10px] uppercase tracking-wider font-bold rounded-lg shadow-md transition-all"
+                            >
+                              Pay Now (${booking.price})
+                            </button>
+                          </div>
+                        )}
                       </div>
                     );
                   })}
