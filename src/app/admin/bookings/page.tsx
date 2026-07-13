@@ -18,6 +18,7 @@ export default function BookingsManager() {
   const [editStatus, setEditStatus] = useState<TicketStatus>('pending');
   const [editPaymentStatus, setEditPaymentStatus] = useState<PaymentStatus>('unpaid');
   const [editPrice, setEditPrice] = useState<string>('');
+  const [editMilestone, setEditMilestone] = useState<'Drafting' | 'Review' | 'Filing' | 'Completed'>('Drafting');
   const [updating, setUpdating] = useState(false);
 
   const loadBookings = async () => {
@@ -62,6 +63,7 @@ export default function BookingsManager() {
     setEditStatus(booking.status);
     setEditPaymentStatus(booking.payment_status);
     setEditPrice(booking.price || '');
+    setEditMilestone(booking.milestone || 'Drafting');
   };
 
   const handleUpdate = async (e: React.FormEvent) => {
@@ -72,7 +74,8 @@ export default function BookingsManager() {
       await api.put(`/bookings/${selectedBooking.id}`, {
         status: editStatus,
         payment_status: editPaymentStatus,
-        price: editPrice
+        price: editPrice,
+        milestone: editMilestone
       });
       await loadBookings();
       setSelectedBooking(null);
@@ -179,7 +182,7 @@ export default function BookingsManager() {
                   <tr key={booking.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
                     <td className="p-4 font-semibold">#{booking.id}</td>
                     <td className="p-4 text-xs text-slate-500 whitespace-nowrap">
-                      {booking.scheduled_at ? new Date(booking.scheduled_at.replace('Z', '')).toLocaleString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'Pending'}
+                      {booking.scheduled_at ? new Date(booking.scheduled_at).toLocaleString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }) : 'Pending'}
                     </td>
                     <td className="p-4 font-medium">{booking.user?.name || 'Guest'}</td>
                     <td className="p-4 capitalize">{booking.service_type.replace('_', ' ')}</td>
@@ -262,6 +265,20 @@ export default function BookingsManager() {
                   <option value="in_progress">In Progress</option>
                   <option value="completed">Completed</option>
                   <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Project Milestone</label>
+                <select 
+                  value={editMilestone} 
+                  onChange={(e) => setEditMilestone(e.target.value as any)}
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none"
+                >
+                  <option value="Drafting">Drafting</option>
+                  <option value="Review">Review</option>
+                  <option value="Filing">Filing</option>
+                  <option value="Completed">Completed</option>
                 </select>
               </div>
 

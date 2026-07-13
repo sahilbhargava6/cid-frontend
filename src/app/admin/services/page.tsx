@@ -164,14 +164,31 @@ export default function AdminServicesEditor() {
               <h3 className="text-sm font-black text-slate-800 dark:text-white mb-1 line-clamp-2">
                 {svc.title}
               </h3>
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between mb-2">
                 <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
                   Key: {svc.key}
                 </p>
-                <span className="text-xs font-black text-amber-600 dark:text-amber-400">
-                  {svc.price || 'No price set'}
-                </span>
               </div>
+
+              {/* Slots & Prices Display */}
+              {svc.timeSlots && svc.timeSlots.length > 0 && (
+                <div className="mb-3">
+                  <p className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">
+                    Slots & Prices
+                  </p>
+                  <div className="flex flex-wrap gap-1">
+                    {svc.timeSlots.map((slot, sIdx) => (
+                      <span 
+                        key={sIdx} 
+                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200/50 dark:border-white/5 text-[9px] font-medium"
+                      >
+                        <span className="text-slate-500">🕒 {slot.time}</span>
+                        <span className="text-amber-505 text-amber-500 font-bold">{slot.label}</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Color Preview Dots */}
               <div className="flex items-center gap-2 mb-4">

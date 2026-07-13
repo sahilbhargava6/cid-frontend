@@ -19,6 +19,8 @@ export interface Booking {
   updated_at: string;
   documents?: any[];
   user?: { id: number; name: string; email: string };
+  timezone?: string;
+  milestone?: 'Drafting' | 'Review' | 'Filing' | 'Completed';
 }
 
 export interface CreateBookingPayload {
@@ -27,6 +29,7 @@ export interface CreateBookingPayload {
   organization_id?: number;
   input_parameters: Record<string, any>;
   price?: number;
+  timezone?: string;
 }
 
 export const bookingService = {
@@ -38,8 +41,9 @@ export const bookingService = {
     return res.data;
   },
 
-  async getBookedSlots(date: string): Promise<string[]> {
-    const res = await api.get(`/bookings/slots?date=${date}`);
+  async getBookedSlots(date: string, timezone?: string): Promise<string[]> {
+    const tz = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const res = await api.get(`/bookings/slots?date=${date}&timezone=${encodeURIComponent(tz)}`);
     return res.data;
   },
 

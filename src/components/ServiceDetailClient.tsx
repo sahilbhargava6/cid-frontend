@@ -65,7 +65,8 @@ export default function ServiceDetailClient({ service }: { service: string }) {
 
   useEffect(() => {
     if (selectedDate) {
-      bookingService.getBookedSlots(selectedDate).then(setBookedSlots).catch(console.error);
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      bookingService.getBookedSlots(selectedDate, tz).then(setBookedSlots).catch(console.error);
     } else {
       setBookedSlots([]);
     }

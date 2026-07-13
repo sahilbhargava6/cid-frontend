@@ -59,15 +59,21 @@ export const chatService = {
    * Download a chat file attachment
    */
   getAttachmentUrl(path: string, attachmentUrl?: string | null): string {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : '';
+    const tokenParam = token ? `?token=${token}` : '';
+    
     if (attachmentUrl) {
       if (attachmentUrl.startsWith('http://') || attachmentUrl.startsWith('https://')) {
-        return attachmentUrl;
+        // Handle if there's already a query parameter
+        const separator = attachmentUrl.includes('?') ? '&' : '?';
+        return `${attachmentUrl}${separator}token=${token}`;
       }
       const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
       const domainUrl = baseUrl.replace('/api', '');
-      return `${domainUrl}${attachmentUrl}`;
+      const separator = attachmentUrl.includes('?') ? '&' : '?';
+      return `${domainUrl}${attachmentUrl}${separator}token=${token}`;
     }
-    // Fallback if attachment_url is not set
+    
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
     const storageUrl = baseUrl.replace('/api', '/storage');
     return `${storageUrl}/${path}`;

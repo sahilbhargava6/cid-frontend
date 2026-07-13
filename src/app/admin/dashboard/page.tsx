@@ -191,18 +191,7 @@ export default function AdminDashboard() {
                       {clientName}
                     </span>
                     <span className="text-[10px] font-bold text-slate-400/80">
-                      {booking.scheduled_at ? (() => {
-                        // Laravel usually returns YYYY-MM-DD HH:MM:SS
-                        // Splitting to avoid browser UTC parsing shift
-                        const parts = booking.scheduled_at.split(' ');
-                        if (parts.length >= 2) {
-                          const datePart = parts[0];
-                          const [y, m, d] = datePart.split('-');
-                          const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                          return `${monthNames[parseInt(m, 10) - 1]} ${parseInt(d, 10)}`;
-                        }
-                        return new Date(booking.scheduled_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-                      })() : 'N/A'}
+                      {booking.scheduled_at ? new Date(booking.scheduled_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }) : 'N/A'}
                     </span>
                   </div>
 
@@ -300,18 +289,7 @@ export default function AdminDashboard() {
                           {selectedBooking.service_type.replace(/_/g, ' ')}
                         </p>
                         <p className="text-xs text-slate-400 mt-1">
-                          📅 Scheduled: {selectedBooking.scheduled_at ? (() => {
-                            const parts = selectedBooking.scheduled_at!.split(' ');
-                            if (parts.length >= 2) {
-                              const datePart = parts[0];
-                              const [hStr, mStr] = parts[1].split(':');
-                              let h = parseInt(hStr, 10);
-                              const ampm = h >= 12 ? 'PM' : 'AM';
-                              h = h % 12 || 12;
-                              return `${datePart} at ${h.toString().padStart(2, '0')}:${mStr} ${ampm}`;
-                            }
-                            return new Date(selectedBooking.scheduled_at!).toLocaleString();
-                          })() : 'Not Scheduled'}
+                          📅 Scheduled: {selectedBooking.scheduled_at ? new Date(selectedBooking.scheduled_at).toLocaleString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }) : 'Not Scheduled'}
                         </p>
                       </div>
                     </div>

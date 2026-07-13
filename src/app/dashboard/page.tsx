@@ -144,7 +144,8 @@ function DashboardContent() {
             service_type: mappedService as any,
             scheduled_at: formattedDate,
             input_parameters: { notes: "Auto-booked via page selection scheduler modal" },
-            price: priceNum
+            price: priceNum,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
           });
           setCreatedBooking(response);
           setShowPaymentModal(true);
@@ -274,7 +275,8 @@ function DashboardContent() {
         service_type: serviceType as any,
         scheduled_at: scheduledAt || undefined,
         input_parameters: inputParams,
-        price: priceNum
+        price: priceNum,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
       });
       setIsWizardOpen(false);
       setWizardStep(1);
@@ -870,19 +872,19 @@ function DashboardContent() {
                 <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-slate-200/20 dark:bg-slate-700/30 z-0" />
 
                 {[
-                  { step: "Requested", status: "pending" },
-                  { step: "Confirmed", status: "confirmed" },
-                  { step: "Preparing", status: "preparing" },
-                  { step: "Completed", status: "completed" }
+                  { step: "Drafting", key: "Drafting" },
+                  { step: "Review", key: "Review" },
+                  { step: "Filing", key: "Filing" },
+                  { step: "Completed", key: "Completed" }
                 ].map((s, idx) => {
-                  const statuses = ["pending", "confirmed", "preparing", "completed"];
-                  const currentIdx = statuses.indexOf(selectedBooking.status);
-                  const isPassed = currentIdx >= idx || (selectedBooking.status === "pending" && idx === 0);
+                  const milestones = ["Drafting", "Review", "Filing", "Completed"];
+                  const currentIdx = milestones.indexOf(selectedBooking.milestone || "Drafting");
+                  const isPassed = currentIdx >= idx;
 
                   return (
                     <div key={s.step} className="relative z-10 flex flex-col items-center gap-1.5">
                       <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black transition-all ${isPassed
-                        ? "bg-amber-505 bg-amber-500 text-white shadow-lg shadow-amber-500/25"
+                        ? "bg-amber-500 text-white shadow-lg shadow-amber-500/25"
                         : "bg-slate-200 dark:bg-slate-800 text-slate-400"
                         }`}>
                         {isPassed ? "✓" : idx + 1}

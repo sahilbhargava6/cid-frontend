@@ -7,6 +7,7 @@ export interface Document {
   name: string;
   file_path: string;
   file_type: string | null;
+  category: 'tax_filing' | 'receipt' | 'procurement_manifest' | 'other';
   created_at: string;
   updated_at: string;
 }
@@ -26,7 +27,8 @@ export const documentService = {
   async uploadDocument(
     file: File,
     operationalTicketId?: number | string,
-    customName?: string
+    customName?: string,
+    category?: string
   ): Promise<Document> {
     const formData = new FormData();
     formData.append('file', file);
@@ -36,6 +38,9 @@ export const documentService = {
     }
     if (customName) {
       formData.append('name', customName);
+    }
+    if (category) {
+      formData.append('category', category);
     }
 
     const response = await api.post<Document>('/documents', formData, {
@@ -62,6 +67,14 @@ export const documentService = {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  },
+
+  /**
+   * Get secure preview URL for rendering inside iframes or image tags
+   */
+  getPreviewUrl(id: number | string): string {
+    const token = localStorage.getItem('auth_token');
+    return `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/documents/${id}/download?preview=true&token=${token || ''}`;
   },
 };
 
