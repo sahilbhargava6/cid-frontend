@@ -78,6 +78,14 @@ export const bookingService = {
     const response = await api.put<Booking>(`/bookings/${id}`, { input_parameters: parameters });
     return response.data;
   },
+
+  /**
+   * Initiate Stripe Checkout Session
+   */
+  async checkout(id: number | string): Promise<{ url: string }> {
+    const response = await api.post<{ url: string }>(`/bookings/${id}/checkout`);
+    return response.data;
+  },
 };
 
 export default bookingService;

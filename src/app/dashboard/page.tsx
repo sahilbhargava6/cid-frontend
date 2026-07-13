@@ -987,84 +987,18 @@ function DashboardContent() {
                   </div>
                 </div>
 
-                {/* Tabs */}
-                <div className="flex bg-slate-100 dark:bg-slate-950/60 p-1.5 rounded-xl border border-slate-200/50 dark:border-white/5">
-                  <button
-                    onClick={() => setPaymentMethod("card")}
-                    className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${paymentMethod === "card" ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
-                      }`}
-                  >
-                    Credit / Debit Card
-                  </button>
-                  <button
-                    onClick={() => setPaymentMethod("paypal")}
-                    className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${paymentMethod === "paypal" ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm" : "text-slate-400 hover:text-slate-200"
-                      }`}
-                  >
-                    PayPal / Wire
-                  </button>
+                {/* Secure Stripe Information Panel */}
+                <div className="p-4 bg-amber-500/5 border border-dashed border-amber-500/20 rounded-2xl text-center space-y-3">
+                  <div className="w-12 h-12 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto text-amber-500">
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                  </div>
+                  <p className="text-xs font-bold text-slate-800 dark:text-slate-200">Secure Stripe Checkout</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                    You will be securely redirected to Stripe's payment gateway to process your credit or debit card. No payment details are stored on our servers.
+                  </p>
                 </div>
-
-                {paymentMethod === "card" ? (
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Cardholder Name</label>
-                      <input
-                        type="text"
-                        required
-                        value={cardName}
-                        onChange={(e) => setCardName(e.target.value)}
-                        placeholder="John Doe"
-                        className="w-full bg-white/10 dark:bg-slate-900/30 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Card Number</label>
-                      <input
-                        type="text"
-                        required
-                        maxLength={19}
-                        value={cardNumber}
-                        onChange={(e) => setCardNumber(e.target.value.replace(/\s?/g, '').replace(/(\d{4})/g, '$1 ').trim())}
-                        placeholder="4111 2222 3333 4444"
-                        className="w-full bg-white/10 dark:bg-slate-900/30 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Expiry Date</label>
-                        <input
-                          type="text"
-                          required
-                          maxLength={5}
-                          value={cardExpiry}
-                          onChange={(e) => setCardExpiry(e.target.value)}
-                          placeholder="MM/YY"
-                          className="w-full bg-white/10 dark:bg-slate-900/30 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">CVV / CVC</label>
-                        <input
-                          type="password"
-                          required
-                          maxLength={3}
-                          value={cardCvc}
-                          onChange={(e) => setCardCvc(e.target.value)}
-                          placeholder="***"
-                          className="w-full bg-white/10 dark:bg-slate-900/30 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="p-4 bg-slate-50/50 dark:bg-slate-950/20 border border-dashed border-slate-200 dark:border-white/10 rounded-2xl text-center space-y-2">
-                    <p className="text-xs font-semibold text-slate-600 dark:text-slate-300">PayPal & Wire Transfers</p>
-                    <p className="text-[11px] text-slate-400">
-                      Choose this option to receive an invoice via email. You can pay online via PayPal or complete a direct bank transfer prior to your scheduled slot.
-                    </p>
-                  </div>
-                )}
 
                 <div className="flex gap-4 pt-4 border-t border-slate-200/50 dark:border-white/5">
                   <button
@@ -1080,38 +1014,20 @@ function DashboardContent() {
                   </button>
                   <button
                     onClick={async () => {
-                      if (paymentMethod === 'card' && (!cardName || !cardNumber || !cardExpiry || !cardCvc)) {
-                        alert("Please fill in all credit card details.");
-                        return;
-                      }
                       setPaymentLoading(true);
                       try {
-                        // Simulate payment processing latency
-                        await new Promise((resolve) => setTimeout(resolve, 1500));
-
-                        // Update booking to Paid status
-                        const priceEstimate =
-                          createdBooking.service_type === 'tax_prep' ? '299.00' :
-                            createdBooking.service_type === 'bookkeeping' ? '350.00' :
-                              createdBooking.service_type === 'small_business' ? '1200.00' :
-                                createdBooking.service_type === 'procurement' ? '1000.00' : '0.00';
-
-                        await bookingService.updateBooking(createdBooking.id, {
-                          payment_status: 'paid',
-                          price: priceEstimate
-                        });
-                        setPaymentSuccess(true);
-                        await loadDashboardData();
-                      } catch (error) {
-                        console.error("Payment simulator failed:", error);
-                        alert("Payment simulated gateway declined. Please check details.");
+                        const res = await bookingService.checkout(createdBooking.id);
+                        window.location.href = res.url;
+                      } catch (error: any) {
+                        console.error("Stripe Checkout failed:", error);
+                        alert(error.response?.data?.error || "Failed to initiate Stripe Checkout session. Please make sure the administrator has set a price for this booking.");
                       } finally {
                         setPaymentLoading(false);
                       }
                     }}
                     className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-full shadow-lg shadow-amber-500/15 transition-all"
                   >
-                    {paymentLoading ? "Processing..." : "Pay Now"}
+                    {paymentLoading ? "Redirecting..." : "Pay with Stripe"}
                   </button>
                 </div>
               </div>
