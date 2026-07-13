@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
-import { getServiceByKey } from '@/data/servicesData';
+import { ServiceData, defaultTimeSlots, fetchServices, getServiceByKeyAsync, getServiceByKey } from '@/data/servicesData';
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
 import bookingService, { Booking } from '@/services/bookingService';
@@ -12,6 +12,12 @@ import { DashboardLayout } from '@/components/dashboard/Layout';
 import { ChatPanel } from '@/components/dashboard/ChatPanel';
 import { useSearchParams } from 'next/navigation';
 import api from '@/lib/api';
+
+const parsePriceToNumber = (priceStr?: string): number | undefined => {
+  if (!priceStr) return undefined;
+  const num = parseFloat(priceStr.replace(/[^0-9.-]+/g, ""));
+  return isNaN(num) ? undefined : num;
+};
 
 function DashboardContent() {
   const { user } = useAuth();
@@ -103,11 +109,42 @@ function DashboardContent() {
           let mappedService = bookParam;
           if (bookParam === 'virtual_bookkeeping') mappedService = 'bookkeeping';
           if (bookParam === 'accounts_and_logistics') mappedService = 'small_business';
+          
+          const svc = await getServiceByKeyAsync(mappedService);
+          let priceNum: number | undefined = undefined;
+
+          // Try to extract price from the selected slot label first
+          if (svc && svc.timeSlots) {
+            const slot = svc.timeSlots.find(
+              (s) => s.time.toLowerCase().replace(/\s/g, '') === timeParam.toLowerCase().replace(/\s/g, '')
+            );
+            if (slot) {
+              const priceMatch = slot.label.match(/\$(\d+(\.\d+)?)/);
+              if (priceMatch) {
+                priceNum = parseFloat(priceMatch[1]);
+              }
+            }
+          }
+
+          if (priceNum === undefined) {
+            priceNum = parsePriceToNumber(svc?.price);
+          }
+
+          if (priceNum === undefined) {
+             const fallbackMap: Record<string, string> = {
+               'tax_prep': '299',
+               'bookkeeping': '350',
+               'small_business': '1200',
+               'procurement': '1000'
+             };
+             priceNum = parsePriceToNumber(fallbackMap[mappedService]);
+          }
 
           const response = await bookingService.createBooking({
             service_type: mappedService as any,
             scheduled_at: formattedDate,
-            input_parameters: { notes: "Auto-booked via page selection scheduler modal" }
+            input_parameters: { notes: "Auto-booked via page selection scheduler modal" },
+            price: priceNum
           });
           setCreatedBooking(response);
           setShowPaymentModal(true);
@@ -217,10 +254,27 @@ function DashboardContent() {
     setBookingLoading(true);
     setBookingError(null);
     try {
+      const svc = await getServiceByKeyAsync(serviceType);
+      
+      let priceNum = parsePriceToNumber(svc?.price) || parsePriceToNumber(getServicePriceEstimate());
+
+      // If a specific time slot is selected, check if it has a custom price in its label
+      if (svc?.timeSlots && scheduledAt) {
+        const timePart = scheduledAt.split(' ').slice(1).join(' '); // e.g. "09:00 AM"
+        const slot = svc.timeSlots.find((s: any) => s.time === timePart);
+        if (slot) {
+          const match = slot.label.match(/\$(\d+(\.\d{1,2})?)/);
+          if (match) {
+            priceNum = parseFloat(match[1]);
+          }
+        }
+      }
+
       await bookingService.createBooking({
         service_type: serviceType as any,
         scheduled_at: scheduledAt || undefined,
         input_parameters: inputParams,
+        price: priceNum
       });
       setIsWizardOpen(false);
       setWizardStep(1);
@@ -390,9 +444,10 @@ function DashboardContent() {
                                   if (res.data && res.data.url) {
                                     window.location.href = res.data.url;
                                   }
-                                } catch (error) {
+                                } catch (error: any) {
                                   console.error("Stripe checkout error:", error);
-                                  alert("Failed to initiate checkout. Please ensure the admin has set a valid price.");
+                                  const msg = error.response?.data?.error || "Failed to initiate checkout. Please ensure the admin has set a valid price.";
+                                  alert(msg);
                                 }
                               }}
                               className="w-full py-2 bg-amber-500 hover:bg-amber-600 text-white text-[10px] uppercase tracking-wider font-bold rounded-lg shadow-md transition-all"

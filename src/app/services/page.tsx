@@ -5,7 +5,8 @@ import { useAuth } from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import dynamic from "next/dynamic";
-import { getServices, ServiceData } from "@/data/servicesData";
+import { fetchServices, ServiceData, defaultTimeSlots } from "@/data/servicesData";
+import { bookingService } from "@/services/bookingService";
 import Link from "next/link";
 
 const Background3D = dynamic(() => import("@/components/Background3D"), {
@@ -70,11 +71,24 @@ export default function ServicesPage() {
   const [selectedWeek, setSelectedWeek] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
 
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   useEffect(() => {
-    setServices(getServices() as ServiceInfo[]);
+    if (selectedDate) {
+      bookingService.getBookedSlots(selectedDate).then(setBookedSlots).catch(console.error);
+    } else {
+      setBookedSlots([]);
+    }
+  }, [selectedDate]);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetchServices().then(data => {
+      if (isMounted) setServices(data as ServiceInfo[]);
+    });
+    return () => { isMounted = false; };
   }, []);
 
   const getDaysInMonth = (date: Date) => {
@@ -632,27 +646,29 @@ export default function ServicesPage() {
                     Select Time Slot
                   </label>
                   <div className="grid grid-cols-2 gap-3">
-                    {[
-                      { time: "09:00 AM", label: "1 hr | $75" },
-                      { time: "11:30 AM", label: "1 hr | $75" },
-                      { time: "02:00 PM", label: "1.5 hr | $110" },
-                      { time: "04:30 PM", label: "1.5 hr | $110" }
-                    ].map(({ time, label }) => (
+                    {(activeData.timeSlots && activeData.timeSlots.length > 0 ? activeData.timeSlots : defaultTimeSlots).map(({ time, label }) => {
+                      const isBooked = bookedSlots.includes(time);
+                      return (
                       <button
                         key={time}
                         type="button"
+                        disabled={isBooked}
                         onClick={() => setSelectedTime(time)}
                         className={`py-3 rounded-xl border font-bold text-xs transition-all duration-200 flex flex-col items-center justify-center gap-1 ${
-                          selectedTime === time
-                            ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-900/10"
-                            : "border-slate-200 bg-white hover:bg-slate-50 text-slate-700"
+                          isBooked 
+                            ? "border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed"
+                            : selectedTime === time
+                              ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-900/10"
+                              : "border-slate-200 bg-white hover:bg-slate-50 text-slate-700"
                         }`}
                         style={{ fontFamily: "Inter, sans-serif" }}
                       >
-                        <span>{time}</span>
-                        <span className={`text-[10px] opacity-75 font-semibold ${selectedTime === time ? "text-white" : "text-slate-400"}`}>{label}</span>
+                        <span className={isBooked ? "line-through" : ""}>{time}</span>
+                        <span className={`text-[10px] font-semibold ${
+                          isBooked ? "text-slate-300" : selectedTime === time ? "text-white" : "text-slate-400"
+                        }`}>{isBooked ? "Booked" : label}</span>
                       </button>
-                    ))}
+                    )})}
                   </div>
                 </div>
 

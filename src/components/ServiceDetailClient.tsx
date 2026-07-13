@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getServiceByKey, ServiceData } from "@/data/servicesData";
+import { getServiceByKeyAsync, ServiceData, defaultTimeSlots } from "@/data/servicesData";
+import { bookingService } from "@/services/bookingService";
 
 function BulletDescription({ description, headerColor, textColor }: { description: string; headerColor: string; textColor: string }) {
   const hasHtml = /<[a-z][\s\S]*>/i.test(description);
@@ -58,8 +59,17 @@ export default function ServiceDetailClient({ service }: { service: string }) {
   const [showScheduler, setShowScheduler] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
   
   const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  useEffect(() => {
+    if (selectedDate) {
+      bookingService.getBookedSlots(selectedDate).then(setBookedSlots).catch(console.error);
+    } else {
+      setBookedSlots([]);
+    }
+  }, [selectedDate]);
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
@@ -99,7 +109,17 @@ export default function ServiceDetailClient({ service }: { service: string }) {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
   };
 
-  const details = getServiceByKey(service) || getServiceByKey('procurement')!;
+  const [details, setDetails] = useState<ServiceData | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadData = async () => {
+      const loadedDetails = await getServiceByKeyAsync(service) || await getServiceByKeyAsync('procurement')!;
+      if (isMounted) setDetails(loadedDetails || null);
+    };
+    loadData();
+    return () => { isMounted = false; };
+  }, [service]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -120,8 +140,14 @@ export default function ServiceDetailClient({ service }: { service: string }) {
     <>
       <Navbar />
       <main className="w-full bg-[#FFFFFF] overflow-x-hidden min-h-screen">
-        {/* ===== MOBILE & TABLET VIEW (< 1024px) ===== */}
-        <div className="block lg:hidden pt-32 pb-20 px-4 sm:px-8 max-w-4xl mx-auto relative z-10 space-y-8">
+        {!details ? (
+          <div className="flex h-screen items-center justify-center">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-solid border-amber-500 border-t-transparent"></div>
+          </div>
+        ) : (
+          <>
+            {/* ===== MOBILE & TABLET VIEW (< 1024px) ===== */}
+            <div className="block lg:hidden pt-32 pb-20 px-4 sm:px-8 max-w-4xl mx-auto relative z-10 space-y-8">
           {/* Back Button */}
           <Link
             href="/services"
@@ -426,27 +452,29 @@ export default function ServiceDetailClient({ service }: { service: string }) {
                     Select Time Slot
                   </label>
                   <div className="grid grid-cols-2 gap-3">
-                    {[
-                      { time: "09:00 AM", label: "1 hr | $75" },
-                      { time: "11:30 AM", label: "1 hr | $75" },
-                      { time: "02:00 PM", label: "1.5 hr | $110" },
-                      { time: "04:30 PM", label: "1.5 hr | $110" }
-                    ].map(({ time, label }) => (
+                    {(details.timeSlots && details.timeSlots.length > 0 ? details.timeSlots : defaultTimeSlots).map(({ time, label }) => {
+                      const isBooked = bookedSlots.includes(time);
+                      return (
                       <button
                         key={time}
                         type="button"
+                        disabled={isBooked}
                         onClick={() => setSelectedTime(time)}
                         className={`py-3 rounded-xl border font-bold text-xs transition-all duration-200 flex flex-col items-center justify-center gap-1 ${
-                          selectedTime === time
-                            ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-900/10"
-                            : "border-slate-200 bg-white hover:bg-slate-50 text-slate-700"
+                          isBooked 
+                            ? "border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed"
+                            : selectedTime === time
+                              ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-900/10"
+                              : "border-slate-200 bg-white hover:bg-slate-50 text-slate-700"
                         }`}
                         style={{ fontFamily: "Inter, sans-serif" }}
                       >
-                        <span>{time}</span>
-                        <span className={`text-[10px] opacity-75 font-semibold ${selectedTime === time ? "text-white" : "text-slate-400"}`}>{label}</span>
+                        <span className={isBooked ? "line-through" : ""}>{time}</span>
+                        <span className={`text-[10px] font-semibold ${
+                          isBooked ? "text-slate-300" : selectedTime === time ? "text-white" : "text-slate-400"
+                        }`}>{isBooked ? "Booked" : label}</span>
                       </button>
-                    ))}
+                    )})}
                   </div>
                 </div>
 
@@ -473,6 +501,8 @@ export default function ServiceDetailClient({ service }: { service: string }) {
               </div>
             </div>
           </div>
+        )}
+          </>
         )}
       </main>
       <Footer />

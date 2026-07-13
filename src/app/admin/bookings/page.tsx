@@ -158,6 +158,7 @@ export default function BookingsManager() {
             <thead>
               <tr className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">
                 <th className="p-4">ID</th>
+                <th className="p-4">Date</th>
                 <th className="p-4">Client Name</th>
                 <th className="p-4">Service</th>
                 <th className="p-4">Status</th>
@@ -177,7 +178,10 @@ export default function BookingsManager() {
                 filteredBookings.map((booking) => (
                   <tr key={booking.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
                     <td className="p-4 font-semibold">#{booking.id}</td>
-                    <td className="p-4 font-medium">{booking.user_id ? 'John Client' : 'Guest'}</td>
+                    <td className="p-4 text-xs text-slate-500 whitespace-nowrap">
+                      {booking.scheduled_at ? new Date(booking.scheduled_at.replace('Z', '')).toLocaleString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'Pending'}
+                    </td>
+                    <td className="p-4 font-medium">{booking.user?.name || 'Guest'}</td>
                     <td className="p-4 capitalize">{booking.service_type.replace('_', ' ')}</td>
                     <td className="p-4">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${

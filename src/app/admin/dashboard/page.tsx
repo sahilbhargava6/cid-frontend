@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import bookingService, { Booking } from '@/services/bookingService';
+import { getServiceByKey, defaultTimeSlots } from '@/data/servicesData';
 import { ChatPanel } from '@/components/dashboard/ChatPanel';
 
 interface ClientUser {
@@ -190,7 +191,18 @@ export default function AdminDashboard() {
                       {clientName}
                     </span>
                     <span className="text-[10px] font-bold text-slate-400/80">
-                      {booking.scheduled_at ? new Date(booking.scheduled_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'N/A'}
+                      {booking.scheduled_at ? (() => {
+                        // Laravel usually returns YYYY-MM-DD HH:MM:SS
+                        // Splitting to avoid browser UTC parsing shift
+                        const parts = booking.scheduled_at.split(' ');
+                        if (parts.length >= 2) {
+                          const datePart = parts[0];
+                          const [y, m, d] = datePart.split('-');
+                          const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                          return `${monthNames[parseInt(m, 10) - 1]} ${parseInt(d, 10)}`;
+                        }
+                        return new Date(booking.scheduled_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+                      })() : 'N/A'}
                     </span>
                   </div>
 
@@ -288,7 +300,18 @@ export default function AdminDashboard() {
                           {selectedBooking.service_type.replace(/_/g, ' ')}
                         </p>
                         <p className="text-xs text-slate-400 mt-1">
-                          📅 Scheduled: {selectedBooking.scheduled_at ? new Date(selectedBooking.scheduled_at).toLocaleString() : 'Not Scheduled'}
+                          📅 Scheduled: {selectedBooking.scheduled_at ? (() => {
+                            const parts = selectedBooking.scheduled_at!.split(' ');
+                            if (parts.length >= 2) {
+                              const datePart = parts[0];
+                              const [hStr, mStr] = parts[1].split(':');
+                              let h = parseInt(hStr, 10);
+                              const ampm = h >= 12 ? 'PM' : 'AM';
+                              h = h % 12 || 12;
+                              return `${datePart} at ${h.toString().padStart(2, '0')}:${mStr} ${ampm}`;
+                            }
+                            return new Date(selectedBooking.scheduled_at!).toLocaleString();
+                          })() : 'Not Scheduled'}
                         </p>
                       </div>
                     </div>
@@ -391,10 +414,20 @@ export default function AdminDashboard() {
                         onChange={(e) => setEditTime(e.target.value)}
                         className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
                       >
-                        <option value="09:00 AM">09:00 AM (1 hr | $75)</option>
-                        <option value="11:30 AM">11:30 AM (1 hr | $75)</option>
-                        <option value="02:00 PM">02:00 PM (1.5 hr | $110)</option>
-                        <option value="04:30 PM">04:30 PM (1.5 hr | $110)</option>
+                        {(() => {
+                          const svc = getServiceByKey(editServiceType);
+                          const slots = (svc && svc.timeSlots && svc.timeSlots.length > 0) ? svc.timeSlots : defaultTimeSlots;
+                          // If editTime is not in the list, we still want to show it as an option so the select doesn't break
+                          const isEditTimeInSlots = slots.some(s => s.time === editTime);
+                          return (
+                            <>
+                              {!isEditTimeInSlots && <option value={editTime}>{editTime} (Custom)</option>}
+                              {slots.map(s => (
+                                <option key={s.time} value={s.time}>{s.time} ({s.label})</option>
+                              ))}
+                            </>
+                          );
+                        })()}
                       </select>
                     </div>
                   </div>

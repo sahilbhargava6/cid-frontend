@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import 'react-quill-new/dist/quill.snow.css';
-import { getServices, saveServices, resetService, resetAllServices, addService, deleteService, isCustomService, ServiceData } from '@/data/servicesData';
+import { ServiceData, fetchServices, saveServices, resetService, resetAllServices, addService, deleteService, isCustomService } from '@/data/servicesData';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
@@ -15,7 +15,11 @@ export default function AdminServicesEditor() {
   const [saveMessage, setSaveMessage] = useState('');
 
   useEffect(() => {
-    setServicesState(getServices());
+    let isMounted = true;
+    fetchServices().then(data => {
+      if (isMounted) setServicesState(data);
+    });
+    return () => { isMounted = false; };
   }, []);
 
   const handleEdit = (svc: ServiceData) => {
@@ -27,7 +31,7 @@ export default function AdminServicesEditor() {
     setEditingService({ ...editingService, [field]: value });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!editingService) return;
 
     if (isCustomService(editingService.key)) {
@@ -39,31 +43,37 @@ export default function AdminServicesEditor() {
       const updated = services.map((s) =>
         s.key === editingService.key ? editingService : s
       );
-      saveServices(updated);
+      await saveServices(updated);
     }
 
-    setServicesState(getServices());
+    const latestServices = await fetchServices();
+    setServicesState(latestServices);
     setEditingService(null);
     setSaveMessage('Service updated successfully!');
     setTimeout(() => setSaveMessage(''), 3000);
   };
 
-  const handleResetOne = (key: string) => {
+  const handleResetOne = async (key: string) => {
     resetService(key);
-    setServicesState(getServices());
+    // Note: If you reset a service, you need to save the empty override to the backend, or clear it from the backend. 
+    // Since we save the diff, saving the current state (with the reset) will push the new list.
+    const latestServices = await fetchServices();
+    setServicesState(latestServices);
     setSaveMessage(`Service "${key}" reset to defaults.`);
     setTimeout(() => setSaveMessage(''), 3000);
   };
 
-  const handleResetAll = () => {
-    if (!confirm('Reset ALL services to defaults? This will also remove any custom services. This cannot be undone.')) return;
-    resetAllServices();
-    setServicesState(getServices());
-    setSaveMessage('All services reset to defaults.');
-    setTimeout(() => setSaveMessage(''), 3000);
+  const handleResetAll = async () => {
+    if (confirm('Are you sure you want to reset ALL services to their default text and configuration? This cannot be undone.')) {
+      resetAllServices();
+      const latestServices = await fetchServices();
+      setServicesState(latestServices);
+      setSaveMessage('All services have been reset to defaults.');
+      setTimeout(() => setSaveMessage(''), 3000);
+    }
   };
 
-  const handleAddNew = () => {
+  const handleAddNew = async () => {
     const newKey = `custom_${Date.now()}`;
     const newService: ServiceData = {
       key: newKey,
@@ -76,17 +86,19 @@ export default function AdminServicesEditor() {
       left: 0, top: 365, pillLeft: 0, pillLabelLeft: 0, pillLabelTop: 751, pillLabelWidth: 190, pillLabelHeight: 74,
     };
     addService(newService);
-    setServicesState(getServices());
+    const latestServices = await fetchServices();
+    setServicesState(latestServices);
     // Immediately open the edit modal for the new service
     setEditingService({ ...newService });
     setSaveMessage('New service created! Edit the details below.');
     setTimeout(() => setSaveMessage(''), 3000);
   };
 
-  const handleDelete = (key: string) => {
+  const handleDelete = async (key: string) => {
     if (!confirm('Delete this custom service? This cannot be undone.')) return;
     deleteService(key);
-    setServicesState(getServices());
+    const latestServices = await fetchServices();
+    setServicesState(latestServices);
     setSaveMessage('Custom service deleted.');
     setTimeout(() => setSaveMessage(''), 3000);
   };
@@ -253,20 +265,6 @@ export default function AdminServicesEditor() {
                 />
               </div>
 
-              {/* Booking Price */}
-              <div>
-                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                  Booking Price (e.g. $199, Free Consultation)
-                </label>
-                <input
-                  type="text"
-                  value={editingService.price || ''}
-                  onChange={(e) => handleFieldChange('price', e.target.value)}
-                  placeholder="e.g. $199 / Free Consultation"
-                  className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
-                />
-              </div>
-
               {/* Image Upload */}
               <div>
                 <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
@@ -383,6 +381,61 @@ export default function AdminServicesEditor() {
                       className="w-full bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-[10px] text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-amber-500"
                     />
                   </div>
+                </div>
+              </div>
+
+              {/* Time Slots Editor */}
+              <div>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                  Time Slots
+                </label>
+                <div className="space-y-2">
+                  {(editingService.timeSlots || []).map((slot, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={slot.time}
+                        onChange={(e) => {
+                          const newSlots = JSON.parse(JSON.stringify(editingService.timeSlots || []));
+                          newSlots[index].time = e.target.value;
+                          handleFieldChange('timeSlots', newSlots as any);
+                        }}
+                        placeholder="e.g. 09:00 AM"
+                        className="flex-1 bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-white"
+                      />
+                      <input
+                        type="text"
+                        value={slot.label}
+                        onChange={(e) => {
+                          const newSlots = JSON.parse(JSON.stringify(editingService.timeSlots || []));
+                          newSlots[index].label = e.target.value;
+                          handleFieldChange('timeSlots', newSlots as any);
+                        }}
+                        placeholder="e.g. 1 hr | $75"
+                        className="flex-1 bg-white/20 dark:bg-slate-900/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-white"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newSlots = (editingService.timeSlots || []).filter((_, i) => i !== index);
+                          handleFieldChange('timeSlots', newSlots as any);
+                        }}
+                        className="p-2 bg-red-500/10 text-red-500 hover:bg-red-500/20 rounded-xl transition-colors"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newSlots = [...(editingService.timeSlots || []), { time: '12:00 PM', label: '1 hr' }];
+                      handleFieldChange('timeSlots', newSlots as any);
+                    }}
+                    className="w-full py-2 border border-dashed border-white/20 text-xs font-bold text-slate-500 rounded-xl hover:bg-white/5 transition-colors"
+                  >
+                    + Add Time Slot
+                  </button>
                 </div>
               </div>
 

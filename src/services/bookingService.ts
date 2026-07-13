@@ -18,6 +18,7 @@ export interface Booking {
   created_at: string;
   updated_at: string;
   documents?: any[];
+  user?: { id: number; name: string; email: string };
 }
 
 export interface CreateBookingPayload {
@@ -25,6 +26,7 @@ export interface CreateBookingPayload {
   scheduled_at?: string;
   organization_id?: number;
   input_parameters: Record<string, any>;
+  price?: number;
 }
 
 export const bookingService = {
@@ -32,8 +34,13 @@ export const bookingService = {
    * Fetch all bookings for the authenticated user
    */
   async getBookings(): Promise<Booking[]> {
-    const response = await api.get<Booking[]>('/bookings');
-    return response.data;
+    const res = await api.get('/bookings');
+    return res.data;
+  },
+
+  async getBookedSlots(date: string): Promise<string[]> {
+    const res = await api.get(`/bookings/slots?date=${date}`);
+    return res.data;
   },
 
   /**

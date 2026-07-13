@@ -1,6 +1,8 @@
 // Centralized Service Data Store
 // Single source of truth for all service metadata across the entire website.
 
+import api from '@/lib/api';
+
 export interface ServiceData {
   key: string;
   title: string;
@@ -18,10 +20,18 @@ export interface ServiceData {
   pillLabelTop: number;
   pillLabelWidth: number;
   pillLabelHeight: number;
+  timeSlots?: { time: string; label: string }[];
 }
 
 const STORAGE_KEY = "cid_services_data";
 const CUSTOM_STORAGE_KEY = "cid_custom_services";
+
+export const defaultTimeSlots = [
+  { time: "09:00 AM", label: "1 hr | $75" },
+  { time: "11:30 AM", label: "1 hr | $75" },
+  { time: "02:00 PM", label: "1.5 hr | $110" },
+  { time: "04:30 PM", label: "1.5 hr | $110" }
+];
 
 export const defaultServices: ServiceData[] = [
   {
@@ -37,6 +47,7 @@ export const defaultServices: ServiceData[] = [
 · Home Setup and Management: Sourcing services can help procure household services such as meal preparation, light housekeeping, and professional organizing tailored specifically to your lifestyle and physical needs.
 · Concierge and Transportation: Beyond sourcing goods, these services coordinate and provide door-to-door transportation to medical appointments, social events, and family visits, ensuring safe and reliable travel.`,
     left: 166, top: 360, pillLeft: 166, pillLabelLeft: 222, pillLabelTop: 732, pillLabelWidth: 189, pillLabelHeight: 111,
+    timeSlots: defaultTimeSlots,
   },
   {
     key: "accounts_and_logistics",
@@ -51,6 +62,7 @@ export const defaultServices: ServiceData[] = [
 · Attracting and Retaining Key Talent: Competing for skilled employees is tough. Small businesses must focus on building a unique company culture to make up for lacking the resources of larger corporations.
 · Stagnating Growth and Scalability: Many businesses get stuck relying on the same small pool of existing customers. Successfully scaling up requires clear planning, better Biz2Credit strategies, and overcoming fragmented fulfillment.`,
     left: 486, top: 365, pillLeft: 490, pillLabelLeft: 531, pillLabelTop: 732, pillLabelWidth: 218, pillLabelHeight: 111,
+    timeSlots: defaultTimeSlots,
   },
   {
     key: "tax_prep",
@@ -65,6 +77,7 @@ export const defaultServices: ServiceData[] = [
 · Choose the optimal tax classification for your LLC. Evaluate whether filing as a Sole Proprietor, Partnership, S-Corp, or C-Corp minimizes your self-employment tax burden.
 · Gather all annual tax documentation early. Collect forms like W-2s, 1099s, K-1s, and business financial statements before scheduling time with a tax professional.`,
     left: 807, top: 365, pillLeft: 811, pillLabelLeft: 851, pillLabelTop: 751, pillLabelWidth: 220, pillLabelHeight: 74,
+    timeSlots: defaultTimeSlots,
   },
   {
     key: "solar",
@@ -81,6 +94,7 @@ export const defaultServices: ServiceData[] = [
 
 Our team provides expert guidance on residential and commercial solar installations, helping you understand the true costs, savings, and incentives available in your area.`,
     left: 1127, top: 365, pillLeft: 1132, pillLabelLeft: 1191, pillLabelTop: 751, pillLabelWidth: 184, pillLabelHeight: 74,
+    timeSlots: defaultTimeSlots,
   },
   {
     key: "virtual_bookkeeping",
@@ -94,6 +108,7 @@ Our team provides expert guidance on residential and commercial solar installati
 · Implement a strict security protocol. Secure client bank data by using password managers like 1Password and requiring multi-factor authentication (MFA) on all financial accounts.
 · Establish strict document collection deadlines. Inform clients that missing receipts or statements not uploaded to portals like Hubdoc by your monthly cutoff will delay their financial reporting.`,
     left: 1444, top: 365, pillLeft: 1453, pillLabelLeft: 1516, pillLabelTop: 747, pillLabelWidth: 183, pillLabelHeight: 74,
+    timeSlots: defaultTimeSlots,
   },
 ];
 
@@ -101,26 +116,18 @@ Our team provides expert guidance on residential and commercial solar installati
  * Retrieve the current services list.
  * Merges any admin overrides from localStorage with defaults.
  */
-export function getServices(): ServiceData[] {
-  if (typeof window === "undefined") return defaultServices;
-
+export async function fetchServices(): Promise<ServiceData[]> {
   try {
-    // Merge overrides for default services
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const res = await api.get("/settings/services_data");
+    const stored = res.data;
     let result = [...defaultServices];
+    
     if (stored) {
-      const overrides: Partial<ServiceData>[] = JSON.parse(stored);
+      const overrides: Partial<ServiceData>[] = stored;
       result = defaultServices.map((defaultSvc) => {
         const override = overrides.find((o) => o.key === defaultSvc.key);
         return override ? { ...defaultSvc, ...override } : defaultSvc;
       });
-    }
-
-    // Append custom (admin-added) services
-    const customStored = localStorage.getItem(CUSTOM_STORAGE_KEY);
-    if (customStored) {
-      const customServices: ServiceData[] = JSON.parse(customStored);
-      result = [...result, ...customServices];
     }
 
     return result;
@@ -129,32 +136,42 @@ export function getServices(): ServiceData[] {
   }
 }
 
+export function getServices(): ServiceData[] {
+  return defaultServices; // Fallback synchronous export
+}
+
 /**
  * Persist admin service edits to localStorage.
  */
-export function saveServices(services: ServiceData[]): void {
-  if (typeof window === "undefined") return;
-
-  // Only store fields that differ from defaults to keep storage lean
+export async function saveServices(services: ServiceData[]): Promise<void> {
   const overrides = services.map((svc) => {
     const def = defaultServices.find((d) => d.key === svc.key);
     if (!def) return svc;
 
     const diff: Partial<ServiceData> & { key: string } = { key: svc.key };
     (Object.keys(svc) as (keyof ServiceData)[]).forEach((k) => {
-      if (svc[k] !== def[k]) {
+      if (JSON.stringify(svc[k]) !== JSON.stringify(def[k])) {
         (diff as any)[k] = svc[k];
       }
     });
     return diff;
   });
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(overrides));
+  try {
+    await api.post("/settings/services_data", { value: overrides });
+  } catch (error) {
+    console.error("Failed to save services to backend", error);
+  }
 }
 
 /**
  * Get a single service by its route key.
  */
+export async function getServiceByKeyAsync(key: string): Promise<ServiceData | undefined> {
+  const services = await fetchServices();
+  return services.find((s) => s.key === key);
+}
+
 export function getServiceByKey(key: string): ServiceData | undefined {
   return getServices().find((s) => s.key === key);
 }
