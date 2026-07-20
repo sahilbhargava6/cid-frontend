@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-import { getSiteConfig } from "@/data/siteConfigData";
+import { useSiteConfig } from "@/data/siteConfigData";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -17,11 +17,7 @@ export default function Navbar() {
   const auth = useAuth();
   const user = auth ? auth.user : null;
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [config, setConfig] = useState(() => getSiteConfig());
-
-  useEffect(() => {
-    setConfig(getSiteConfig());
-  }, []);
+  const config = useSiteConfig();
 
   const dashboardPath = user
     ? (user.email.includes("admin") || user.email.includes("owner")

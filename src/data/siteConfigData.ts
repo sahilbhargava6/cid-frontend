@@ -1,6 +1,9 @@
 // Centralized Site Configuration Store
 // Single source of truth for all editable homepage blocks, contact info, and FAQs.
 
+import { useState, useEffect } from "react";
+import api from "@/lib/api";
+
 export interface HeroHoverItem {
   key: string;
   title: string;
@@ -174,8 +177,7 @@ export const defaultSiteConfig: SiteConfig = {
 };
 
 /**
- * Retrieve the current site configuration.
- * Loads from localStorage with default fallbacks.
+ * Retrieve the current site configuration from localStorage with default fallbacks.
  */
 export function getSiteConfig(): SiteConfig {
   if (typeof window === "undefined") return defaultSiteConfig;
@@ -192,21 +194,94 @@ export function getSiteConfig(): SiteConfig {
 }
 
 /**
- * Save site configuration to localStorage.
+ * Retrieve the current site configuration asynchronously from backend API (or localStorage fallback).
  */
-export function saveSiteConfig(config: SiteConfig): void {
-  if (typeof window === "undefined") return;
+export async function fetchSiteConfig(): Promise<SiteConfig> {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
-  } catch (err) {
-    console.error("Failed to save site config:", err);
+    const res = await api.get("/settings/site_config");
+    const stored = res.data;
+    if (stored && typeof stored === "object") {
+      const merged: SiteConfig = { ...defaultSiteConfig, ...stored };
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+          window.dispatchEvent(new CustomEvent("siteConfigChanged"));
+        } catch {}
+      }
+      return merged;
+    }
+  } catch (error) {
+    // Fallback if backend API is not reachable or not yet initialized
   }
+  return getSiteConfig();
 }
 
 /**
- * Reset site config back to defaults.
+ * React hook to access site config reactively across any component or page.
  */
-export function resetSiteConfig(): void {
-  if (typeof window === "undefined") return;
-  localStorage.removeItem(STORAGE_KEY);
+export function useSiteConfig(): SiteConfig {
+  const [config, setConfig] = useState<SiteConfig>(() => getSiteConfig());
+
+  useEffect(() => {
+    let isMounted = true;
+    fetchSiteConfig().then((data) => {
+      if (isMounted && data) setConfig(data);
+    });
+
+    const handleConfigChange = () => {
+      if (isMounted) setConfig(getSiteConfig());
+    };
+
+    window.addEventListener("siteConfigChanged", handleConfigChange);
+    window.addEventListener("storage", handleConfigChange);
+    return () => {
+      isMounted = false;
+      window.removeEventListener("siteConfigChanged", handleConfigChange);
+      window.removeEventListener("storage", handleConfigChange);
+    };
+  }, []);
+
+  return config;
+}
+
+let saveTimeout: ReturnType<typeof setTimeout> | null = null;
+
+/**
+ * Save site configuration to localStorage and backend API.
+ */
+export async function saveSiteConfig(config: SiteConfig): Promise<void> {
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+      window.dispatchEvent(new CustomEvent("siteConfigChanged"));
+    } catch (err) {
+      console.error("Failed to save site config locally:", err);
+    }
+  }
+
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(async () => {
+    try {
+      await api.post("/settings/site_config", { value: config });
+    } catch (err) {
+      console.error("Failed to save site config to backend:", err);
+    }
+  }, 500);
+}
+
+/**
+ * Reset site config back to defaults both locally and on backend API.
+ */
+export async function resetSiteConfig(): Promise<void> {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem(STORAGE_KEY);
+    window.dispatchEvent(new CustomEvent("siteConfigChanged"));
+  }
+
+  if (saveTimeout) clearTimeout(saveTimeout);
+  try {
+    await api.post("/settings/site_config", { value: defaultSiteConfig });
+  } catch (err) {
+    console.error("Failed to reset site config on backend:", err);
+  }
 }

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getSiteConfig } from "@/data/siteConfigData";
+import { useSiteConfig } from "@/data/siteConfigData";
 import dynamic from "next/dynamic";
 
 const Background3D = dynamic(() => import("@/components/Background3D"), {
@@ -14,10 +14,9 @@ const Background3D = dynamic(() => import("@/components/Background3D"), {
 export default function AboutPage() {
   const [scale, setScale] = useState(1);
   const [leftOffset, setLeftOffset] = useState(0);
-  const [config, setConfig] = useState(() => getSiteConfig());
+  const config = useSiteConfig();
 
   useEffect(() => {
-    setConfig(getSiteConfig());
 
     const handleResize = () => {
       const width = window.innerWidth;

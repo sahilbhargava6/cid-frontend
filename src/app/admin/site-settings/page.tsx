@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { getSiteConfig, saveSiteConfig, resetSiteConfig, type SiteConfig, type HeroHoverItem, type FAQCategory, type FAQItem } from "@/data/siteConfigData";
+import { getSiteConfig, fetchSiteConfig, saveSiteConfig, resetSiteConfig, type SiteConfig, type HeroHoverItem, type FAQCategory, type FAQItem } from "@/data/siteConfigData";
 
 export default function SiteSettingsPage() {
   const [config, setConfig] = useState<SiteConfig | null>(null);
@@ -21,7 +21,11 @@ export default function SiteSettingsPage() {
   const [newAnswerText, setNewAnswerText] = useState("");
 
   useEffect(() => {
-    setConfig(getSiteConfig());
+    let isMounted = true;
+    fetchSiteConfig().then((data) => {
+      if (isMounted) setConfig(data || getSiteConfig());
+    });
+    return () => { isMounted = false; };
   }, []);
 
   if (!config) {

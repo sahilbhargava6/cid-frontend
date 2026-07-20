@@ -3,6 +3,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import React, { useEffect } from "react";
+import { useSiteConfig } from "@/data/siteConfigData";
 import dynamic from "next/dynamic";
 
 const Background3D = dynamic(() => import("@/components/Background3D"), {
@@ -10,6 +11,7 @@ const Background3D = dynamic(() => import("@/components/Background3D"), {
 });
 
 export default function TermsOfService() {
+  const config = useSiteConfig();
   useEffect(() => {
     const root = document.documentElement;
     const isDark = root.classList.contains("dark");
@@ -143,7 +145,7 @@ export default function TermsOfService() {
                 <div className="p-5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-800/50 rounded-2xl text-xs sm:text-sm space-y-1.5">
                   <p className="font-extrabold text-slate-800 dark:text-slate-100">consider-itdone Support Team</p>
                   <p><span className="font-semibold text-slate-400">Email:</span> support@consideritdone.com</p>
-                  <p><span className="font-semibold text-slate-400">Toll-Free Phone:</span> +1 (732) 433-0463</p>
+                  <p><span className="font-semibold text-slate-400">Toll-Free Phone:</span> {config.contactPhone}</p>
                 </div>
               </section>
             </div>

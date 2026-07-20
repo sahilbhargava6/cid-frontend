@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getServices } from "@/data/servicesData";
-import { getSiteConfig } from "@/data/siteConfigData";
+import { useSiteConfig } from "@/data/siteConfigData";
 
 const serviceLinks = getServices().map((s) => ({
   label: s.title,
@@ -20,11 +20,7 @@ const companyLinks = [
 ];
 
 export default function Footer() {
-  const [config, setConfig] = useState(() => getSiteConfig());
-
-  useEffect(() => {
-    setConfig(getSiteConfig());
-  }, []);
+  const config = useSiteConfig();
 
   return (
     <footer

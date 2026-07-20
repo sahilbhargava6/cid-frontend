@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getSiteConfig } from "@/data/siteConfigData";
+import { useSiteConfig } from "@/data/siteConfigData";
 
 function AccordionItem({
   question,
@@ -71,11 +71,7 @@ function AccordionItem({
 export default function FAQ() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const [config, setConfig] = useState(() => getSiteConfig());
-
-  useEffect(() => {
-    setConfig(getSiteConfig());
-  }, []);
+  const config = useSiteConfig();
 
   const faqData = config.faqs;
   const categories = ["All", ...faqData.map((cat) => cat.category)];

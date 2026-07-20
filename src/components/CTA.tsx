@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import api from "@/lib/api";
+import { useSiteConfig } from "@/data/siteConfigData";
 
 const availableServices = [
   "Tax Preparation",
@@ -12,6 +13,7 @@ const availableServices = [
 ];
 
 export default function CTA() {
+  const config = useSiteConfig();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -168,7 +170,7 @@ export default function CTA() {
             {/* Direct Contact info */}
             <div className="flex flex-col gap-4 mb-8">
               <a
-                href="tel:+18881234567"
+                href={`tel:${config.contactPhone}`}
                 className="flex items-center gap-4 group text-white hover:text-[var(--cid-coral-light)] transition-colors duration-200"
               >
                 <div
@@ -193,12 +195,12 @@ export default function CTA() {
                 </div>
                 <div>
                   <p className="text-xs text-[var(--cid-gray-400)]">Call Us Anytime</p>
-                  <p className="text-lg font-bold">+1 (732) 433-0463</p>
+                  <p className="text-lg font-bold">{config.contactPhone}</p>
                 </div>
               </a>
 
               <a
-                href="mailto:info@consider-itdone.com"
+                href={`mailto:${config.contactEmail}`}
                 className="flex items-center gap-4 group text-white hover:text-[var(--cid-coral-light)] transition-colors duration-200"
               >
                 <div
@@ -224,7 +226,7 @@ export default function CTA() {
                 </div>
                 <div>
                   <p className="text-xs text-[var(--cid-gray-400)]">Email Support</p>
-                  <p className="text-lg font-bold">info@consider-itdone.com</p>
+                  <p className="text-lg font-bold">{config.contactEmail}</p>
                 </div>
               </a>
             </div>

@@ -1,14 +1,10 @@
 "use client";
  
 import { useState, useEffect } from "react";
-import { getSiteConfig, WhyChooseUsCard } from "@/data/siteConfigData";
+import { useSiteConfig, WhyChooseUsCard } from "@/data/siteConfigData";
 
 export default function WhyChooseUs() {
-  const [config, setConfig] = useState(() => getSiteConfig());
-
-  useEffect(() => {
-    setConfig(getSiteConfig());
-  }, []);
+  const config = useSiteConfig();
 
   const { whyChooseUsTitle, whyChooseUsLeft, whyChooseUsRight1, whyChooseUsRight2 } = config;
 
