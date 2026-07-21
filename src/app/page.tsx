@@ -39,9 +39,9 @@ export default function Home() {
           />
         </div>
         {/* <Testimonials /> */}
-        {/* <FAQ /> */}
-        {/* <BottomIllustration />
-        <CTA /> */}
+        <FAQ />
+        {/* <BottomIllustration /> */}
+        <CTA />
       </main>
       <Footer />
     </>

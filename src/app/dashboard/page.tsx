@@ -237,6 +237,101 @@ function DashboardContent() {
     document.body.removeChild(link);
   };
 
+  const downloadReceipt = (booking: Booking) => {
+    const invoiceNum = `INV-${booking.id}-${new Date(booking.scheduled_at || Date.now()).getFullYear()}`;
+    const dateStr = booking.scheduled_at ? new Date(booking.scheduled_at).toLocaleDateString() : new Date().toLocaleDateString();
+    const serviceTitle = booking.service_type.replace(/_/g, ' ').toUpperCase();
+    const priceStr = booking.price ? `$${booking.price}` : '$0.00';
+    const clientName = user?.name || `Client #${booking.user_id}`;
+    const clientEmail = user?.email || '';
+
+    const htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Receipt - ${invoiceNum}</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1e293b; margin: 40px; }
+    .header { display: flex; justify-content: space-between; border-bottom: 2px solid #f59e0b; padding-bottom: 20px; }
+    .logo { font-size: 24px; font-weight: 900; color: #1e293b; }
+    .logo span { color: #f59e0b; }
+    .details { margin-top: 30px; display: flex; justify-content: space-between; }
+    .box { background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; width: 45%; }
+    .table { width: 100%; margin-top: 30px; border-collapse: collapse; }
+    .table th { background: #f1f5f9; text-align: left; padding: 12px; font-size: 14px; text-transform: uppercase; }
+    .table td { padding: 12px; border-bottom: 1px solid #e2e8f0; font-size: 15px; }
+    .total { margin-top: 20px; text-align: right; font-size: 18px; font-weight: bold; }
+    .footer { margin-top: 50px; font-size: 12px; color: #64748b; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">consider-<span>itdone</span></div>
+    <div style="text-align: right;">
+      <h2 style="margin: 0; color: #0f172a;">OFFICIAL RECEIPT</h2>
+      <p style="margin: 5px 0 0; font-size: 14px; color: #64748b;">Invoice #: ${invoiceNum}</p>
+      <p style="margin: 3px 0 0; font-size: 14px; color: #64748b;">Date: ${dateStr}</p>
+    </div>
+  </div>
+
+  <div class="details">
+    <div class="box">
+      <strong style="font-size: 12px; color: #64748b; text-transform: uppercase;">BILLED FROM:</strong><br/>
+      <strong>consider-itdone LLC</strong><br/>
+      692 Skyline Drive<br/>
+      Lake Hopatcong, NJ 07849<br/>
+      service@consider-itdone.com<br/>
+      +1 (732) 433-0463
+    </div>
+    <div class="box">
+      <strong style="font-size: 12px; color: #64748b; text-transform: uppercase;">BILLED TO:</strong><br/>
+      <strong>${clientName}</strong><br/>
+      ${clientEmail}<br/>
+      Client ID: #${booking.user_id}
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Payment Gateway</th>
+        <th style="text-align: right;">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>${serviceTitle}</strong><br/><small style="color: #64748b;">Booking Reference #${booking.id}</small></td>
+        <td><span style="color: #10b981; font-weight: bold; text-transform: uppercase;">${booking.payment_status}</span></td>
+        <td>Stripe Secure Card Gateway</td>
+        <td style="text-align: right; font-weight: bold;">${priceStr}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="total">
+    Total Settled: <span style="color: #10b981;">${priceStr}</span>
+  </div>
+
+  <div class="footer">
+    Thank you for choosing consider-itdone for your professional business and home solutions.<br/>
+    For inquiries or support, contact service@consider-itdone.com or call +1 (732) 433-0463.<br/>
+    &copy; ${new Date().getFullYear()} consider-itdone LLC. All rights reserved.
+  </div>
+</body>
+</html>`;
+
+    const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `Receipt-${invoiceNum}.html`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleServiceSelect = (type: any) => {
     setServiceType(type);
     setInputParams({}); // reset parameters
@@ -494,6 +589,53 @@ function DashboardContent() {
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* RECEIPT & BILLING PORTAL */}
+            <div className="glass-dashboard-card rounded-3xl p-6 shadow-xl space-y-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Receipts & Billing Portal</h3>
+                  <p className="text-xs text-slate-400">Official tax invoices and transaction history</p>
+                </div>
+                <span className="px-3 py-1 bg-green-500/10 text-green-500 text-xs font-bold rounded-xl border border-green-500/20">
+                  Total Paid: ${bookings.filter(b => b.payment_status === 'paid').reduce((sum, b) => sum + parseFloat(b.price || '0'), 0).toFixed(2)}
+                </span>
+              </div>
+
+              {bookings.filter(b => b.payment_status === 'paid').length === 0 ? (
+                <p className="text-sm text-slate-500 dark:text-slate-400 py-4 text-center border border-dashed border-white/10 rounded-2xl">
+                  No settled invoices yet. Once a booking is paid via Stripe, your official tax receipts will appear here for one-click download.
+                </p>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {bookings.filter(b => b.payment_status === 'paid').map((b) => (
+                    <div key={`inv-${b.id}`} className="p-4 bg-white/10 dark:bg-slate-950/20 border border-white/10 dark:border-white/5 rounded-2xl flex items-center justify-between gap-3">
+                      <div className="overflow-hidden flex items-center gap-3">
+                        <span className="relative rounded-xl bg-green-500/10 p-2.5 text-green-600 dark:text-green-400">
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </span>
+                        <div className="overflow-hidden">
+                          <p className="text-sm font-semibold truncate text-slate-800 dark:text-slate-200">INV-{b.id}-{new Date(b.scheduled_at || Date.now()).getFullYear()}</p>
+                          <p className="text-[10px] text-green-500 font-bold uppercase mt-0.5">${b.price || '0.00'} • Paid</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => downloadReceipt(b)}
+                        className="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5 flex-shrink-0 cursor-pointer"
+                        title="Download Official Receipt"
+                      >
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Receipt
                       </button>
                     </div>
                   ))}
@@ -851,7 +993,19 @@ function DashboardContent() {
                 <span className="text-slate-400 font-bold text-[9px] uppercase tracking-wider block">Price</span>
                 <span className="text-slate-800 dark:text-slate-200 font-medium">${selectedBooking.price || '0.00'} ({selectedBooking.payment_status})</span>
               </div>
-              <div className="flex justify-end">
+              <div className="flex justify-end gap-2 flex-wrap">
+                {selectedBooking.payment_status === 'paid' && (
+                  <button
+                    onClick={() => downloadReceipt(selectedBooking)}
+                    className="px-3 py-1.5 bg-green-500/10 hover:bg-green-500/20 text-green-600 dark:text-green-400 text-[10px] font-bold rounded-xl border border-green-500/25 transition-all flex items-center gap-1.5 cursor-pointer"
+                    title="Download Official Receipt"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    Receipt
+                  </button>
+                )}
                 <button
                   onClick={() => downloadICS(selectedBooking)}
                   className="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 text-[10px] font-bold rounded-xl border border-amber-500/25 transition-all flex items-center gap-1.5 cursor-pointer"
