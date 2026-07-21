@@ -41,7 +41,7 @@ export default function Home() {
         {/* <Testimonials /> */}
         <FAQ />
         {/* <BottomIllustration /> */}
-        <CTA />
+        {/* <CTA /> */}
       </main>
       <Footer />
     </>

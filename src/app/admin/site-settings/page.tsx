@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { getSiteConfig, fetchSiteConfig, saveSiteConfig, resetSiteConfig, type SiteConfig, type HeroHoverItem, type FAQCategory, type FAQItem } from "@/data/siteConfigData";
 
-export default function SiteSettingsPage() {
+function SiteSettingsContent() {
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get("tab") === "faqs" || searchParams.get("tab") === "faq" ? "faqs" : "general";
   const [config, setConfig] = useState<SiteConfig | null>(null);
-  const [activeTab, setActiveTab] = useState<"general" | "hero" | "whyus" | "faqs" | "about">("general");
+  const [activeTab, setActiveTab] = useState<"general" | "hero" | "whyus" | "faqs" | "about">(initialTab);
   const [successMsg, setSuccessMsg] = useState("");
 
   // Hero section editing states
@@ -704,5 +707,17 @@ export default function SiteSettingsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SiteSettingsPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-amber-500"></div>
+      </div>
+    }>
+      <SiteSettingsContent />
+    </Suspense>
   );
 }

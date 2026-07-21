@@ -10,6 +10,7 @@ import documentService, { Document } from '@/services/documentService';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { DashboardLayout } from '@/components/dashboard/Layout';
 import { ChatPanel } from '@/components/dashboard/ChatPanel';
+import FAQ from '@/components/FAQ';
 import { useSearchParams } from 'next/navigation';
 import api from '@/lib/api';
 
@@ -45,6 +46,7 @@ function DashboardContent() {
 
   // Client Details / Chat Modal state
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [showFaqModal, setShowFaqModal] = useState(false);
 
   // Auto-booking and payment states
   const [autoBooking, setAutoBooking] = useState(false);
@@ -427,6 +429,15 @@ function DashboardContent() {
             >
               Go to Home Page
             </Link>
+            <button
+              onClick={() => setShowFaqModal(true)}
+              className="px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-bold text-sm rounded-xl shadow-lg shadow-blue-500/25 transition-all cursor-pointer flex items-center gap-2"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Help & FAQ</span>
+            </button>
             <Link
               href="/services"
               className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm rounded-xl shadow-lg shadow-amber-500/25 transition-all cursor-pointer"
@@ -1186,6 +1197,28 @@ function DashboardContent() {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* HELP & FAQ MODAL */}
+      {showFaqModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm overflow-y-auto">
+          <div
+            className="glass-dashboard-card w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl p-6 border border-white/10 dark:border-white/5 shadow-2xl relative animate-scale-in text-slate-800 dark:text-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowFaqModal(false)}
+              className="absolute top-4 right-4 z-10 p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <div className="pt-2">
+              <FAQ />
+            </div>
           </div>
         </div>
       )}
