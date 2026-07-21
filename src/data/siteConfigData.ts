@@ -46,6 +46,7 @@ export interface SiteConfig {
   aboutCol2Text: string;
   googleAnalyticsId?: string;
   googleTagManagerId?: string;
+  clarityId?: string;
 }
 
 const STORAGE_KEY = "cid_site_config";
@@ -57,6 +58,7 @@ export const defaultSiteConfig: SiteConfig = {
   contactAddress: "692 Skyline Drive, Lake Hopatcong, NJ 07849",
   googleAnalyticsId: "G-YJX2CH8TVC",
   googleTagManagerId: "GTM-KDFFXMQP",
+  clarityId: "",
   whyChooseUsTitle: "Why Smart People Work With Us",
   whyChooseUsLeft: {
     title: "You Plan - We Implement",

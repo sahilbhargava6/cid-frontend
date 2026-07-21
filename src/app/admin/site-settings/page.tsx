@@ -225,6 +225,23 @@ export default function SiteSettingsPage() {
                     Manages marketing pixels, Google Analytics, Google Ads, and custom events without code changes.
                   </p>
                 </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                    Microsoft Clarity Project ID
+                    <span className="ml-2 font-normal text-slate-400 lowercase">(e.g., abcdef1234)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={config.clarityId || ""}
+                    onChange={(e) => updateConfigField("clarityId", e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold"
+                    placeholder="abcdef1234"
+                  />
+                  <p className="text-xs text-slate-400 mt-1.5">
+                    Records free visitor heatmaps, click heatmaps, and live video replay sessions of website visitors.
+                  </p>
+                </div>
               </div>
             </div>
           )}

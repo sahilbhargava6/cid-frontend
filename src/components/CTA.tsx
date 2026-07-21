@@ -3,6 +3,7 @@
 import { useState } from "react";
 import api from "@/lib/api";
 import { useSiteConfig, getCleanPhone, getCleanEmail } from "@/data/siteConfigData";
+import { trackLeadEvent } from "@/lib/analytics";
 
 const availableServices = [
   "Tax Preparation",
@@ -82,6 +83,7 @@ export default function CTA() {
         message: fullMessage,
       });
 
+      trackLeadEvent({ source: "Homepage CTA Block", service: selectedServices.join(", ") || "General Inquiry" });
       setStatus("success");
       setFormData({ name: "", email: "", phone: "", message: "" });
       setSelectedServices([]);

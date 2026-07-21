@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import api from "@/lib/api";
 import { useSiteConfig, getCleanPhone, getCleanEmail } from "@/data/siteConfigData";
+import { trackLeadEvent } from "@/lib/analytics";
 import dynamic from "next/dynamic";
 
 const Background3D = dynamic(() => import("@/components/Background3D"), {
@@ -60,6 +61,7 @@ export default function ContactUsPage() {
         message: fullMessage,
       });
 
+      trackLeadEvent({ source: "Contact Us Page", service: formData.service });
       setSubmitted(true);
     } catch (err: any) {
       console.error("Failed to submit contact form:", err);

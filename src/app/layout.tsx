@@ -70,6 +70,8 @@ export const metadata: Metadata = {
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import MicrosoftClarity from "@/components/MicrosoftClarity";
+import CookieConsent from "@/components/CookieConsent";
 
 export default function RootLayout({
   children,
@@ -128,6 +130,8 @@ export default function RootLayout({
         <ThemeProvider>
           <AuthProvider>
             <GoogleAnalytics />
+            <MicrosoftClarity />
+            <CookieConsent />
             {children}
           </AuthProvider>
         </ThemeProvider>
