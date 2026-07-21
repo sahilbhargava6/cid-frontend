@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getServices } from "@/data/servicesData";
-import { useSiteConfig } from "@/data/siteConfigData";
+import { useSiteConfig, getCleanPhone, getCleanEmail } from "@/data/siteConfigData";
 
 const serviceLinks = getServices().map((s) => ({
   label: s.title,
@@ -177,7 +177,7 @@ export default function Footer() {
             </h4>
             <div className="flex flex-col gap-4">
               <a
-                href={`tel:${config.contactPhone}`}
+                href={`tel:${getCleanPhone(config.contactPhone)}`}
                 className="flex items-center gap-3 text-sm font-semibold transition-colors duration-200 hover:text-[#E8503A]"
                 style={{ color: "#7A8F9E" }}
               >
@@ -196,7 +196,7 @@ export default function Footer() {
                 {config.contactPhone}
               </a>
               <a
-                href={`mailto:${config.contactEmail}`}
+                href={`mailto:${getCleanEmail(config.contactEmail)}`}
                 className="flex items-center gap-3 text-sm font-semibold transition-colors duration-200 hover:text-[#E8503A]"
                 style={{ color: "#7A8F9E" }}
               >

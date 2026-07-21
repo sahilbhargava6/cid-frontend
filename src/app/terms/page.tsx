@@ -3,7 +3,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import React, { useEffect } from "react";
-import { useSiteConfig } from "@/data/siteConfigData";
+import { useSiteConfig, getCleanPhone } from "@/data/siteConfigData";
 import dynamic from "next/dynamic";
 
 const Background3D = dynamic(() => import("@/components/Background3D"), {
@@ -144,8 +144,8 @@ export default function TermsOfService() {
                 </p>
                 <div className="p-5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-800/50 rounded-2xl text-xs sm:text-sm space-y-1.5">
                   <p className="font-extrabold text-slate-800 dark:text-slate-100">consider-itdone Support Team</p>
-                  <p><span className="font-semibold text-slate-400">Email:</span> support@consideritdone.com</p>
-                  <p><span className="font-semibold text-slate-400">Toll-Free Phone:</span> {config.contactPhone}</p>
+                  <p><span className="font-semibold text-slate-400">Email:</span> <a href="mailto:support@consideritdone.com" className="hover:text-[#E85D3A] transition-colors">support@consideritdone.com</a></p>
+                  <p><span className="font-semibold text-slate-400">Toll-Free Phone:</span> <a href={`tel:${getCleanPhone(config.contactPhone)}`} className="hover:text-[#E85D3A] transition-colors">{config.contactPhone}</a></p>
                 </div>
               </section>
             </div>

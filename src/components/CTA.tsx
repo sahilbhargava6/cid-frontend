@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import api from "@/lib/api";
-import { useSiteConfig } from "@/data/siteConfigData";
+import { useSiteConfig, getCleanPhone, getCleanEmail } from "@/data/siteConfigData";
 
 const availableServices = [
   "Tax Preparation",
@@ -170,7 +170,7 @@ export default function CTA() {
             {/* Direct Contact info */}
             <div className="flex flex-col gap-4 mb-8">
               <a
-                href={`tel:${config.contactPhone}`}
+                href={`tel:${getCleanPhone(config.contactPhone)}`}
                 className="flex items-center gap-4 group text-white hover:text-[var(--cid-coral-light)] transition-colors duration-200"
               >
                 <div
@@ -200,7 +200,7 @@ export default function CTA() {
               </a>
 
               <a
-                href={`mailto:${config.contactEmail}`}
+                href={`mailto:${getCleanEmail(config.contactEmail)}`}
                 className="flex items-center gap-4 group text-white hover:text-[var(--cid-coral-light)] transition-colors duration-200"
               >
                 <div

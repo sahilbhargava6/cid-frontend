@@ -50,9 +50,9 @@ const STORAGE_KEY = "cid_site_config";
 
 export const defaultSiteConfig: SiteConfig = {
   brandName: "consider-itdone",
-  contactEmail: "info@consider-itdone.com",
-  contactPhone: "(973) 555-0199",
-  contactAddress: "Lake Hopatcong, NJ 07849",
+  contactEmail: "service@consider-itdone.com",
+  contactPhone: "732-433-0463",
+  contactAddress: "692 Skyline Drive, Lake Hopatcong, NJ 07849",
   whyChooseUsTitle: "Why Smart People Work With Us",
   whyChooseUsLeft: {
     title: "You Plan - We Implement",
@@ -284,4 +284,20 @@ export async function resetSiteConfig(): Promise<void> {
   } catch (err) {
     console.error("Failed to reset site config on backend:", err);
   }
+}
+
+/**
+ * Helper to clean phone string for tel: link (only digits and leading +)
+ */
+export function getCleanPhone(phone?: string): string {
+  if (!phone) return "";
+  return phone.replace(/[^0-9+]/g, "");
+}
+
+/**
+ * Helper to clean email string for mailto: link
+ */
+export function getCleanEmail(email?: string): string {
+  if (!email) return "";
+  return email.trim();
 }

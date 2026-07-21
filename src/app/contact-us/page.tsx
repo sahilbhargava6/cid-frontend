@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import api from "@/lib/api";
-import { useSiteConfig } from "@/data/siteConfigData";
+import { useSiteConfig, getCleanPhone, getCleanEmail } from "@/data/siteConfigData";
 import dynamic from "next/dynamic";
 
 const Background3D = dynamic(() => import("@/components/Background3D"), {
@@ -110,23 +110,23 @@ export default function ContactUsPage() {
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-4 border-y border-slate-100 text-sm sm:text-base text-slate-700 font-semibold" style={{ fontFamily: "Inter, sans-serif" }}>
-                <div className="flex items-center gap-3">
+                <a href={`tel:${getCleanPhone(config.contactPhone)}`} className="flex items-center gap-3 hover:text-[#E85D3A] transition-colors">
                   <div className="w-10 h-10 bg-[rgba(10,30,53,0.05)] rounded-full flex items-center justify-center border border-slate-200/50 flex-shrink-0">
                     <svg className="w-5 h-5 text-[#E85D3A]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                     </svg>
                   </div>
                   <span>{config.contactPhone}</span>
-                </div>
+                </a>
 
-                <div className="flex items-center gap-3">
+                <a href={`mailto:${getCleanEmail(config.contactEmail)}`} className="flex items-center gap-3 hover:text-[#E85D3A] transition-colors">
                   <div className="w-10 h-10 bg-[rgba(10,30,53,0.05)] rounded-full flex items-center justify-center border border-slate-200/50 flex-shrink-0">
                     <svg className="w-5 h-5 text-[#E85D3A]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
                   </div>
                   <span className="truncate">{config.contactEmail}</span>
-                </div>
+                </a>
 
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-[rgba(10,30,53,0.05)] rounded-full flex items-center justify-center border border-slate-200/50 flex-shrink-0">
@@ -321,23 +321,23 @@ export default function ContactUsPage() {
                   </div>
 
                   <div className="space-y-6 text-[20px] text-slate-700 font-semibold" style={{ fontFamily: "Inter, sans-serif" }}>
-                    <div className="flex items-center gap-4">
+                    <a href={`tel:${getCleanPhone(config.contactPhone)}`} className="flex items-center gap-4 hover:text-[#E85D3A] transition-colors">
                       <div className="w-12 h-12 bg-[rgba(10,30,53,0.05)] rounded-full flex items-center justify-center border border-slate-200/50">
                         <svg className="w-6 h-6 text-[#E85D3A]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                         </svg>
                       </div>
                       <span>{config.contactPhone}</span>
-                    </div>
+                    </a>
 
-                    <div className="flex items-center gap-4">
+                    <a href={`mailto:${getCleanEmail(config.contactEmail)}`} className="flex items-center gap-4 hover:text-[#E85D3A] transition-colors">
                       <div className="w-12 h-12 bg-[rgba(10,30,53,0.05)] rounded-full flex items-center justify-center border border-slate-200/50">
                         <svg className="w-6 h-6 text-[#E85D3A]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
                       </div>
                       <span>{config.contactEmail}</span>
-                    </div>
+                    </a>
 
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 bg-[rgba(10,30,53,0.05)] rounded-full flex items-center justify-center border border-slate-200/50">
