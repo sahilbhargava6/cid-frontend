@@ -16,7 +16,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.consideritdone.com"),
+  metadataBase: new URL("https://www.consider-itdone.com"),
   title: "consider-itdone | Premium US Business & Home Solutions",
   description:
     "Stress-free Tax Resolution, Accurate Virtual Bookkeeping, Home Solar Systems, Unified Business Accounts & Logistics, and Global Procurement Services — all handled by US-based experts.",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     "tax resolution",
     "virtual bookkeeping",
     "home solar systems",
-    "solar installation",
+    "solar installation NJ NY PA",
     "small business management",
     "business logistics",
     "procurement services",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "consider-itdone | Premium US Business & Home Solutions",
     description:
       "From tax resolution to solar installations — we handle everything so you don't have to.",
-    url: "https://www.consideritdone.com",
+    url: "https://www.consider-itdone.com",
     siteName: "consider-itdone",
     type: "website",
     locale: "en_US",
@@ -109,12 +109,22 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
+              "@type": "ProfessionalService",
               name: "consider-itdone",
               description:
                 "Premium US-based business services: Tax Preparation, Virtual Bookkeeping, Home Solar Systems, Small Business Management, and Procurement.",
-              url: "https://www.consideritdone.com",
-              areaServed: "United States",
+              url: "https://www.consider-itdone.com",
+              telephone: "+1-732-433-0463",
+              email: "service@consider-itdone.com",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "692 Skyline Drive",
+                addressLocality: "Lake Hopatcong",
+                addressRegion: "NJ",
+                postalCode: "07849",
+                addressCountry: "US"
+              },
+              areaServed: ["United States", "New Jersey", "New York", "Pennsylvania"],
               serviceType: [
                 "Tax Preparation",
                 "Virtual Bookkeeping",
