@@ -191,6 +191,40 @@ export default function SiteSettingsPage() {
                     placeholder="Lake Hopatcong, NJ 07849"
                   />
                 </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                    Google Analytics Measurement ID (GA4)
+                    <span className="ml-2 font-normal text-slate-400 lowercase">(e.g., G-XXXXXXXXXX)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={config.googleAnalyticsId || ""}
+                    onChange={(e) => updateConfigField("googleAnalyticsId", e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold"
+                    placeholder="G-1234567890"
+                  />
+                  <p className="text-xs text-slate-400 mt-1.5">
+                    Automatically tracks all audience pageviews, route transitions, and visitor engagement across the website.
+                  </p>
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                    Google Tag Manager ID (GTM)
+                    <span className="ml-2 font-normal text-slate-400 lowercase">(Default: GTM-KDFFXMQP)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={config.googleTagManagerId || ""}
+                    onChange={(e) => updateConfigField("googleTagManagerId", e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold"
+                    placeholder="GTM-KDFFXMQP"
+                  />
+                  <p className="text-xs text-slate-400 mt-1.5">
+                    Manages marketing pixels, Google Analytics, Google Ads, and custom events without code changes.
+                  </p>
+                </div>
               </div>
             </div>
           )}

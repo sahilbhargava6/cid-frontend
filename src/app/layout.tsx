@@ -69,6 +69,7 @@ export const metadata: Metadata = {
 
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 export default function RootLayout({
   children,
@@ -126,6 +127,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col antialiased">
         <ThemeProvider>
           <AuthProvider>
+            <GoogleAnalytics />
             {children}
           </AuthProvider>
         </ThemeProvider>

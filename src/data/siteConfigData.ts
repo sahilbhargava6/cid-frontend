@@ -44,6 +44,8 @@ export interface SiteConfig {
   aboutCol1Bullets: string[];
   aboutCol2Header: string;
   aboutCol2Text: string;
+  googleAnalyticsId?: string;
+  googleTagManagerId?: string;
 }
 
 const STORAGE_KEY = "cid_site_config";
@@ -53,6 +55,8 @@ export const defaultSiteConfig: SiteConfig = {
   contactEmail: "service@consider-itdone.com",
   contactPhone: "732-433-0463",
   contactAddress: "692 Skyline Drive, Lake Hopatcong, NJ 07849",
+  googleAnalyticsId: "",
+  googleTagManagerId: "GTM-KDFFXMQP",
   whyChooseUsTitle: "Why Smart People Work With Us",
   whyChooseUsLeft: {
     title: "You Plan - We Implement",
