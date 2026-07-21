@@ -28,7 +28,9 @@ function GoogleAnalyticsTracker({ measurementId }: { measurementId: string }) {
 }
 
 export default function GoogleAnalytics({ gaId, gtmId }: GoogleAnalyticsProps) {
-  const [dynamicGaId, setDynamicGaId] = useState<string | undefined>(gaId || process.env.NEXT_PUBLIC_GA_ID);
+  const [dynamicGaId, setDynamicGaId] = useState<string | undefined>(
+    gaId || process.env.NEXT_PUBLIC_GA_ID || "G-YJX2CH8TVC"
+  );
   const [dynamicGtmId, setDynamicGtmId] = useState<string | undefined>(
     gtmId || process.env.NEXT_PUBLIC_GTM_ID || "GTM-KDFFXMQP"
   );
@@ -52,7 +54,7 @@ export default function GoogleAnalytics({ gaId, gtmId }: GoogleAnalyticsProps) {
     }
   }, []);
 
-  const measurementId = dynamicGaId || process.env.NEXT_PUBLIC_GA_ID;
+  const measurementId = dynamicGaId || "G-YJX2CH8TVC";
   const activeGtmId = dynamicGtmId || "GTM-KDFFXMQP";
 
   return (

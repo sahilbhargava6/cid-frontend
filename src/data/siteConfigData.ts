@@ -55,7 +55,7 @@ export const defaultSiteConfig: SiteConfig = {
   contactEmail: "service@consider-itdone.com",
   contactPhone: "732-433-0463",
   contactAddress: "692 Skyline Drive, Lake Hopatcong, NJ 07849",
-  googleAnalyticsId: "",
+  googleAnalyticsId: "G-YJX2CH8TVC",
   googleTagManagerId: "GTM-KDFFXMQP",
   whyChooseUsTitle: "Why Smart People Work With Us",
   whyChooseUsLeft: {

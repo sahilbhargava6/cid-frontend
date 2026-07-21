@@ -195,14 +195,14 @@ export default function SiteSettingsPage() {
                 <div className="md:col-span-2">
                   <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
                     Google Analytics Measurement ID (GA4)
-                    <span className="ml-2 font-normal text-slate-400 lowercase">(e.g., G-XXXXXXXXXX)</span>
+                    <span className="ml-2 font-normal text-slate-400 lowercase">(Default: G-YJX2CH8TVC)</span>
                   </label>
                   <input
                     type="text"
                     value={config.googleAnalyticsId || ""}
                     onChange={(e) => updateConfigField("googleAnalyticsId", e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white dark:bg-white text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 text-sm font-semibold"
-                    placeholder="G-1234567890"
+                    placeholder="G-YJX2CH8TVC"
                   />
                   <p className="text-xs text-slate-400 mt-1.5">
                     Automatically tracks all audience pageviews, route transitions, and visitor engagement across the website.
