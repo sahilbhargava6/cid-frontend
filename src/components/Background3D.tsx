@@ -263,7 +263,7 @@ export default function Background3D() {
           <Canvas 
             camera={{ position: [0, 0, 5], fov: 55 }}
             dpr={[1, 1.2]}
-            gl={{ antialias: false, powerPreference: "default", failIfMajorPerformanceCaveat: true }}
+            gl={{ antialias: false, powerPreference: "default" }}
             onCreated={({ gl }) => {
               gl.domElement.addEventListener("webglcontextlost", (e) => {
                 e.preventDefault();
