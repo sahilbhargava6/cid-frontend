@@ -15,9 +15,27 @@ function RegisterContent() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
 
+  const reqLength = password.length >= 8;
+  const reqUpper = /[A-Z]/.test(password);
+  const reqLower = /[a-z]/.test(password);
+  const reqNumber = /[0-9]/.test(password);
+  const reqSymbol = /[^A-Za-z0-9]/.test(password);
+  const allReqsMet = reqLength && reqUpper && reqLower && reqNumber && reqSymbol;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!allReqsMet) {
+      const missing = [];
+      if (!reqLength) missing.push('at least 8 characters');
+      if (!reqUpper) missing.push('one uppercase letter');
+      if (!reqLower) missing.push('one lowercase letter');
+      if (!reqNumber) missing.push('one number');
+      if (!reqSymbol) missing.push('one symbol (!@#$%^&*)');
+      setError(`Password must include: ${missing.join(', ')}.`);
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError('Passwords do not match');
@@ -28,10 +46,11 @@ function RegisterContent() {
       await register(name, email, password);
     } catch (err: any) {
       console.error('Registration error:', err);
+      const pwdErrors = err.response?.data?.errors?.password;
       setError(
         err.response?.data?.message ||
         err.response?.data?.errors?.email?.[0] ||
-        err.response?.data?.errors?.password?.[0] ||
+        (Array.isArray(pwdErrors) ? pwdErrors.join(' • ') : pwdErrors) ||
         'Registration failed. Please try again.'
       );
     }
@@ -103,6 +122,28 @@ function RegisterContent() {
               className="w-full bg-white/40 dark:bg-black/30 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
               placeholder="••••••••"
             />
+            {password.length > 0 && (
+              <div className="mt-2 p-3 bg-slate-50/80 dark:bg-black/30 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-1.5 text-[11px]">
+                <p className="font-bold text-slate-700 dark:text-slate-300 mb-1">Password Requirements:</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 font-semibold">
+                  <span className={`flex items-center gap-1.5 ${reqLength ? 'text-green-600 dark:text-green-400' : 'text-slate-400'}`}>
+                    <span>{reqLength ? '✓' : '•'}</span> At least 8 characters
+                  </span>
+                  <span className={`flex items-center gap-1.5 ${reqUpper ? 'text-green-600 dark:text-green-400' : 'text-slate-400'}`}>
+                    <span>{reqUpper ? '✓' : '•'}</span> One uppercase (A-Z)
+                  </span>
+                  <span className={`flex items-center gap-1.5 ${reqLower ? 'text-green-600 dark:text-green-400' : 'text-slate-400'}`}>
+                    <span>{reqLower ? '✓' : '•'}</span> One lowercase (a-z)
+                  </span>
+                  <span className={`flex items-center gap-1.5 ${reqNumber ? 'text-green-600 dark:text-green-400' : 'text-slate-400'}`}>
+                    <span>{reqNumber ? '✓' : '•'}</span> One number (0-9)
+                  </span>
+                  <span className={`flex items-center gap-1.5 sm:col-span-2 ${reqSymbol ? 'text-green-600 dark:text-green-400' : 'text-slate-400'}`}>
+                    <span>{reqSymbol ? '✓' : '•'}</span> One symbol (!@#$%^&*)
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
           <div>

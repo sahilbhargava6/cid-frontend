@@ -261,8 +261,8 @@ export default function AdminDashboard() {
               Client & Service Request Details
             </h3>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Left Column: Client info & Edit Form */}
+            <div className="grid grid-cols-1 gap-8">
+              {/* Client info & Edit Form */}
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Client Profile and service details */}
@@ -429,18 +429,7 @@ export default function AdminDashboard() {
                 </form>
               </div>
 
-              {/* Right Column: Live Chat Panel */}
-              <div className="border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-8 flex flex-col justify-between">
-                <div>
-                  <h4 className="text-sm font-extrabold text-slate-900 dark:text-white mb-1">
-                    Live Chat & Document Exchange
-                  </h4>
-                  <p className="text-xs text-slate-400 mb-2">
-                    Direct conversation with the client regarding this service request.
-                  </p>
-                </div>
-                <ChatPanel ticketId={selectedBooking.id} />
-              </div>
+            {/* Right column (Live Chat) removed per user request */}
             </div>
           </div>
         </div>

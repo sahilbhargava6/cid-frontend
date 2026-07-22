@@ -44,6 +44,10 @@ function DashboardContent() {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingError, setBookingError] = useState<string | null>(null);
 
+  useEffect(() => {
+    setBookingError(null);
+  }, [wizardStep, isWizardOpen, serviceType, scheduledAt]);
+
   // Client Details / Chat Modal state
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [showFaqModal, setShowFaqModal] = useState(false);
@@ -1063,11 +1067,7 @@ function DashboardContent() {
               </div>
             </div>
 
-            {/* Live Chat Panel Component */}
-            <h4 className="text-[10px] uppercase font-bold text-slate-400 tracking-wider mt-2">
-              Live Chat & Document Exchange
-            </h4>
-            <ChatPanel ticketId={selectedBooking.id} />
+            {/* Chat section removed per user request */}
           </div>
         </div>
       )}

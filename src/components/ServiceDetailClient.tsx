@@ -14,7 +14,7 @@ function BulletDescription({ description, headerColor, textColor }: { descriptio
   if (hasHtml) {
     return (
       <div 
-        className="text-current [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5 [&_p]:mb-4"
+        className="text-current [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5 [&_p]:mb-4 w-full min-w-0 break-words overflow-wrap-anywhere"
         style={{ color: textColor }}
         dangerouslySetInnerHTML={{ __html: description }} 
       />
@@ -22,7 +22,7 @@ function BulletDescription({ description, headerColor, textColor }: { descriptio
   }
 
   return (
-    <>
+    <div className="w-full min-w-0">
       {description.split('\n').filter(line => line.trim()).map((line, idx) => {
         const trimmed = line.trim();
         const isBullet = trimmed.startsWith('·');
@@ -31,22 +31,22 @@ function BulletDescription({ description, headerColor, textColor }: { descriptio
         if (isBullet) {
           const colonIdx = text.indexOf(':');
           return (
-            <div key={idx} className="flex gap-3 mb-4">
+            <div key={idx} className="flex gap-3 mb-4 items-start w-full min-w-0">
               <span className="flex-shrink-0 mt-[6px] w-[10px] h-[10px] rounded-full" style={{ backgroundColor: headerColor }} />
-              <p className="flex-1">
+              <p className="flex-1 min-w-0 break-words overflow-wrap-anywhere whitespace-normal leading-relaxed">
                 {colonIdx > -1 ? (
                   <>
-                    <span className="font-semibold">{text.slice(0, colonIdx + 1)}</span>
-                    {text.slice(colonIdx + 1)}
+                    <span className="font-bold mr-1">{text.slice(0, colonIdx + 1)}</span>
+                    <span>{text.slice(colonIdx + 1).trim()}</span>
                   </>
                 ) : text}
               </p>
             </div>
           );
         }
-        return <p key={idx} className="mb-3">{text}</p>;
+        return <p key={idx} className="mb-3 w-full min-w-0 break-words overflow-wrap-anywhere whitespace-normal leading-relaxed">{text}</p>;
       })}
-    </>
+    </div>
   );
 }
 

@@ -13,8 +13,8 @@ const Testimonials = dynamic(() => import("@/components/Testimonials"));
 const FAQ = dynamic(() => import("@/components/FAQ"));
 const CTA = dynamic(() => import("@/components/CTA"));
 const Footer = dynamic(() => import("@/components/Footer"));
-const GreenBanner = dynamic(() => import("@/components/Banners").then((mod) => mod.GreenBanner));
-const PinkBanner = dynamic(() => import("@/components/Banners").then((mod) => mod.PinkBanner));
+const GreenBanner = dynamic(() => import("@/components/Banners").then((mod) => mod.GreenBanner), { ssr: false });
+const PinkBanner = dynamic(() => import("@/components/Banners").then((mod) => mod.PinkBanner), { ssr: false });
 const BottomIllustration = dynamic(() => import("@/components/BottomIllustration"));
 
 export default function Home() {
