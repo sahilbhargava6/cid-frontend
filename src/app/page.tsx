@@ -2,20 +2,16 @@
 
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import Services from "@/components/Services";
+import WhyChooseUs from "@/components/WhyChooseUs";
+import HowItWorks from "@/components/HowItWorks";
+import FAQ from "@/components/FAQ";
+import Footer from "@/components/Footer";
+import { GreenBanner, PinkBanner } from "@/components/Banners";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 
 const Background3D = dynamic(() => import("@/components/Background3D"), { ssr: false });
-const Services = dynamic(() => import("@/components/Services"), { ssr: false });
-const WhyChooseUs = dynamic(() => import("@/components/WhyChooseUs"));
-const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
-const Testimonials = dynamic(() => import("@/components/Testimonials"));
-const FAQ = dynamic(() => import("@/components/FAQ"));
-const CTA = dynamic(() => import("@/components/CTA"));
-const Footer = dynamic(() => import("@/components/Footer"));
-const GreenBanner = dynamic(() => import("@/components/Banners").then((mod) => mod.GreenBanner), { ssr: false });
-const PinkBanner = dynamic(() => import("@/components/Banners").then((mod) => mod.PinkBanner), { ssr: false });
-const BottomIllustration = dynamic(() => import("@/components/BottomIllustration"));
 
 export default function Home() {
   return (

@@ -226,10 +226,14 @@ export async function fetchSiteConfig(): Promise<SiteConfig> {
  * React hook to access site config reactively across any component or page.
  */
 export function useSiteConfig(): SiteConfig {
-  const [config, setConfig] = useState<SiteConfig>(() => getSiteConfig());
+  const [config, setConfig] = useState<SiteConfig>(defaultSiteConfig);
 
   useEffect(() => {
     let isMounted = true;
+    const local = getSiteConfig();
+    if (isMounted && local && local !== defaultSiteConfig) {
+      setConfig(local);
+    }
     fetchSiteConfig().then((data) => {
       if (isMounted && data) setConfig(data);
     });

@@ -22,13 +22,13 @@ export default function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="w-full overflow-hidden bg-slate-200 pt-[76px] lg:pt-0"
+      className="w-full overflow-visible lg:overflow-hidden bg-slate-200 pt-[110px] lg:pt-0"
       onClick={() => setActiveHover(null)}
     >
       <h1 id="hero-heading" className="sr-only">
         consider-itdone | Premium US Business & Home Solutions
       </h1>
-      <div className="relative w-full aspect-[16/9] select-none">
+      <div className="relative w-full aspect-[16/9] select-none overflow-visible lg:overflow-hidden">
         {/* Main Background Image - Fits exactly to 16:9 container */}
         <Image
           src="/images/hero.webp"
