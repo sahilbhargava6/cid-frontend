@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 
@@ -14,6 +14,13 @@ const outfit = Outfit({
   display: "swap",
   weight: ["400", "500", "600", "700", "800"],
 });
+
+export const viewport: Viewport = {
+  themeColor: "#0A1E35",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.consider-itdone.com"),
@@ -37,13 +44,19 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "consider-itdone" }],
   manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    title: "consider-itdone",
+    statusBarStyle: "black-translucent",
+  },
   icons: {
     icon: [
       { url: '/favicon.ico' },
+      { url: '/Consider_it_done_LOGO_4.png', type: 'image/png' },
       { url: '/Consider_it_done_LOGO_4.webp', type: 'image/webp' }
     ],
     apple: [
-      { url: '/Consider_it_done_LOGO_4.png' }
+      { url: '/Consider_it_done_LOGO_4.png', sizes: '180x180', type: 'image/png' }
     ]
   },
   openGraph: {

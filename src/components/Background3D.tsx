@@ -232,30 +232,23 @@ class CanvasErrorBoundary extends React.Component<{ children: React.ReactNode },
 }
 
 export default function Background3D() {
-  const [isSafeDesktop, setIsSafeDesktop] = React.useState(false);
+  const [isSafeDevice, setIsSafeDevice] = React.useState(false);
 
   React.useEffect(() => {
     const checkEnvironment = () => {
       if (typeof window === "undefined" || typeof navigator === "undefined") {
-        setIsSafeDesktop(false);
+        setIsSafeDevice(false);
         return;
       }
-      const isMobileUA =
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|Tablet/i.test(
-          navigator.userAgent
-        );
-
-      setIsSafeDesktop(!isMobileUA);
+      setIsSafeDevice(true);
     };
 
     checkEnvironment();
-    window.addEventListener("resize", checkEnvironment);
-    return () => window.removeEventListener("resize", checkEnvironment);
   }, []);
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-b from-[#FAFBFD] to-[#FFFFFF] transition-colors duration-300">
-      {isSafeDesktop && (
+      {isSafeDevice && (
         <CanvasErrorBoundary>
           <Canvas 
             camera={{ position: [0, 0, 5], fov: 55 }}
@@ -264,7 +257,7 @@ export default function Background3D() {
             onCreated={({ gl }) => {
               gl.domElement.addEventListener("webglcontextlost", (e) => {
                 e.preventDefault();
-                setIsSafeDesktop(false);
+                setIsSafeDevice(false);
               }, false);
             }}
           >
