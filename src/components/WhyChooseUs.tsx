@@ -29,7 +29,7 @@ export default function WhyChooseUs() {
         <div className="relative w-full overflow-hidden py-6 bg-[#F4F7FA]/40 backdrop-blur-[1px] border-y border-[#E85D3A]/15 mb-20 select-none">
           <style dangerouslySetInnerHTML={{__html: `
             @keyframes marquee-why {
-              0% { transform: translateX(60vw); }
+              0% { transform: translateX(100%); }
               100% { transform: translateX(-100%); }
             }
             .marquee-why {

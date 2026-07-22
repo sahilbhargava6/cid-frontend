@@ -240,9 +240,7 @@ export default function Background3D() {
         setIsSafeDesktop(false);
         return;
       }
-      const isTouch =
-        "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0 ||
+      const isMobileUA =
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|Tablet/i.test(
           navigator.userAgent
         );
@@ -250,7 +248,7 @@ export default function Background3D() {
       const isLowMemory =
         (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4;
 
-      setIsSafeDesktop(!isTouch && !isNarrow && !isLowMemory);
+      setIsSafeDesktop(!isMobileUA && !isNarrow && !isLowMemory);
     };
 
     checkEnvironment();

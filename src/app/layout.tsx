@@ -137,14 +137,16 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col antialiased">
-        <ThemeProvider>
-          <AuthProvider>
-            <GoogleAnalytics />
-            <MicrosoftClarity />
-            <CookieConsent />
-            {children}
-          </AuthProvider>
-        </ThemeProvider>
+        <div id="__app-root" style={{ width: '100%', maxWidth: '100vw', overflowX: 'hidden', position: 'relative' }}>
+          <ThemeProvider>
+            <AuthProvider>
+              <GoogleAnalytics />
+              <MicrosoftClarity />
+              <CookieConsent />
+              {children}
+            </AuthProvider>
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   );

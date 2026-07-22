@@ -110,7 +110,7 @@ export default function Services() {
         <div className="relative w-full overflow-hidden py-6 bg-slate-50/40 backdrop-blur-[1px] border-y border-[#E07A6B]/15 mb-14 select-none">
           <style dangerouslySetInnerHTML={{__html: `
             @keyframes marquee-single {
-              0% { transform: translateX(60vw); }
+              0% { transform: translateX(100%); }
               100% { transform: translateX(-100%); }
             }
             .marquee-single {
