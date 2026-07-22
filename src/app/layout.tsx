@@ -137,7 +137,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col antialiased">
-        <div id="__app-root" style={{ width: '100%', maxWidth: '100vw', overflowX: 'hidden', position: 'relative' }}>
+        <div id="__app-root" style={{ width: '100%', maxWidth: '100vw', overflowX: 'hidden' }}>
           <ThemeProvider>
             <AuthProvider>
               <GoogleAnalytics />

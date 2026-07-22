@@ -244,11 +244,8 @@ export default function Background3D() {
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|Tablet/i.test(
           navigator.userAgent
         );
-      const isNarrow = window.innerWidth < 1024;
-      const isLowMemory =
-        (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4;
 
-      setIsSafeDesktop(!isMobileUA && !isNarrow && !isLowMemory);
+      setIsSafeDesktop(!isMobileUA);
     };
 
     checkEnvironment();
@@ -257,7 +254,7 @@ export default function Background3D() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[-1] pointer-events-none bg-gradient-to-b from-[#FAFBFD] to-[#FFFFFF] transition-colors duration-300">
+    <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-b from-[#FAFBFD] to-[#FFFFFF] transition-colors duration-300">
       {isSafeDesktop && (
         <CanvasErrorBoundary>
           <Canvas 

@@ -39,183 +39,125 @@ export default function Hero() {
           sizes="100vw"
         />
 
-        {/* Interactive Overlays — Desktop only (hidden on mobile/tablet) */}
-        <div className="hidden lg:block">
+        {/* Character overlay images — visible on all screens, interactive on desktop only */}
 
-          {/* 1. Solar (Roof) - 2.png */}
-          <div
-            onMouseEnter={() => setActiveHover("solar")}
-            onMouseLeave={() => setActiveHover(null)}
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveHover(activeHover === "solar" ? null : "solar");
-            }}
-            className="absolute top-[18%] left-[25%] w-[16%] h-[24%] cursor-pointer group z-10"
-          >
-            <div className="relative w-full h-full flex items-center justify-center">
-              <div
-                className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "solar" ? "opacity-100 scale-[1.3] animate-pulse" : ""
-                  }`}
-                style={{
-                  background: "radial-gradient(circle, rgba(46,158,90,0.45) 0%, rgba(46,158,90,0) 70%)"
-                }}
-              />
-              <Image
-                src="/images/services/2.webp"
-                alt="Solar Installer"
-                fill
-                priority
-                className="object-contain transition-transform duration-300 group-hover:scale-105"
-                sizes="250px"
-              />
-            </div>
+        {/* 1. Solar (Roof) - 2.webp */}
+        <div
+          onMouseEnter={() => setActiveHover("solar")}
+          onMouseLeave={() => setActiveHover(null)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setActiveHover(activeHover === "solar" ? null : "solar");
+          }}
+          className="absolute top-[18%] left-[25%] w-[16%] h-[24%] cursor-pointer group z-10"
+        >
+          <div className="relative w-full h-full flex items-center justify-center">
+            <div
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "solar" ? "opacity-100 scale-[1.3] animate-pulse" : ""}`}
+              style={{ background: "radial-gradient(circle, rgba(46,158,90,0.45) 0%, rgba(46,158,90,0) 70%)" }}
+            />
+            <Image src="/images/services/2.webp" alt="Solar Installer" fill priority className="object-contain" sizes="250px" />
           </div>
+        </div>
 
-          {/* 2. Business Management (Bottom Left) - 1.png */}
-          <div
-            onMouseEnter={() => setActiveHover("business")}
-            onMouseLeave={() => setActiveHover(null)}
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveHover(activeHover === "business" ? null : "business");
-            }}
-            className="absolute top-[70%] left-[10%] w-[12%] h-[32%] cursor-pointer group z-10"
-          >
-            <div className="relative w-full h-full flex items-center justify-center">
-              <div
-                className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "business" ? "opacity-100 scale-[1.3] animate-pulse" : ""
-                  }`}
-                style={{
-                  background: "radial-gradient(circle, rgba(27,94,146,0.45) 0%, rgba(27,94,146,0) 70%)"
-                }}
-              />
-              <Image
-                src="/images/services/1.webp"
-                alt="Business Manager"
-                fill
-                priority
-                className="object-contain transition-transform duration-300 group-hover:scale-105"
-                sizes="200px"
-              />
-            </div>
+        {/* 2. Business Management (Bottom Left) - 1.webp */}
+        <div
+          onMouseEnter={() => setActiveHover("business")}
+          onMouseLeave={() => setActiveHover(null)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setActiveHover(activeHover === "business" ? null : "business");
+          }}
+          className="absolute top-[70%] left-[10%] w-[12%] h-[32%] cursor-pointer group z-10"
+        >
+          <div className="relative w-full h-full flex items-center justify-center">
+            <div
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "business" ? "opacity-100 scale-[1.3] animate-pulse" : ""}`}
+              style={{ background: "radial-gradient(circle, rgba(27,94,146,0.45) 0%, rgba(27,94,146,0) 70%)" }}
+            />
+            <Image src="/images/services/1.webp" alt="Business Manager" fill priority className="object-contain" sizes="200px" />
           </div>
+        </div>
 
-          {/* 3. Tax Preparation (Bottom Center-Left) - 3.png */}
-          <div
-            onMouseEnter={() => setActiveHover("tax")}
-            onMouseLeave={() => setActiveHover(null)}
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveHover(activeHover === "tax" ? null : "tax");
-            }}
-            className="absolute top-[75%] left-[28%] w-[14%] h-[22%] cursor-pointer group z-10"
-          >
-            <div className="relative w-full h-full flex items-center justify-center">
-              <div
-                className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "tax" ? "opacity-100 scale-[1.3] animate-pulse" : ""
-                  }`}
-                style={{
-                  background: "radial-gradient(circle, rgba(232,93,58,0.45) 0%, rgba(232,93,58,0) 70%)"
-                }}
-              />
-              <Image
-                src="/images/services/3.webp"
-                alt="Tax Specialist"
-                fill
-                priority
-                className="object-contain transition-transform duration-300 group-hover:scale-105"
-                sizes="220px"
-              />
-            </div>
+        {/* 3. Tax Preparation (Bottom Center-Left) - 3.webp */}
+        <div
+          onMouseEnter={() => setActiveHover("tax")}
+          onMouseLeave={() => setActiveHover(null)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setActiveHover(activeHover === "tax" ? null : "tax");
+          }}
+          className="absolute top-[75%] left-[28%] w-[14%] h-[22%] cursor-pointer group z-10"
+        >
+          <div className="relative w-full h-full flex items-center justify-center">
+            <div
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "tax" ? "opacity-100 scale-[1.3] animate-pulse" : ""}`}
+              style={{ background: "radial-gradient(circle, rgba(232,93,58,0.45) 0%, rgba(232,93,58,0) 70%)" }}
+            />
+            <Image src="/images/services/3.webp" alt="Tax Specialist" fill priority className="object-contain" sizes="220px" />
           </div>
+        </div>
 
-          {/* 4. Bookkeeping (Right Balcony) - 5.png */}
-          <div
-            onMouseEnter={() => setActiveHover("bookkeeping")}
-            onMouseLeave={() => setActiveHover(null)}
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveHover(activeHover === "bookkeeping" ? null : "bookkeeping");
-            }}
-            className="absolute top-[33.5%] left-[73%] w-[14%] h-[39%] cursor-pointer group z-10"
-          >
-            <div className="relative w-full h-full flex items-center justify-center">
-              <div
-                className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "bookkeeping" ? "opacity-100 scale-[1.3] animate-pulse" : ""
-                  }`}
-                style={{
-                  background: "radial-gradient(circle, rgba(46,158,90,0.45) 0%, rgba(46,158,90,0) 70%)"
-                }}
-              />
-              <Image
-                src="/images/services/5.webp"
-                alt="Virtual Bookkeeper"
-                fill
-                priority
-                className="object-contain transition-transform duration-300 group-hover:scale-105 relative z-10"
-                sizes="250px"
-              />
-            </div>
+        {/* 4. Bookkeeping (Right Balcony) - 5.webp */}
+        <div
+          onMouseEnter={() => setActiveHover("bookkeeping")}
+          onMouseLeave={() => setActiveHover(null)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setActiveHover(activeHover === "bookkeeping" ? null : "bookkeeping");
+          }}
+          className="absolute top-[33.5%] left-[73%] w-[14%] h-[39%] cursor-pointer group z-10"
+        >
+          <div className="relative w-full h-full flex items-center justify-center">
+            <div
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "bookkeeping" ? "opacity-100 scale-[1.3] animate-pulse" : ""}`}
+              style={{ background: "radial-gradient(circle, rgba(46,158,90,0.45) 0%, rgba(46,158,90,0) 70%)" }}
+            />
+            <Image src="/images/services/5.webp" alt="Virtual Bookkeeper" fill priority className="object-contain" sizes="250px" />
           </div>
+        </div>
 
-          {/* 5. Procurement (Bottom Right) - 6.png */}
-          <div
-            onMouseEnter={() => setActiveHover("procurement")}
-            onMouseLeave={() => setActiveHover(null)}
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveHover(activeHover === "procurement" ? null : "procurement");
-            }}
-            className="absolute top-[70%] left-[72%] w-[28%] h-[40%] cursor-pointer group z-10"
-          >
-            <div className="relative w-full h-full flex items-center justify-center">
-              <div
-                className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "procurement" ? "opacity-100 scale-[1.3] animate-pulse" : ""
-                  }`}
-                style={{
-                  background: "radial-gradient(circle, rgba(232,93,58,0.45) 0%, rgba(232,93,58,0) 70%)"
-                }}
-              />
-              <Image
-                src="/images/services/6.webp"
-                alt="Procurement Partners"
-                fill
-                priority
-                className="object-contain transition-transform duration-300 group-hover:scale-105"
-                sizes="300px"
-              />
-            </div>
+        {/* 5. Procurement (Bottom Right) - 6.webp */}
+        <div
+          onMouseEnter={() => setActiveHover("procurement")}
+          onMouseLeave={() => setActiveHover(null)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setActiveHover(activeHover === "procurement" ? null : "procurement");
+          }}
+          className="absolute top-[70%] left-[72%] w-[28%] h-[40%] cursor-pointer group z-10"
+        >
+          <div className="relative w-full h-full flex items-center justify-center">
+            <div
+              className={`absolute inset-0 rounded-full transition-all duration-500 pointer-events-none opacity-0 blur-xl ${activeHover === "procurement" ? "opacity-100 scale-[1.3] animate-pulse" : ""}`}
+              style={{ background: "radial-gradient(circle, rgba(232,93,58,0.45) 0%, rgba(232,93,58,0) 70%)" }}
+            />
+            <Image src="/images/services/6.webp" alt="Procurement Partners" fill priority className="object-contain" sizes="300px" />
           </div>
+        </div>
 
-          {/* Premium Floating Glassmorphic Details Card - Shows as pop-up on hover */}
-          {activeDetail && activeHover && (
-            <div className={`absolute ${cardPositions[activeHover] || "top-[25%] left-[48%]"} w-[330px] rounded-[24px] bg-[#0E2D53]/85 border border-white/25 backdrop-blur-xl p-6 flex flex-col text-white shadow-2xl transition-all duration-300 z-20 pointer-events-none`}>
-              <h3
-                className="text-xl font-bold tracking-tight mb-3 leading-tight"
-                style={{ color: "#E85D3A" }}
-              >
-                {activeDetail.title}
-              </h3>
-              <hr className="border-white/30 mb-5" />
-              <ul className="space-y-3.5 text-xs sm:text-sm font-semibold text-white/95">
-                {activeDetail.bullets.map((bullet, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-white mt-1.5 flex-shrink-0" />
-                    <span>{bullet}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Bottom indicator stripe */}
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-sm px-6 py-2 rounded-full border border-white/10 z-10">
-            <p className="text-xs font-semibold text-white/95 uppercase tracking-widest text-center whitespace-nowrap">
-              💡 Hover or tap the 5 team characters to explore core services
-            </p>
+        {/* Glassmorphic hover card + bottom indicator — all screens */}
+        {activeDetail && activeHover && (
+          <div className={`absolute ${cardPositions[activeHover] || "top-[25%] left-[48%]"} max-lg:left-1/2 max-lg:-translate-x-1/2 max-lg:top-[4%] max-lg:w-[90%] max-lg:max-w-[280px] w-[330px] rounded-[24px] bg-[#0E2D53]/85 border border-white/25 backdrop-blur-xl p-4 md:p-6 flex flex-col text-white shadow-2xl transition-all duration-300 z-20 pointer-events-none`}>
+            <h3 className="text-sm md:text-xl font-bold tracking-tight mb-2 md:mb-3 leading-tight" style={{ color: "#E85D3A" }}>
+              {activeDetail.title}
+            </h3>
+            <hr className="border-white/30 mb-3 md:mb-5" />
+            <ul className="space-y-2 md:space-y-3.5 text-[10px] md:text-xs sm:text-sm font-semibold text-white/95">
+              {activeDetail.bullets.map((bullet, i) => (
+                <li key={i} className="flex items-start gap-1.5 md:gap-2">
+                  <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-white mt-1.5 flex-shrink-0" />
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-
-        </div>{/* End desktop-only overlays */}
+        )}
+        <div className="absolute bottom-2 md:bottom-6 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-sm px-3 md:px-6 py-1 md:py-2 rounded-full border border-white/10 z-10">
+          <p className="text-[8px] md:text-xs font-semibold text-white/95 uppercase tracking-widest text-center whitespace-nowrap">
+            💡 Hover or tap the 5 team characters to explore core services
+          </p>
+        </div>
       </div>
     </section>
   );

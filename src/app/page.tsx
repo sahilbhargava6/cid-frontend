@@ -18,7 +18,7 @@ export default function Home() {
     <>
       <Background3D />
       <Navbar />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <Services />
         <WhyChooseUs />
