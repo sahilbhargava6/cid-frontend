@@ -22,13 +22,13 @@ export default function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="w-full overflow-visible lg:overflow-hidden bg-slate-200 pt-[110px] lg:pt-0"
+      className="w-full overflow-hidden bg-slate-200 pt-[110px] lg:pt-0"
       onClick={() => setActiveHover(null)}
     >
       <h1 id="hero-heading" className="sr-only">
         consider-itdone | Premium US Business & Home Solutions
       </h1>
-      <div className="relative w-full aspect-[16/9] select-none overflow-visible lg:overflow-hidden">
+      <div className="relative w-full aspect-[16/9] select-none overflow-hidden">
         {/* Main Background Image - Fits exactly to 16:9 container */}
         <Image
           src="/images/hero.webp"
@@ -171,7 +171,7 @@ export default function Hero() {
             e.stopPropagation();
             setActiveHover(activeHover === "procurement" ? null : "procurement");
           }}
-          className="absolute top-[70%] left-[75%] w-[30%] h-[40%] cursor-pointer group z-10"
+          className="absolute top-[70%] left-[72%] w-[28%] h-[40%] cursor-pointer group z-10"
         >
           <div className="relative w-full h-full flex items-center justify-center">
             {/* Glowing Aura Halo */}

@@ -25,7 +25,7 @@ export default function Home() {
         <GreenBanner />
         <HowItWorks />
         <PinkBanner />
-        <div className="w-full mt-20 mb-10 relative aspect-[21/9]">
+        <div className="w-full max-w-[100vw] overflow-hidden mt-20 mb-10 relative aspect-[21/9]">
           <Image
             src="/images/services/bottombanner.webp"
             alt="Consider it Done Premium US Business and Home Solutions Bottom Banner"

@@ -214,30 +214,70 @@ function SceneContainer() {
   );
 }
 
+class CanvasErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error: any) {
+    console.error("WebGL Canvas Error:", error);
+  }
+  render() {
+    if (this.state.hasError) return null;
+    return this.props.children;
+  }
+}
+
 export default function Background3D() {
-  const [isMobile, setIsMobile] = React.useState(true); // Default true for server/mobile safety
+  const [isSafeDesktop, setIsSafeDesktop] = React.useState(false);
 
   React.useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    const checkEnvironment = () => {
+      if (typeof window === "undefined" || typeof navigator === "undefined") {
+        setIsSafeDesktop(false);
+        return;
+      }
+      const isTouch =
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|Tablet/i.test(
+          navigator.userAgent
+        );
+      const isNarrow = window.innerWidth < 1024;
+      const isLowMemory =
+        (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4;
+
+      setIsSafeDesktop(!isTouch && !isNarrow && !isLowMemory);
     };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+
+    checkEnvironment();
+    window.addEventListener("resize", checkEnvironment);
+    return () => window.removeEventListener("resize", checkEnvironment);
   }, []);
 
   return (
     <div className="fixed inset-0 z-[-1] pointer-events-none bg-gradient-to-b from-[#FAFBFD] to-[#FFFFFF] transition-colors duration-300">
-      {!isMobile && (
-        <Canvas 
-          camera={{ position: [0, 0, 5], fov: 55 }}
-          dpr={[1, 1.5]}
-          gl={{ antialias: false, powerPreference: "high-performance" }}
-        >
-          <ambientLight intensity={0.4} />
-          <directionalLight position={[2, 3, 4]} intensity={0.8} />
-          <SceneContainer />
-        </Canvas>
+      {isSafeDesktop && (
+        <CanvasErrorBoundary>
+          <Canvas 
+            camera={{ position: [0, 0, 5], fov: 55 }}
+            dpr={[1, 1.2]}
+            gl={{ antialias: false, powerPreference: "default", failIfMajorPerformanceCaveat: true }}
+            onCreated={({ gl }) => {
+              gl.domElement.addEventListener("webglcontextlost", (e) => {
+                e.preventDefault();
+                setIsSafeDesktop(false);
+              }, false);
+            }}
+          >
+            <ambientLight intensity={0.4} />
+            <directionalLight position={[2, 3, 4]} intensity={0.8} />
+            <SceneContainer />
+          </Canvas>
+        </CanvasErrorBoundary>
       )}
     </div>
   );

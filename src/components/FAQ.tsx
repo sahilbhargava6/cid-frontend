@@ -92,7 +92,7 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="py-16 bg-[#FAFAF8] border-t border-[#E2ECF2]"
+      className="py-16 bg-[#FAFAF8] border-t border-[#E2ECF2] overflow-hidden w-full max-w-[100vw]"
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         
