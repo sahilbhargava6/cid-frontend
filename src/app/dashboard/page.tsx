@@ -132,25 +132,10 @@ function DashboardContent() {
             }
           }
 
-          if (priceNum === undefined) {
-            priceNum = parsePriceToNumber(svc?.price);
-          }
-
-          if (priceNum === undefined) {
-             const fallbackMap: Record<string, string> = {
-               'tax_prep': '299',
-               'bookkeeping': '350',
-               'small_business': '1200',
-               'procurement': '1000'
-             };
-             priceNum = parsePriceToNumber(fallbackMap[mappedService]);
-          }
-
           const response = await bookingService.createBooking({
             service_type: mappedService as any,
             scheduled_at: formattedDate,
             input_parameters: { notes: "Auto-booked via page selection scheduler modal" },
-            price: priceNum,
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
           });
           setCreatedBooking(response);
@@ -357,26 +342,10 @@ function DashboardContent() {
     setBookingError(null);
     try {
       const svc = await getServiceByKeyAsync(serviceType);
-      
-      let priceNum = parsePriceToNumber(svc?.price) || parsePriceToNumber(getServicePriceEstimate());
-
-      // If a specific time slot is selected, check if it has a custom price in its label
-      if (svc?.timeSlots && scheduledAt) {
-        const timePart = scheduledAt.split(' ').slice(1).join(' '); // e.g. "09:00 AM"
-        const slot = svc.timeSlots.find((s: any) => s.time === timePart);
-        if (slot) {
-          const match = slot.label.match(/\$(\d+(\.\d{1,2})?)/);
-          if (match) {
-            priceNum = parseFloat(match[1]);
-          }
-        }
-      }
-
       await bookingService.createBooking({
         service_type: serviceType as any,
         scheduled_at: scheduledAt || undefined,
         input_parameters: inputParams,
-        price: priceNum,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
       });
       setIsWizardOpen(false);
@@ -1136,34 +1105,32 @@ function DashboardContent() {
                   <div className="border-t border-slate-200/50 dark:border-white/5 my-2 pt-2 flex justify-between items-center text-sm">
                     <span className="text-slate-800 dark:text-slate-200 font-bold">Total Price</span>
                     <span className="font-black text-amber-500">
-                      {createdBooking.price ? `$${createdBooking.price}` : (() => {
-                        let mappedType: string = createdBooking.service_type;
-                        if (createdBooking.service_type === 'bookkeeping') mappedType = 'virtual_bookkeeping';
-                        if (createdBooking.service_type === 'small_business') mappedType = 'accounts_and_logistics';
-                        const svc = getServiceByKey(mappedType);
-                        if (svc && svc.price) return svc.price;
-
-                        return createdBooking.service_type === 'tax_prep' ? '$299.00' :
-                          createdBooking.service_type === 'bookkeeping' ? '$350.00' :
-                            createdBooking.service_type === 'small_business' ? '$1,200.00' :
-                              createdBooking.service_type === 'procurement' ? '$1,000.00' : 'Contact for Quote';
-                      })()}
+                      {createdBooking.price ? `$${createdBooking.price}` : 'Pending Admin Review'}
                     </span>
                   </div>
                 </div>
 
-                {/* Secure Stripe Information Panel */}
-                <div className="p-4 bg-amber-500/5 border border-dashed border-amber-500/20 rounded-2xl text-center space-y-3">
-                  <div className="w-12 h-12 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto text-amber-500">
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
+                {/* Secure Stripe Information Panel (Only if price is assigned) */}
+                {createdBooking.price ? (
+                  <div className="p-4 bg-amber-500/5 border border-dashed border-amber-500/20 rounded-2xl text-center space-y-3">
+                    <div className="w-12 h-12 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto text-amber-500">
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                    </div>
+                    <p className="text-xs font-bold text-slate-800 dark:text-slate-200">Secure Stripe Checkout</p>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                      You will be securely redirected to Stripe's payment gateway to process your credit or debit card. No payment details are stored on our servers.
+                    </p>
                   </div>
-                  <p className="text-xs font-bold text-slate-800 dark:text-slate-200">Secure Stripe Checkout</p>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    You will be securely redirected to Stripe's payment gateway to process your credit or debit card. No payment details are stored on our servers.
-                  </p>
-                </div>
+                ) : (
+                  <div className="p-4 bg-slate-100 dark:bg-slate-800 border border-dashed border-slate-200 dark:border-slate-700 rounded-2xl text-center space-y-2">
+                    <p className="text-xs font-bold text-slate-700 dark:text-slate-300">Quote Pending</p>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                      Our experts will review your request and assign a final price soon. You can log back in to settle the invoice securely once it has been assigned.
+                    </p>
+                  </div>
+                )}
 
                 <div className="flex gap-4 pt-4 border-t border-slate-200/50 dark:border-white/5">
                   <button
@@ -1171,29 +1138,30 @@ function DashboardContent() {
                       setShowPaymentModal(false);
                       setCreatedBooking(null);
                       await loadDashboardData();
-                      alert("Booking saved as Unpaid. You can settle the invoice at any time.");
                     }}
                     className="flex-1 py-3 border border-slate-300 dark:border-slate-700 text-xs font-bold rounded-full text-slate-700 dark:text-slate-300 hover:bg-white/10 transition-colors"
                   >
-                    Pay Later
+                    Close & Pay Later
                   </button>
-                  <button
-                    onClick={async () => {
-                      setPaymentLoading(true);
-                      try {
-                        const res = await bookingService.checkout(createdBooking.id);
-                        window.location.href = res.url;
-                      } catch (error: any) {
-                        console.error("Stripe Checkout failed:", error);
-                        alert(error.response?.data?.error || "Failed to initiate Stripe Checkout session. Please make sure the administrator has set a price for this booking.");
-                      } finally {
-                        setPaymentLoading(false);
-                      }
-                    }}
-                    className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-full shadow-lg shadow-amber-500/15 transition-all"
-                  >
-                    {paymentLoading ? "Redirecting..." : "Pay with Stripe"}
-                  </button>
+                  {createdBooking.price && (
+                    <button
+                      onClick={async () => {
+                        setPaymentLoading(true);
+                        try {
+                          const res = await bookingService.checkout(createdBooking.id);
+                          window.location.href = res.url;
+                        } catch (error: any) {
+                          console.error("Stripe Checkout failed:", error);
+                          alert(error.response?.data?.error || "Failed to initiate Stripe Checkout session. Please make sure the administrator has set a price for this booking.");
+                        } finally {
+                          setPaymentLoading(false);
+                        }
+                      }}
+                      className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-full shadow-lg shadow-amber-500/15 transition-all"
+                    >
+                      {paymentLoading ? "Redirecting..." : "Pay with Stripe"}
+                    </button>
+                  )}
                 </div>
               </div>
             )}

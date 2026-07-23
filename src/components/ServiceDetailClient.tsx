@@ -9,9 +9,10 @@ import { getServiceByKeyAsync, ServiceData, defaultTimeSlots } from "@/data/serv
 import { bookingService } from "@/services/bookingService";
 
 function BulletDescription({ description, headerColor, textColor }: { description: string; headerColor: string; textColor: string }) {
-  const hasHtml = /<[a-z][\s\S]*>/i.test(description);
+  // If the admin used actual bullet lists in the rich text editor, render it directly
+  const hasRealList = /<li[\s>]/i.test(description);
   
-  if (hasHtml) {
+  if (hasRealList) {
     return (
       <div 
         className="text-current [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5 [&_p]:mb-4 w-full min-w-0 break-words overflow-wrap-anywhere"
@@ -21,9 +22,22 @@ function BulletDescription({ description, headerColor, textColor }: { descriptio
     );
   }
 
+  // Otherwise, it's either plain text or basic HTML (like a single <p> tag from Quill)
+  // Let's normalize it so we can use our beautiful custom bullet point design
+  let textToProcess = description;
+  
+  // Convert basic HTML line breaks to actual \n
+  textToProcess = textToProcess.replace(/<br\s*\/?>/gi, '\n').replace(/<\/p>/gi, '\n');
+  
+  // Strip all remaining HTML tags
+  textToProcess = textToProcess.replace(/<[^>]*>?/gm, '');
+  
+  // Fix merged bullet points (e.g. if ReactQuill stripped newlines and left " · ")
+  textToProcess = textToProcess.replace(/\s+·\s+/g, '\n· ');
+
   return (
     <div className="w-full min-w-0">
-      {description.split('\n').filter(line => line.trim()).map((line, idx) => {
+      {textToProcess.split('\n').filter(line => line.trim()).map((line, idx) => {
         const trimmed = line.trim();
         const isBullet = trimmed.startsWith('·');
         const text = isBullet ? trimmed.slice(1).trim() : trimmed;
