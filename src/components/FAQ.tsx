@@ -114,7 +114,7 @@ export default function FAQ() {
             Everything you need to know about our services. Can&apos;t find your
             answer?{" "}
             <a
-              href="#contact"
+              href="https://www.consider-itdone.com/contact-us"
               className="font-bold underline underline-offset-2 transition-colors hover:text-[#E8503A]"
               style={{ color: "#2D6FA3" }}
             >
