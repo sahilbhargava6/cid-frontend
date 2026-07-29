@@ -148,6 +148,11 @@ export default function RootLayout({
             }),
           }}
         />
+        <script 
+          async 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2053782023863063"
+          crossOrigin="anonymous"
+        ></script>
       </head>
       <body className="min-h-screen flex flex-col antialiased">
         <div id="__app-root" style={{ width: '100%', maxWidth: '100vw', overflowX: 'hidden' }}>
