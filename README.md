@@ -78,3 +78,7 @@ This frontend is designed to work with the **CID Laravel Backend** API. Ensure y
 php artisan serve
 ```
 Make sure the ports match your configuration (default: port `8000`).
+
+---
+Updated: September 2026 - Dynamic Services & Mail Infrastructure.
+
