@@ -165,15 +165,48 @@ export async function saveServices(services: ServiceData[]): Promise<void> {
 }
 
 /**
- * Get a single service by its route key.
+ * Helper to compute URL slug from service title or key
  */
-export async function getServiceByKeyAsync(key: string): Promise<ServiceData | undefined> {
-  const services = await fetchServices();
-  return services.find((s) => s.key === key);
+export function getServiceSlug(service: ServiceData): string {
+  if (!service) return '';
+  if (service.title) {
+    const slugified = service.title
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '_')
+      .replace(/^_+|_+$/g, '');
+    if (slugified) return slugified;
+  }
+  return service.key;
 }
 
-export function getServiceByKey(key: string): ServiceData | undefined {
-  return getServices().find((s) => s.key === key);
+/**
+ * Get a single service by its route key or title slug.
+ */
+export async function getServiceByKeyAsync(keyOrSlug: string): Promise<ServiceData | undefined> {
+  const services = await fetchServices();
+  if (!keyOrSlug) return undefined;
+  const target = keyOrSlug.toLowerCase().replace(/[^a-z0-9]/g, '');
+  
+  return services.find((s) => {
+    if (s.key.toLowerCase().replace(/[^a-z0-9]/g, '') === target) return true;
+    const slug = getServiceSlug(s).toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (slug === target) return true;
+    return false;
+  });
+}
+
+export function getServiceByKey(keyOrSlug: string): ServiceData | undefined {
+  const services = getServices();
+  if (!keyOrSlug) return undefined;
+  const target = keyOrSlug.toLowerCase().replace(/[^a-z0-9]/g, '');
+  
+  return services.find((s) => {
+    if (s.key.toLowerCase().replace(/[^a-z0-9]/g, '') === target) return true;
+    const slug = getServiceSlug(s).toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (slug === target) return true;
+    return false;
+  });
 }
 
 /**

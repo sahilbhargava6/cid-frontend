@@ -5,7 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import dynamic from "next/dynamic";
-import { fetchServices, ServiceData, defaultTimeSlots } from "@/data/servicesData";
+import { fetchServices, ServiceData, defaultTimeSlots, getServiceSlug } from "@/data/servicesData";
 import { bookingService } from "@/services/bookingService";
 import Link from "next/link";
 
@@ -23,7 +23,7 @@ function BulletDescription({ description, headerColor, textColor }: { descriptio
   if (hasHtml) {
     return (
       <div 
-        className="text-current [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5 [&_p]:mb-4 w-full min-w-0 break-words overflow-wrap-anywhere"
+        className="w-full min-w-0 break-words overflow-wrap-anywhere [&_strong]:font-bold [&_b]:font-bold [&_em]:italic [&_i]:italic [&_u]:underline [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-2 [&_p]:mb-3 text-current"
         style={{ color: textColor }}
         dangerouslySetInnerHTML={{ __html: description }} 
       />
@@ -180,7 +180,7 @@ export default function ServicesPage() {
                 ];
                 return (
                   <Link
-                    href={`/services/${svc.key}`}
+                    href={`/services/${getServiceSlug(svc)}`}
                     key={svc.key}
                     className="group rounded-3xl overflow-hidden bg-white/80 border border-slate-100 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer"
                   >
@@ -367,7 +367,7 @@ export default function ServicesPage() {
                   {/* Service Cards */}
                   {services.map((svc) => (
                     <Link
-                      href={`/services/${svc.key}`}
+                      href={`/services/${getServiceSlug(svc)}`}
                       key={svc.key}
                       className="absolute w-[309px] h-[309px] rounded-[30px] overflow-hidden hover:scale-105 transition-all duration-500 z-10 cursor-pointer"
                       style={{ left: `${svc.left}px`, top: `${svc.top}px` }}
@@ -402,7 +402,7 @@ export default function ServicesPage() {
                   {/* Pill Text Labels */}
                   {services.map((svc) => (
                     <Link
-                      href={`/services/${svc.key}`}
+                      href={`/services/${getServiceSlug(svc)}`}
                       key={`label-${svc.key}`}
                       className="absolute font-semibold text-[24px] leading-[29px] flex items-center justify-center text-center z-15 hover:scale-105 transition-all duration-300 cursor-pointer bg-transparent border-0 p-0"
                       style={{

@@ -5,50 +5,27 @@ import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getServiceByKeyAsync, ServiceData, defaultTimeSlots } from "@/data/servicesData";
+import { getServiceByKeyAsync, ServiceData, defaultTimeSlots, getServiceSlug } from "@/data/servicesData";
 import { bookingService } from "@/services/bookingService";
 
 function BulletDescription({ description, headerColor, textColor }: { description: string; headerColor: string; textColor: string }) {
-  // If the admin used actual bullet lists in the rich text editor, render it directly
-  const hasRealList = /<li[\s>]/i.test(description);
+  const hasHtml = /<[a-z][\s\S]*>/i.test(description);
   
-  if (hasRealList) {
+  if (hasHtml) {
     return (
       <div 
-        className="text-current [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5 [&_p]:mb-4 w-full min-w-0 break-words overflow-wrap-anywhere"
+        className="w-full min-w-0 break-words overflow-wrap-anywhere [&_strong]:font-bold [&_b]:font-bold [&_em]:italic [&_i]:italic [&_u]:underline [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-2 [&_p]:mb-3 text-current"
         style={{ color: textColor }}
         dangerouslySetInnerHTML={{ __html: description }} 
       />
     );
   }
 
-  // Otherwise, it's either plain text or basic HTML (like a single <p> tag from Quill)
-  // Let's normalize it so we can use our beautiful custom bullet point design
-  let textToProcess = description;
-  
-  // Convert basic HTML line breaks to actual \n
-  textToProcess = textToProcess.replace(/<br\s*\/?>/gi, '\n').replace(/<\/p>/gi, '\n');
-  
-  // Strip all remaining HTML tags
-  textToProcess = textToProcess.replace(/<[^>]*>?/gm, '');
-  
-  // Decode common HTML entities
-  textToProcess = textToProcess
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'");
-  
-  // Fix merged bullet points (e.g. if ReactQuill stripped newlines and left " · ")
-  textToProcess = textToProcess.replace(/\s+·\s+/g, '\n· ');
-
   return (
     <div className="w-full min-w-0">
-      {textToProcess.split('\n').filter(line => line.trim()).map((line, idx) => {
+      {description.split('\n').filter(line => line.trim()).map((line, idx) => {
         const trimmed = line.trim();
-        const isBullet = trimmed.startsWith('·');
+        const isBullet = trimmed.startsWith('·') || trimmed.startsWith('-');
         const text = isBullet ? trimmed.slice(1).trim() : trimmed;
 
         if (isBullet) {
@@ -202,7 +179,7 @@ export default function ServiceDetailClient({ service }: { service: string }) {
                   "@type": "Country",
                   name: "United States"
                 },
-                url: `https://www.consider-itdone.com/services/${details.key}`,
+                url: `https://www.consider-itdone.com/services/${getServiceSlug(details)}`,
                 image: details.image,
               })
             }}

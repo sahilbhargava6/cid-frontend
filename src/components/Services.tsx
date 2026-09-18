@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import React, { useRef, useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { getServices, ServiceData } from "@/data/servicesData";
+import { fetchServices, getServices, ServiceData, getServiceSlug } from "@/data/servicesData";
 
 
 function ThreeCard({ imageUrl, title }: { imageUrl: string; title: string }) {
@@ -20,7 +21,6 @@ function ThreeCard({ imageUrl, title }: { imageUrl: string; title: string }) {
     const midX = rect.width / 2;
     const midY = rect.height / 2;
 
-    // Smooth responsive tilt multiplier
     const rotX = -((y - midY) / midY) * 12;
     const rotY = ((x - midX) / midX) * 12;
 
@@ -52,7 +52,6 @@ function ThreeCard({ imageUrl, title }: { imageUrl: string; title: string }) {
           transformStyle: "preserve-3d",
         }}
       >
-        {/* Subtle glowing shadow backing */}
         <div
           className={`absolute -inset-2 rounded-3xl bg-[#2d6fa3]/10 blur-xl transition-opacity duration-500 pointer-events-none ${isHovered ? "opacity-100" : "opacity-0"
             }`}
@@ -61,7 +60,6 @@ function ThreeCard({ imageUrl, title }: { imageUrl: string; title: string }) {
           }}
         />
 
-        {/* Main Service Card Image */}
         <Image
           src={imageUrl}
           alt={title}
@@ -71,7 +69,6 @@ function ThreeCard({ imageUrl, title }: { imageUrl: string; title: string }) {
           className="object-contain drop-shadow-[0_12px_24px_rgba(15,17,23,0.12)] pointer-events-none"
         />
 
-        {/* Dynamic glare highlight layer */}
         <div
           className={`absolute inset-0 rounded-2xl pointer-events-none transition-opacity duration-300 bg-gradient-to-tr from-white/0 via-white/10 to-white/20 mix-blend-overlay ${isHovered ? "opacity-100" : "opacity-0"
             }`}
@@ -91,13 +88,13 @@ export default function Services() {
   const [services, setServices] = useState<ServiceData[]>([]);
 
   useEffect(() => {
+    let isMounted = true;
     setMounted(true);
-    setServices(getServices());
+    fetchServices().then((data) => {
+      if (isMounted) setServices(data);
+    });
+    return () => { isMounted = false; };
   }, []);
-
-  const getBookingUrl = (param: string) => {
-    return `/services/${param}`;
-  };
 
   return (
     <section
@@ -140,9 +137,9 @@ export default function Services() {
         {/* Responsive grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 lg:gap-5 pb-6">
           {services.map((service, index) => (
-            <a
-              key={index}
-              href={getBookingUrl(service.key)}
+            <Link
+              key={service.key || index}
+              href={`/services/${getServiceSlug(service)}`}
               className="flex flex-col items-center group cursor-pointer w-full"
             >
               {/* Illustration Card Image Container (Responsive Square) */}
@@ -167,8 +164,8 @@ export default function Services() {
                 <div
                   className="w-full h-full text-center py-2 px-2.5 rounded-[16px] sm:rounded-[20px] text-xs sm:text-sm md:text-xs lg:text-sm xl:text-[18px] font-bold transition-all duration-300 ease-out group-hover:bg-[#C2E4DA] group-hover:[transform:rotateX(10deg)_rotateY(-10deg)] flex items-center justify-center leading-snug shadow-sm select-none"
                   style={{
-                    backgroundColor: "#DCEFE9",
-                    color: "#2D6FA3",
+                    backgroundColor: service.bgColor || "#DCEFE9",
+                    color: service.textColor || "#2D6FA3",
                     transformStyle: "preserve-3d",
                   }}
                 >
@@ -177,7 +174,7 @@ export default function Services() {
                   </span>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
 
