@@ -14,19 +14,37 @@ const cardPositions: Record<string, string> = {
   procurement: "top-[45%] left-[50%]",
 };
 
+function decodeHtmlEntities(str: string): string {
+  return str
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'");
+}
+
 function extractBulletPoints(description?: string): string[] {
   if (!description) return [];
 
   const liMatches = description.match(/<li[^>]*>(.*?)<\/li>/gi);
   if (liMatches && liMatches.length > 0) {
-    return liMatches.map((li) => li.replace(/<[^>]*>?/gm, "").trim()).filter(Boolean);
+    return liMatches
+      .map((li) => {
+        let text = li.replace(/<[^>]*>?/gm, "");
+        text = decodeHtmlEntities(text).trim();
+        return text;
+      })
+      .filter(Boolean);
   }
 
   const lines = description.split(/\n|<br\s*\/?>|<\/p>/i);
   const bullets: string[] = [];
 
   for (const line of lines) {
-    const clean = line.replace(/<[^>]*>?/gm, "").trim();
+    let clean = line.replace(/<[^>]*>?/gm, "");
+    clean = decodeHtmlEntities(clean).trim();
     if (!clean) continue;
 
     if (clean.startsWith("·") || clean.startsWith("-") || clean.startsWith("*")) {
