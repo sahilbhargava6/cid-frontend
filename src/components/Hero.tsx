@@ -58,6 +58,13 @@ function extractBulletPoints(description?: string): string[] {
   return bullets.slice(0, 5);
 }
 
+function cleanBullet(text: string): string {
+  let clean = text.replace(/<[^>]*>?/gm, "");
+  clean = decodeHtmlEntities(clean).trim();
+  clean = clean.replace(/^[•·\-\*]\s*/, "").trim();
+  return clean;
+}
+
 export default function Hero() {
   const [activeHover, setActiveHover] = useState<string | null>(null);
   const [services, setServices] = useState<ServiceData[]>([]);
@@ -83,10 +90,16 @@ export default function Hero() {
   };
 
   const activeService = activeHover ? getMatchedService(activeHover) : undefined;
-  const staticFallback = activeHover ? config.heroHovers[activeHover] : null;
+  const staticFallback = activeHover ? config.heroHovers?.[activeHover] : null;
 
-  const displayTitle = activeService?.title || staticFallback?.title || "";
-  const displayBullets = activeService ? extractBulletPoints(activeService.description) : (staticFallback?.bullets || []);
+  const displayTitle = staticFallback?.title
+    ? decodeHtmlEntities(staticFallback.title)
+    : (activeService?.title || "");
+
+  const displayBullets = (staticFallback?.bullets && staticFallback.bullets.length > 0)
+    ? staticFallback.bullets.map(cleanBullet).filter(Boolean)
+    : (activeService ? extractBulletPoints(activeService.description) : []);
+
   const headerColor = activeService?.headerColor || "#E85D3A";
   const serviceSlug = activeService ? getServiceSlug(activeService) : (activeHover === "business" ? "accounts_and_logistics" : activeHover === "tax" ? "tax_prep" : activeHover === "bookkeeping" ? "virtual_bookkeeping" : activeHover || "");
 
