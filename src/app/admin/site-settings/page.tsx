@@ -262,11 +262,11 @@ function SiteSettingsContent() {
                   onChange={(e) => setSelectedHeroKey(e.target.value)}
                   className="px-4 py-2 rounded-xl border border-slate-200 bg-white dark:bg-white text-sm font-bold text-slate-800 dark:text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30"
                 >
-                  <option value="solar">Solar (Roof)</option>
-                  <option value="business">Business Solutions (Bottom Left)</option>
-                  <option value="tax">Tax Preparation (Bottom Center-Left)</option>
-                  <option value="bookkeeping">Bookkeeping (Right Balcony)</option>
-                  <option value="procurement">Procurement (Bottom Right)</option>
+                  <option value="solar">{config.heroHovers?.solar?.title ? `${config.heroHovers.solar.title} (Roof)` : "Solar (Roof)"}</option>
+                  <option value="business">{config.heroHovers?.business?.title ? `${config.heroHovers.business.title} (Bottom Left)` : "Business Solutions (Bottom Left)"}</option>
+                  <option value="tax">{config.heroHovers?.tax?.title ? `${config.heroHovers.tax.title} (Bottom Center-Left)` : "Tax Preparation (Bottom Center-Left)"}</option>
+                  <option value="bookkeeping">{config.heroHovers?.bookkeeping?.title ? `${config.heroHovers.bookkeeping.title} (Right Balcony)` : "Bookkeeping (Right Balcony)"}</option>
+                  <option value="procurement">{config.heroHovers?.procurement?.title ? `${config.heroHovers.procurement.title} (Bottom Right)` : "Procurement (Bottom Right)"}</option>
                 </select>
               </div>
               <hr className="border-slate-100" />
